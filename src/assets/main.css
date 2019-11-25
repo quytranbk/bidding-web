@@ -1,0 +1,161 @@
+body {
+    font-family: Roboto;
+    font-size: 14px;
+    background-color: whitesmoke;
+}
+div {
+/*     border: 1px solid black; */
+}
+
+.pFitContent {
+    position: relative;
+}
+.cFitContent {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+.mContainer {
+    width: 100%;
+    padding: 0 100px;
+}
+
+#topHeader {
+    height: 36px;
+    background-color: #F5F5F5;
+    color: grey;
+}
+.infoBarItem {
+    font-size: 13px;
+    padding: 5px 10px;
+}
+#leftInfoWpr {
+
+}
+#rightInfoWpr {
+
+}
+#centerHeader {
+    height: 73px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ced4da;
+}
+#bottomHeader {
+    height: 27px;
+    background-color: #ffffff;
+    padding: 0 250px;
+}
+.headerMenuItem {
+    font-size: 12px;
+    padding: 5px 10px;
+    color: #70747d;
+    margin-right: 13px;
+    font-weight: 500;
+    position: relative;
+    font-family: Arial;
+}
+.headerMenuItem.active {
+    font-weight: 700;
+}
+.headerMenuItem.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    z-index: 5;
+    pointer-events: none;
+    background-color: #212c45;
+    width: 75%;
+    height: 2px;
+}
+#logoWrapper {
+    padding: 10px;
+    flex-basis: 150px;
+}
+#logo {
+    width: 100px;
+}
+#searchWapper {
+
+}
+#searchBox {
+    padding: 10px;
+}
+#searhContainer {
+    border-radius: 3px;
+    background-color: white;
+}
+#cartBox {
+
+}
+.iconCart_2ayd {
+    width: 2.3rem;
+    height: 3.3rem;
+    fill: #abacac;
+    float: right;
+}
+#homeBanner {
+    height: 328px;
+    background-color: whitesmoke;
+}
+#categoriesSideBar {
+    flex-basis: 215px;
+    min-width: 215px;
+}
+#bannerWrapper {
+    overflow: hidden;
+}
+#bannerWrapper img{
+    width: 100%;
+}
+#mainContainer {
+
+}
+.listViewWrapper {
+
+margin-top: 50px;
+}
+.titleBox {
+
+padding: 15px 0;
+
+text-transform: uppercase;
+
+font-size: 16px;
+}
+.listBox {
+
+}
+.listBoxItem {
+    width: 20%;
+    padding: 5px;
+    border: 1px solid #bfbfbf;
+}
+.card-channels-content {
+    height: 61px;
+    margin-top: 20px;
+}
+.card-channels-length-4 {
+    width: 23.2%;
+}
+.card-channels-item {
+    height: 61px;
+    background: #fff;
+    margin-right: 12px;
+    border-radius: 20px;
+}
+.align-left {
+    float: left;
+}
+.card-channels-img-wrap {
+    width: 60px;
+    height: 60px;
+    margin: 4px;
+}
+
+.card-channels-img-wrap .image {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+}
