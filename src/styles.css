@@ -1,1 +1,95 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    font-family: Roboto;
+    font-size: 14px;
+}
+div {
+    /* border: 1px solid black; */
+}
+
+.pFitContent {
+    position: relative;
+}
+.cFitContent {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+.mContainer {
+    width: 100%;
+    padding: 0 100px;
+}
+
+#topHeader {
+    height: 36px;
+    background-color: #BC000B;
+    color: white;
+}
+.infoBarItem {
+    color: #f1f1f1;
+    font-size: 14px;
+    padding: 5px 10px;
+}
+#leftInfoWpr {
+
+}
+#rightInfoWpr {
+
+}
+#bottomHeader {
+    height: 60px;
+    background-color: #E5101D;
+    color: white;
+}
+#logoWrapper {
+    padding: 10px;
+}
+#logo {
+    width: 100px;
+}
+#searchWapper {
+
+}
+#searchBox {
+    padding: 10px;
+}
+#searhContainer {
+    border-radius: 3px;
+    background-color: white;
+}
+#cartBox {
+
+}
+.iconCart_2ayd {
+    width: 2.3rem;
+    height: 3.3rem;
+    fill: #fff;
+}
+#homeBanner {
+    height: 328px;
+}
+#categoriesSideBar {
+    flex-basis: 215px;
+    min-width: 215px;
+}
+#bannerWrapper {
+    overflow: hidden;
+}
+#bannerWrapper img{
+    width: 900px;
+}
+#mainContainer {
+
+}
+.listViewWrapper {
+
+}
+.titleBox {
+
+}
+.listBox {
+
+}
+.listBoxItem {
+    width: 20%;
+}
