@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { Constants } from './constants'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'bidding-web';
+  HEADER_MENU_LIST = Constants.HEADER_MENU;
+  constructor() {}
 }
