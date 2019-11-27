@@ -1,10 +1,64 @@
 body {
     font-family: Roboto;
     font-size: 14px;
-    background-color: whitesmoke;
+    background-color: white;
 }
-div {
-/*     border: 1px solid black; */
+
+img {
+    width: 100%;
+}
+
+a {
+    cursor: pointer;
+}
+
+.borderLine div {
+    border: 1px solid black;
+}
+
+footer {
+    background-color: black;
+    height: 200px;
+}
+
+.colorS1 {
+    color: #70747d;
+}
+.colorS2 {
+    color: #9f1d25;
+}
+.colorS3 {
+    color: #212C45;
+}
+.colorS4 {
+    color: #aba5a5;
+}
+.colorStar {
+    font-size: 14px;
+}
+
+.iconStar {
+    color: #f39b3f;
+}
+
+.titleH1 {
+    font-size: 21px;
+    
+    font-weight: 700;
+}
+
+.titleH2 {
+    font-size: 17px;
+    font-weight: 400;
+}
+.titleH3 {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.titleH4 {
+    font-size: 13px;
+    font-weight: 400;
 }
 
 .pFitContent {
@@ -47,13 +101,20 @@ div {
     padding: 0 250px;
 }
 .headerMenuItem {
-    font-size: 12px;
-    padding: 5px 10px;
-    color: #70747d;
-    margin-right: 13px;
-    font-weight: 500;
-    position: relative;
-    font-family: Arial;
+    
+font-size: 12px;
+    
+padding: 5px 10px;
+    
+color: #70747d;
+    
+margin-right: 13px;
+    
+font-weight: 500;
+    
+position: relative;
+    
+font-family: Arial;
 }
 .headerMenuItem.active {
     font-weight: 700;
@@ -72,9 +133,24 @@ div {
 #logoWrapper {
     padding: 10px;
     flex-basis: 150px;
+    position: relative;
 }
 #logo {
-    width: 100px;
+    width: 65px;
+}
+#logo2 {
+    
+position: absolute;
+    
+top: 8px;
+    
+left: 78px;
+    
+font-family: "Jua";
+    
+font-size: 35px;
+    
+color: rgb(33,44,69);
 }
 #searchWapper {
 
@@ -120,18 +196,32 @@ margin-top: 50px;
 
 padding: 15px 0;
 
-text-transform: uppercase;
+/* text-transform: uppercase; */
 
-font-size: 16px;
+/* font-size: 16px; */
+}
+.titleFirst {
+    
+font-size: 21px;
+    
+font-weight: 700;
+    
+color: aliceblue;
+}
+.titleSecond {
+
+color: #9f1d25;
 }
 .listBox {
 
 }
 .listBoxItem {
     width: 20%;
-    padding: 5px;
+    padding: 10px;
     border: 1px solid #bfbfbf;
 }
+
+.imgBox {overflow: hidden;height: 250px;padding: 2px;border: 1px solid #e4e4e4;border-radius: 3px;}
 .card-channels-content {
     height: 61px;
     margin-top: 20px;
@@ -141,7 +231,7 @@ font-size: 16px;
 }
 .card-channels-item {
     height: 61px;
-    background: #fff;
+    background: #e9ecef;
     margin-right: 12px;
     border-radius: 20px;
 }
