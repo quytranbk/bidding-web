@@ -9,6 +9,7 @@ import { SearchComponent } from './search/search.component';
 import { ProfileInfoComponent } from './profile-info/profile-info.component';
 import { WatchedListComponent } from './watched-list/watched-list.component';
 import { BidHistoryComponent } from './bid-history/bid-history.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { BidHistoryComponent } from './bid-history/bid-history.component';
     SearchComponent,
     ProfileInfoComponent,
     WatchedListComponent,
-    BidHistoryComponent
+    BidHistoryComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
