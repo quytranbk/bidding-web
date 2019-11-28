@@ -26,4 +26,5 @@ export const Constants = {
       isActive: false
     },
   ]
-}
+};
+

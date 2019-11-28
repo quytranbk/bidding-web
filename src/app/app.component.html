@@ -31,7 +31,7 @@
         <img id="logo" src="../assets/1554442213485-d7ad58d3994c7a12235d.png" alt="">
         <div id="logo2">BID</div>
       </a>
-        
+
     </div>
     <div id="searchWapper" class="flex-grow-1 d-flex">
       <div id="searchBox" class="" style="width: 800px;">
@@ -58,10 +58,10 @@
   </div>
   <div id="bottomHeader" class="mContainer d-flex align-items-stretch">
     <div *ngFor="let item of categories" [ngClass]="{'active': item.isActive}" class="headerMenuItem">
-        <a [routerLink]="['/items']" [queryParams]="{ categoryid: item.categoryId, search: searchInput}">{{item.name}}</a>
-      </div>
+      <a [routerLink]="['/items']" [queryParams]="{ categoryid: item.categoryId, search: searchInput}">{{item.name}}</a>
     </div>
-  </header>
+  </div>
+</header>
 
 <router-outlet></router-outlet>
 
@@ -119,4 +119,3 @@
       </div>
     </div>
   </div>
-  
