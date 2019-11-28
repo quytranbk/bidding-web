@@ -14,7 +14,7 @@
                 <ul>
                   <li *ngFor="let item of categories">
                       <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="check" [(ngModel)]="check"  (change)="changeCheck(item)">
+                          <input class="form-check-input" type="checkbox" name="check" (change)="changeCheck(item)">
                           <label class="form-check-label" for="defaultCheck1">
                             {{item.name}}
                           </label>
