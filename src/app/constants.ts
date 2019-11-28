@@ -1,11 +1,6 @@
 export const Constants = {
   HEADER_MENU: [
     {
-      label: 'Trang chủ',
-      url: '',
-      isActive: true
-    },
-    {
       label: 'Quần áo',
       url: '',
       isActive: false
@@ -26,7 +21,7 @@ export const Constants = {
       isActive: false
     },
     {
-      label: 'thiết bị',
+      label: 'Thiết bị',
       url: '',
       isActive: false
     },

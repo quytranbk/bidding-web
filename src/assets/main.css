@@ -5,7 +5,7 @@ body {
 }
 
 img {
-    width: 100%;
+    width: 50%;
 }
 
 a {
@@ -13,7 +13,7 @@ a {
 }
 
 .borderLine div {
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 footer {
@@ -21,6 +21,12 @@ footer {
     height: 200px;
 }
 
+.bgColorS1 {
+    background-color: #F5F5F5;
+}
+.bgColorWhite {
+    background-color: #fff;
+}
 .colorS1 {
     color: #70747d;
 }
@@ -93,7 +99,7 @@ footer {
 #centerHeader {
     height: 73px;
     background-color: #ffffff;
-    border-bottom: 1px solid #ced4da;
+    border-bottom: 1px solid #ced4da59;
 }
 #bottomHeader {
     height: 27px;
@@ -129,6 +135,9 @@ font-family: Arial;
     background-color: #212c45;
     width: 75%;
     height: 2px;
+}
+.headerMenuItem a {
+    color:inherit
 }
 #logoWrapper {
     padding: 10px;

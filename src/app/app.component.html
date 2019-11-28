@@ -27,12 +27,11 @@
   </div>
   <div id="centerHeader" class="mContainer d-flex align-items-stretch">
     <div id="logoWrapper" class="">
-<<<<<<< HEAD
+      <a href="/">
         <img id="logo" src="../assets/1554442213485-d7ad58d3994c7a12235d.png" alt="">
         <div id="logo2">BID</div>
-=======
-      <img id="logo" src="../assets/1554442213485-d7ad58d3994c7a12235d.jpg" alt="">
->>>>>>> origin/fixing
+      </a>
+        
     </div>
     <div id="searchWapper" class="flex-grow-1 d-flex">
       <div id="searchBox" class="" style="width: 800px;">
@@ -58,11 +57,8 @@
     </div>
   </div>
   <div id="bottomHeader" class="mContainer d-flex align-items-stretch">
-    <div class="headerMenuItem active">
-      Trang chủ
-    </div>
-    <div *ngFor="let item of HEADER_MENU_LIST" [ngClass]="{'active': item.isActive}" class="headerMenuItem">
-        <a [href]="item.url">{{item.label}}</a>
+    <div *ngFor="let item of categories" [ngClass]="{'active': item.isActive}" class="headerMenuItem">
+        <a [routerLink]="['/items']" [queryParams]="{ categoryid: item.categoryId, search: searchInput}">{{item.name}}</a>
       </div>
     </div>
   </header>

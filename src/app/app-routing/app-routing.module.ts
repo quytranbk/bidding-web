@@ -31,7 +31,7 @@ import { BidHistoryComponent } from '../bid-history/bid-history.component';
             ]
         },
         {
-            path: 'search/:categoryId/:searchQ',
+            path: 'items',
             component: SearchComponent,
         },
     ];

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgModel } from '@angular/forms';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 
 import { AppComponent } from './app.component';
@@ -10,6 +11,7 @@ import { ProfileInfoComponent } from './profile-info/profile-info.component';
 import { WatchedListComponent } from './watched-list/watched-list.component';
 import { BidHistoryComponent } from './bid-history/bid-history.component';
 import { LoginComponent } from './login/login.component';
+import { SellComponent } from './sell/sell.component';
 
 @NgModule({
   declarations: [
@@ -20,11 +22,13 @@ import { LoginComponent } from './login/login.component';
     ProfileInfoComponent,
     WatchedListComponent,
     BidHistoryComponent,
-    LoginComponent
+    LoginComponent,
+    SellComponent,
+    NgModel
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

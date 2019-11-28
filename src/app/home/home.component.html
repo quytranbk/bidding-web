@@ -109,18 +109,18 @@
               <a href="#" class="colorS2"> Xem tất cả &rarr;</a>
             </div>
             <div class="listBox d-flex">
-              <div class="listBoxItem">
-                <div class="imgBox"> 
-                  <img src="https://cdn.chotot.com/4EG39RJynWg4WFctZJvbZA2b7lMk5As8p_WvA5uDnKU/preset:view/plain/ab5ab671a3d114e1baf11900cbd38b00-2641093925735742008.jpg" alt="postImg">
+              <div class="listBoxItem" *ngFor="let item of newestItems">
+                <div class="imgBox">
+                  <img [src]="item.imgUrl[0]" alt="postImg">
                 </div>
                 <div class="mt-2">
-                  <a href="#" class="titleH3">Apple iPhone 7 plus vàng,bản QT,Ko camera sau+MVT</a>
+                  <a href="#" class="titleH3">{{item.title}}</a>
                 </div>
                 <div class="">
-                  <span class="titleH3 colorS2">1.000.000đ</span>
+                  <span class="titleH3 colorS2">{{item.startPrice}}</span>
                 </div>
                 <div class="">
-                  <span class="titleH4 colorS4">10/2/2019</span>
+                  <span class="titleH4 colorS4">{{item.startTime}}</span>
                 </div>
                 <div class="d-flex">
                   <div>
@@ -133,10 +133,6 @@
                   <div></div>
                 </div>
               </div>
-              <div class="listBoxItem">listBoxItem</div>
-              <div class="listBoxItem">listBoxItem</div>
-              <div class="listBoxItem">listBoxItem</div>
-              <div class="listBoxItem">listBoxItem</div>
             </div>
           </div>
           <div class="listViewWrapper">
@@ -146,18 +142,18 @@
               <a href="#" class="colorS2"> Xem tất cả &rarr;</a>
             </div>
             <div class="listBox d-flex">
-              <div class="listBoxItem">
-                <div class="imgBox"> 
-                  <img src="https://cdn.chotot.com/4EG39RJynWg4WFctZJvbZA2b7lMk5As8p_WvA5uDnKU/preset:view/plain/ab5ab671a3d114e1baf11900cbd38b00-2641093925735742008.jpg" alt="postImg">
+              <div class="listBoxItem" *ngFor="let item of popularItems">
+                <div class="imgBox">
+                  <img [src]="item.imgUrl[0]" alt="postImg">
                 </div>
                 <div class="mt-2">
-                  <a href="#" class="titleH3">Apple iPhone 7 plus vàng,bản QT,Ko camera sau+MVT</a>
+                  <a href="#" class="titleH3">{{item.title}}</a>
                 </div>
                 <div class="">
-                  <span class="titleH3 colorS2">1.000.000đ</span>
+                  <span class="titleH3 colorS2">{{item.startPrice}}</span>
                 </div>
                 <div class="">
-                  <span class="titleH4 colorS4">10/2/2019</span>
+                  <span class="titleH4 colorS4">{{item.startTime}}</span>
                 </div>
                 <div class="d-flex">
                   <div>
@@ -170,10 +166,6 @@
                   <div></div>
                 </div>
               </div>
-              <div class="listBoxItem">listBoxItem</div>
-              <div class="listBoxItem">listBoxItem</div>
-              <div class="listBoxItem">listBoxItem</div>
-              <div class="listBoxItem">listBoxItem</div>
             </div>
           </div>
         </div>
