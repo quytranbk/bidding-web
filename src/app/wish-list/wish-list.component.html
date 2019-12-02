@@ -1,7 +1,7 @@
 <div>Thông tin đã đấu giá</div>
 <div title="filterTab"></div>
 <div>
-    <div class="row" *ngFor="let item of bidLogs">
+    <div class="row" *ngFor="let item of wishList">
         <div class="col-3">
             <a><img [src]="item.imgUrl[0].url" alt="imgUrl"></a>
         </div>
@@ -13,13 +13,7 @@
                 <div>{{item.highestBid}}</div>
                 <div>{{item.endTime | date: 'short'}}</div>
             </div>
-            <hr>
-            <div class="row">
-                <div class="col-2">Số tiền Bid</div>
-                <div class="col-4">{{item.amount}}</div>
-                <div class="col-2">Vào lúc</div>
-                <div class="col-4">{{item.dateTime}}</div>
-            </div>
+            
         </div>
     </div>
 </div>

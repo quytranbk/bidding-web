@@ -6,6 +6,9 @@ import { SearchComponent } from '../search/search.component';
 import { ProfileInfoComponent } from '../profile-info/profile-info.component';
 import { WatchedListComponent } from '../watched-list/watched-list.component';
 import { BidHistoryComponent } from '../bid-history/bid-history.component';
+import { SellComponent } from '../sell/sell.component';
+import { ItemDetailComponent } from '../item-detail/item-detail.component';
+import { WishListComponent } from '../wish-list/wish-list.component';
 
     const routes: Routes = [
         {
@@ -21,6 +24,10 @@ import { BidHistoryComponent } from '../bid-history/bid-history.component';
                     component: ProfileInfoComponent,
                 },
                 {
+                    path: 'wish-list',
+                    component: WishListComponent,
+                },
+                {
                     path: 'watched-list',
                     component: WatchedListComponent,
                 },
@@ -33,6 +40,14 @@ import { BidHistoryComponent } from '../bid-history/bid-history.component';
         {
             path: 'items',
             component: SearchComponent,
+        },
+        {
+            path: 'items/:id',
+            component: ItemDetailComponent,
+        },
+        {
+            path: 'sell',
+            component: SellComponent,
         },
     ];
 

@@ -110,17 +110,17 @@
             </div>
             <div class="listBox d-flex">
               <div class="listBoxItem" *ngFor="let item of newestItems">
-                <div class="imgBox">
-                  <img [src]="item.imgUrl[0]" alt="postImg">
+                <div class="imgBox homeImgBox">
+                  <img class="imgThumbnail" [src]="item.imgUrl[0].url" alt="postImg">
                 </div>
                 <div class="mt-2">
-                  <a href="#" class="titleH3">{{item.title}}</a>
+                  <h6><a [routerLink]="['items/1']" class="text-body">{{item.title}}</a></h6>
                 </div>
                 <div class="">
-                  <span class="titleH3 colorS2">{{item.startPrice}}</span>
+                  <h6 class="colorS2">{{item.highestBid| currency : 'đ': 'code': '1.0-0' : 'vi'}} <span class="badge badge-warning">CAO NHẤT</span></h6>
                 </div>
                 <div class="">
-                  <span class="titleH4 colorS4">{{item.startTime}}</span>
+                  <label class="colorS4">Kết thúc lúc {{item.endTime | date: 'short'}}</label>
                 </div>
                 <div class="d-flex">
                   <div>
@@ -142,31 +142,31 @@
               <a href="#" class="colorS2"> Xem tất cả &rarr;</a>
             </div>
             <div class="listBox d-flex">
-              <div class="listBoxItem" *ngFor="let item of popularItems">
-                <div class="imgBox">
-                  <img [src]="item.imgUrl[0]" alt="postImg">
-                </div>
-                <div class="mt-2">
-                  <a href="#" class="titleH3">{{item.title}}</a>
-                </div>
-                <div class="">
-                  <span class="titleH3 colorS2">{{item.startPrice}}</span>
-                </div>
-                <div class="">
-                  <span class="titleH4 colorS4">{{item.startTime}}</span>
-                </div>
-                <div class="d-flex">
-                  <div>
-                    <i class="material-icons colorStar iconStar">star</i>
-                    <i class="material-icons colorStar">star</i>
-                    <i class="material-icons colorStar">star</i>
-                    <i class="material-icons colorStar">star</i>
-                    <i class="material-icons colorStar">star</i>
+                <div class="listBoxItem" *ngFor="let item of newestItems">
+                  <div class="imgBox homeImgBox">
+                    <img class="imgThumbnail" [src]="item.imgUrl[0].url" alt="postImg">
                   </div>
-                  <div></div>
+                  <div class="mt-2">
+                    <h6><a href="#" class="text-body">{{item.title}}</a></h6>
+                  </div>
+                  <div class="">
+                    <h6 class="colorS2">{{item.startPrice| currency : 'đ': 'code': '1.0-0' : 'vi'}} <span class="badge badge-warning">CAO NHẤT</span></h6>
+                  </div>
+                  <div class="">
+                    <span class="colorS4">{{item.endTime | date: 'short'}}</span>
+                  </div>
+                  <div class="d-flex">
+                    <div>
+                      <i class="material-icons colorStar iconStar">star</i>
+                      <i class="material-icons colorStar">star</i>
+                      <i class="material-icons colorStar">star</i>
+                      <i class="material-icons colorStar">star</i>
+                      <i class="material-icons colorStar">star</i>
+                    </div>
+                    <div></div>
+                  </div>
                 </div>
               </div>
-            </div>
           </div>
         </div>
         

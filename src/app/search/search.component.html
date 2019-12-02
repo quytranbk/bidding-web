@@ -1,49 +1,77 @@
-<div id="mainContainer" class="mContainer borderLine mt-1">
+<div id="mainContainer" class="mContainer bgColorS1">
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-              <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-              <li class="breadcrumb-item active">{{categoryName}}</li>
+            <ol class="breadcrumb mb-0 bg-white">
+              <li class="breadcrumb-item"><a href="#"><i class="material-icons">
+                  home
+                  </i>Trang chủ</a></li>
+              <li class="breadcrumb-item active">{{categoryName?categoryName: 'Tất cả'}}</li>
             </ol>
           </nav>
           <div class="d-flex">
-            <div>
+            <div class="p-3">
               <div>
-                <span>Phân loại</span>
+                <h6>Theo Danh mục</h6>
               </div>
               <div>
-                <ul>
-                  <li *ngFor="let item of categories">
-                      <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="check" (change)="changeCheck(item)">
-                          <label class="form-check-label" for="defaultCheck1">
-                            {{item.name}}
-                          </label>
-                        </div>
-                  </li>
-                </ul>
+                  <ul class="">
+                      <li class="" *ngFor="let item of categories">
+                          <div class="form-check">
+                              <input class="form-check-input" type="checkbox" name="check" (change)="changeCheck(item)">
+                              <label class="form-check-label" for="defaultCheck1">
+                                {{item.name}}
+                              </label>
+                            </div>
+                      </li>
+                    </ul>
               </div>
             </div>
-            <div style="flex-grow: 1;">
+            <div class="p-3" style="flex-grow: 1;">
               <div class="d-flex">
-                <div style="flex-grow: 1;">{{params.search ? 'Tìm kiếm: ' + params.search: categoryName}}</div>
-                <div>sort</div>
+                <div style="flex-grow: 1;">
+                  <h6>
+                    <span *ngIf="params.search"><span  class="text-muted"> Tìm kiếm theo từ khóa: </span>"{{params.search}}"</span>
+                    <span *ngIf="!params.search"><span  class="text-muted"> Tìm kiếm theo danh mục: </span>"{{categoryName}}"</span>
+                    
+                  </h6>
+                </div>
+                <div>
+                  <select>
+                    <option value="" disabled>Sắp xếp</option>
+                    <option value="0">Giá tăng dần</option>
+                    <option value="1">Giá giảm dần</option>
+                  </select>
+                </div>
               </div>
-                <div class="d-flex" *ngFor="let item of filterItems">
-                  <div>
-                    <div><img [src]="item.imgUrl[0]" alt="img"></div>
+                <div class="card" *ngFor="let item of filterItems">
+                  <div class="card-body d-flex">
+                      <div class="imgBox searchImgBox">
+                          <img class="imgThumbnail" [src]="item.imgUrl[0].url" alt="img">
+                        </div>
+                        <div style="flex-grow: 1;">
+                          <div>
+                            <h6><a class="text-body" (click)="goToItemDetail(item)">{{item.title}}</a></h6>
+                            
+                            </div>
+                          <div class="d-flex align-items-stretch justify-content-between">
+                            <div>
+                              <h6 class="colorS2">{{item.highestBid| currency : 'đ': 'code': '1.0-0' : 'vi'}}</h6> 
+                            </div>
+                            <div>
+                              <label class="colorS4">{{item.endTime| date: 'short'}}</label>
+                            </div>
+                          </div>
+                          <div></div>
+                        <div>
+                          <div>
+                              <i class="material-icons colorStar iconStar">star</i>
+                              <i class="material-icons colorStar">star</i>
+                              <i class="material-icons colorStar">star</i>
+                              <i class="material-icons colorStar">star</i>
+                              <i class="material-icons colorStar">star</i>
+                          </div>
+                        </div>
+                        </div>
                   </div>
-                  <div style="flex-grow: 1;">
-                    <div>{{item.title}}</div>
-                    <div class="d-flex align-items-stretch justify-content-between">
-                      <div>{{item.startPrice}}</div>
-                      <div>{{item.startTime}}</div>
-                    </div>
-                    <div></div>
-                  <div>
-                    <div>star</div>
-                  </div>
-                  </div>
-                  
                 </div>
             </div>
           </div>

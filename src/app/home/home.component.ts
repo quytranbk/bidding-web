@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemService } from '../item.service';
 import { Router } from '@angular/router';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -8,15 +9,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  newestItems: Array <any>;
-  popularItems: Array <any>;
+  newestItems: Object;
+  popularItems: Object;
   constructor(
     private itemS: ItemService
   ) { }
 
   ngOnInit() {
-    this.newestItems = this.getNewestItems();
-    this.popularItems = this.getPopularItems();
+    combineLatest(
+      this.getNewestItems(),
+      this.getPopularItems(),
+    ).subscribe(([_getNewestItems, _getPopularItems]) => {
+      this.newestItems = _getNewestItems;
+      this.popularItems = _getPopularItems;
+    });
+    
   }
   getAllItems () {
     return this.itemS.getAllItems();

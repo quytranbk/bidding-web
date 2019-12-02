@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ItemService } from '../item.service';
 import { CategoryService } from '../category.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -9,8 +10,8 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  filterItems: Array <any>;
-  categories: Array <any>;
+  filterItems: any[];
+  categories: any[];
   params: any;
   categoryName: string;
   check: any = true;
@@ -19,23 +20,31 @@ export class SearchComponent implements OnInit {
     private cateS: CategoryService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) { console.log("") }
 
   ngOnInit() {
     this.route.queryParams
     .subscribe(params => {
       this.params = params;
-      this.filterItems = this.getFilterItems(params);
-      this.categories = this.getAllCategories();
-      let theCate = this.categories.find(item => item.categoryId === params.categoryid);
-      theCate && (this.categoryName = theCate.name);
+      combineLatest(
+        this.getFilterItems(params),
+        this.getAllCategories()
+      )
+      .subscribe(([_getFilterItems, _getAllCategories]: [any, any]) => {
+        this.filterItems = _getFilterItems;
+        this.categories = _getAllCategories;
+        let theCate = this.categories.find(item => item.id === params.categoryid);
+        theCate && (this.categoryName = theCate.name);
+      })
+      
     })
   }
   getAllCategories () {
     return this.cateS.getAllCategories();
   }
   getFilterItems (params) {
-    return this.itemS.getAllItems();
+    if (params.search)
+    return this.itemS.getFilterItems(params);
   }
   handleParams () {
     
@@ -47,11 +56,15 @@ export class SearchComponent implements OnInit {
         ["/items"], 
         {
           queryParams: {
-            categoryid: item.categoryId, 
+            categoryid: item.id, 
             search: this.params.search, 
           }
         }
       )
     }
+  }
+
+  goToItemDetail (item) {
+    this.router.navigate(["items/" + item.id]);
   }
 }

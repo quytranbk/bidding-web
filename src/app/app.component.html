@@ -4,27 +4,34 @@
       <div class="infoBarItem"> Khu vực</div>
       <div class="infoBarItem">
         <select>
-          <option value="">chon khu vuc</option>
+          <option value="">Hà Nội</option>
         </select>
       </div>
-
-
+      <div class="infoBarItem text-danger">
+          <span>|</span>
+        </div>
       <div class="infoBarItem">
-        Hotline: 023028002823
+        Liên hệ: 023028002823
       </div>
     </div>
     <div id="rightInfoWpr" class="d-flex">
       <div class="infoBarItem">
-        <a>Đăng bán</a>
+        <a routerLink="sell"><span class="badge badge-light"> Đăng bán</span></a>
       </div>
-      <div class="infoBarItem">
+      <div class="infoBarItem text-light">
+        <span>|</span>
+      </div>
+      <div class="infoBarItem" *ngIf="!isSignIn">
         <a data-toggle="modal" data-target="#signInModal">Đăng nhập</a>
       </div>
-      <div class="infoBarItem">
+      <div class="infoBarItem" *ngIf="!isSignIn">
         <a data-toggle="modal" data-target="#regModal">Đăng ký</a>
       </div>
+      <div class="infoBarItem" *ngIf="!isSignIn">
+        <a (click)="clickSignOut()">Đăng xuất</a>
+      </div>
       <div class="infoBarItem">
-        <a [routerLink]="['/profile']">Quý Trần</a>
+        <a [routerLink]="['/profile']" class="colorS1">{{userInfo.name}}</a>
       </div>
     </div>
   </div>
@@ -42,11 +49,11 @@
             <input type="text" style="border:unset">
             <button type="button" style="">Tìm kiếm</button>
         </div> -->
-        <div class="input-group mb-2">
+        <div class="input-group mb-3">
 
-          <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Bạn đang cần tìm gì...">
+          <input type="text" class="form-control" id="homeSearchIpt" [(ngModel)]="searchInput" placeholder="Bạn đang cần tìm gì...">
           <div class="input-group-prepend">
-            <div class="input-group-text">Tìm kiếm</div>
+              <button class="btn btn-secondary" id="homeSearchBtn" type="button" (click)="clickSearch()">Tìm kiếm</button>
           </div>
         </div>
       </div>
@@ -61,50 +68,57 @@
   </div>
   <div id="bottomHeader" class="mContainer d-flex align-items-stretch">
     <div *ngFor="let item of categories" [ngClass]="{'active': item.isActive}" class="headerMenuItem">
-        <a [routerLink]="['/items']" [queryParams]="{ categoryid: item.categoryId, search: searchInput}">{{item.name}}</a>
+        <a [routerLink]="['/items']" [queryParams]="{ categoryid: item.id, search: searchInput}">
+          
+          {{item.name}}
+        </a>
       </div>
     </div>
   </header>
 
 <router-outlet></router-outlet>
-
-<footer class="mContainer d-flex mt-5">
+<div id="bottomHeader" class="mContainer mt-3 d-flex align-items-stretch">
+    <div *ngFor="let item of categories" [ngClass]="{'active': item.isActive}" class="headerMenuItem">
+        <a [routerLink]="['/items']" [queryParams]="{ categoryid: item.id, search: searchInput}">{{item.name}}</a>
+      </div>
+    </div>
+<footer class="mContainer mt-1 py-5 d-flex justify-content-between align-items-start colorS4">
   <div>
-    <ul>
-      <li>item1</li>
-      <li>item2</li>
-      <li>item3</li>
-      <li>item4</li>
-    </ul>
+    <h6>HỖ TRỢ KHÁCH HÀNG</h6>
+    <div>
+      <div><a href="">Hướng dẫn đặt mua hàng</a></div>
+      <div><a href="">Câu hỏi thường gặp</a></div>
+      <div><a href="">Hình thức vận chuyển</a></div>
+      <div><a href="">Thông tin liên hệ</a></div>
+    </div>
   </div>
   <div>
-    <ul>
-      <li>item1</li>
-      <li>item2</li>
-      <li>item3</li>
-      <li>item4</li>
-    </ul>
+    <h6>VỀ VINABID</h6>
+    <div>
+      <div><a href="">Giới thiệu VinaBID</a></div>
+      <div><a href="">Chính sách khuyến mãi</a></div>
+      <div><a href="">Điều khoản sử dụng</a></div>
+      <div><a href="">Khác</a></div>
+    </div>
   </div>
   <div>
-    <ul>
-      <li>item1</li>
-      <li>item2</li>
-      <li>item3</li>
-      <li>item4</li>
-    </ul>
+    <h6>LIÊN KẾT</h6>
+    <div>
+      <div><a href="">Hợp tác kinh doanh</a></div>
+      <div><a href="">Góp vốn đầu tư</a></div>
+    </div>
   </div>
   <div>
-    <ul>
-      <li>item1</li>
-      <li>item2</li>
-      <li>item3</li>
-      <li>item4</li>
-    </ul>
+    <h6>THANH TOÁN</h6>
+    <div>
+      
+    </div>
   </div>
 </footer>
 
 <app-login class="modal" tabindex="-1" role="dialog" id="signInModal"></app-login>
-<div class="modal" tabindex="-1" role="dialog" id="regModal">
+<app-register class="modal" tabindex="-1" role="dialog" id="regModal"></app-register>
+<!-- <div class="modal" tabindex="-1" role="dialog" id="regModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -122,4 +136,4 @@
       </div>
     </div>
   </div>
-  
+  </div> -->
