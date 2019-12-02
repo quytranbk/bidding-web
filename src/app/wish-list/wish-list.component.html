@@ -1,19 +1,45 @@
-<div>Thông tin đã đấu giá</div>
-<div title="filterTab"></div>
-<div>
-    <div class="row" *ngFor="let item of wishList">
-        <div class="col-3">
-            <a><img [src]="item.imgUrl[0].url" alt="imgUrl"></a>
-        </div>
-        <div class="col-9">
-            <div>
-                {{item.title}}
-            </div>
-            <div class="d-flex">
-                <div>{{item.highestBid}}</div>
-                <div>{{item.endTime | date: 'short'}}</div>
-            </div>
-            
+
+<div class="d-flex justify-content-between">
+        <div>
+            <h6>Danh sách ưa thích</h6> 
+          </div>
+        <div>
+                <select>
+                        <option value="" disabled>Trạng thái</option>
+                        <option value="0">Đang diễn ra</option>
+                        <option value="1">Đã kết thúc</option>
+                      </select>
+                <select>
+                        <option value="" disabled>Sắp xếp</option>
+                        <option value="0">Mới nhất</option>
+                        <option value="1">Cũ nhất</option>
+                      </select>
         </div>
     </div>
-</div>
+    
+    <div title="filterTab"></div>
+    <div class="bg-white p-3 d-flex" *ngFor="let item of wishList">
+        <!-- <div class="row" > -->
+            <div class="imgBox searchImgBox">
+                <a><img class="imgThumbnail" [src]="item.imgUrl[0].url" alt="imgUrl"></a>
+            </div>
+            <div style="flex-grow: 1;" class="px-2">
+                <div>
+                    <h6><a class="text-body" (click)="goToItemDetail(item)">{{item.title}}</a></h6>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="colorS2">{{item.highestBid| currency : 'đ': 'code': '1.0-0' : 'vi'}} <span class=" small text-muted"> (Cao nhất)</span></h6>
+                    </div>
+                    <div>
+                            <label class="colorS4">Kết thúc {{item.endTime| date: 'short'}}</label>
+                    </div>
+                </div>
+                <hr class="my-2">
+                <!-- <div class="d-flex justify-content-between">
+                    <div>Đã Bid: {{item.amount| currency : 'đ': 'code': '1.0-0' : 'vi'}}</div>
+                    <div>Vào lúc {{item.dateTime| date: 'short'}}</div>
+                </div> -->
+            </div>
+        <!-- </div> -->
+    </div>

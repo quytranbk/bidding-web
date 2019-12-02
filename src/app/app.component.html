@@ -3,7 +3,7 @@
     <div id="leftInfoWpr" class="d-flex">
       <div class="infoBarItem"> Khu vực</div>
       <div class="infoBarItem">
-        <select>
+        <select class="rounded">
           <option value="">Hà Nội</option>
         </select>
       </div>
@@ -31,15 +31,21 @@
         <a (click)="clickSignOut()">Đăng xuất</a>
       </div>
       <div class="infoBarItem">
-        <a [routerLink]="['/profile']" class="colorS1">{{userInfo.name}}</a>
+        <div class="d-inline-block imgAvatar">
+          <img class="imgThumbnail rounded-circle" src="../assets/fpo_avatar.png" alt="">
+        </div>
+        
+        <a [routerLink]="['/profile']" class="colorS1">
+          {{userInfo.name}}
+        </a>
       </div>
     </div>
   </div>
   <div id="centerHeader" class="mContainer d-flex align-items-stretch">
     <div id="logoWrapper" class="">
       <a href="/">
-        <img id="logo" src="../assets/1554442213485-d7ad58d3994c7a12235d.png" alt="">
-        <div id="logo2">BID</div>
+        <img id="logo" src="../assets/logo_v2.png" alt="">
+        <!-- <div id="logo2">BID</div> -->
       </a>
         
     </div>
@@ -50,7 +56,14 @@
             <button type="button" style="">Tìm kiếm</button>
         </div> -->
         <div class="input-group mb-3">
+            
+              <div class="input-group-prepend">
+                  <select class="rounded-left" aria-label="Example select with button addon">
+                      <option disabled>Loại</option>
+                      <option *ngFor="let item of categories" [ngValue]="item.id">{{item.name}}</option>
+                    </select>
 
+              </div>
           <input type="text" class="form-control" id="homeSearchIpt" [(ngModel)]="searchInput" placeholder="Bạn đang cần tìm gì...">
           <div class="input-group-prepend">
               <button class="btn btn-secondary" id="homeSearchBtn" type="button" (click)="clickSearch()">Tìm kiếm</button>
@@ -67,9 +80,8 @@
     </div>
   </div>
   <div id="bottomHeader" class="mContainer d-flex align-items-stretch">
-    <div *ngFor="let item of categories" [ngClass]="{'active': item.isActive}" class="headerMenuItem">
-        <a [routerLink]="['/items']" [queryParams]="{ categoryid: item.id, search: searchInput}">
-          
+    <div *ngFor="let item of categoriesMenu" [ngClass]="{'active': ActiveCategoryId === item.id}" class="headerMenuItem">
+        <a (click)="goTo(item)">
           {{item.name}}
         </a>
       </div>
@@ -78,7 +90,7 @@
 
 <router-outlet></router-outlet>
 <div id="bottomHeader" class="mContainer mt-3 d-flex align-items-stretch">
-    <div *ngFor="let item of categories" [ngClass]="{'active': item.isActive}" class="headerMenuItem">
+    <div *ngFor="let item of categoriesMenu" [ngClass]="{'active': item.isActive}" class="headerMenuItem">
         <a [routerLink]="['/items']" [queryParams]="{ categoryid: item.id, search: searchInput}">{{item.name}}</a>
       </div>
     </div>

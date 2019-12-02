@@ -9,6 +9,7 @@ import { BidHistoryComponent } from '../bid-history/bid-history.component';
 import { SellComponent } from '../sell/sell.component';
 import { ItemDetailComponent } from '../item-detail/item-detail.component';
 import { WishListComponent } from '../wish-list/wish-list.component';
+import { AdminComponent } from '../admin/admin.component';
 
     const routes: Routes = [
         {
@@ -48,6 +49,10 @@ import { WishListComponent } from '../wish-list/wish-list.component';
         {
             path: 'sell',
             component: SellComponent,
+        },
+        {
+            path: 'admin',
+            component: AdminComponent,
         },
     ];
 

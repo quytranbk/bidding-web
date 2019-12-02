@@ -24,9 +24,13 @@ export class ItemService {
     return this.http.get(Constants.HOST_API + `/items/${data.id}`);
   }
   getFilterItems (params) {
-  let qParams = `${Constants.HOST_API}/items`;
-    if (params.search) qParams += `?q=${params.search}`; 
-    if (params.categoryid) qParams += `&categoryId=${params.categoryid}`; 
+  let qParams = Object.entries(params).reduce(
+      (rs, element, idx) => {
+        if (element[1] === undefined) return rs;
+        return idx?rs + `&${element[0]}=${element[1]}`:rs + `${element[0]}=${element[1]}`
+      },
+      `${Constants.HOST_API}/items?`
+    )
     return this.http.get(qParams);
   }
   getNewestItems () {

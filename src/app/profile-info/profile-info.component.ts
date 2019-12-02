@@ -47,9 +47,10 @@ export class ProfileInfoComponent implements OnInit {
     return this.personS.updateInfo(this.userInfo["id"], this.editProfileForms.value);
   }
   callGetInfo () {
-    return this.personS.getInfo({
-      username: this.sharedS.data["userInfo"].username
-    });
+    // return this.personS.getInfo({
+    //   username: this.sharedS.data["userInfo"].username
+    // });
+    return this.personS.checkAuth();
   }
   submitForms () {
     if (this.editProfileForms.dirty) {

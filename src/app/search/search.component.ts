@@ -43,8 +43,10 @@ export class SearchComponent implements OnInit {
     return this.cateS.getAllCategories();
   }
   getFilterItems (params) {
-    if (params.search)
-    return this.itemS.getFilterItems(params);
+    let p = {};
+    params["search"] !== undefined && (p["q"] = params["search"]);
+    params["categoryid"] !== undefined && (p["categoryId"] = params["categoryid"]);
+    return this.itemS.getFilterItems(p);
   }
   handleParams () {
     

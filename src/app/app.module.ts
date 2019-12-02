@@ -20,6 +20,7 @@ import { SellComponent } from './sell/sell.component';
 import { RegisterComponent } from './register/register.component';
 import { ItemDetailComponent } from './item-detail/item-detail.component';
 import { WishListComponent } from './wish-list/wish-list.component';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { WishListComponent } from './wish-list/wish-list.component';
     RegisterComponent,
     ItemDetailComponent,
     NgModel,
-    WishListComponent
+    WishListComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

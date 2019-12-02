@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PersonService } from '../person.service';
 import { SharedRouteDataService } from '../shared-route-data.service';
 import { WishListService } from '../wish-list.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-wish-list',
@@ -16,6 +17,8 @@ export class WishListComponent implements OnInit {
     private sharedS: SharedRouteDataService,
     private personS: PersonService,
     private wishListS: WishListService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -39,9 +42,14 @@ export class WishListComponent implements OnInit {
     });
   }
   callGetInfo () {
-    return this.personS.getInfo({
-      username: this.sharedS.data["userInfo"].username
-    });
+    // return this.personS.getInfo({
+    //   username: this.sharedS.data["userInfo"].username
+    // });
+    return this.personS.checkAuth();
+  }
+
+  goToItemDetail (item) {
+    this.router.navigate(["items/" + item.id]);
   }
 
 }

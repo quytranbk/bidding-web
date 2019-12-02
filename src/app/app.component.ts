@@ -15,26 +15,40 @@ export class AppComponent {
   userInfo: any = {};
   isSignIn: boolean;
   categories: Array<any>;
+  categoriesMenu: Array<any>;
   newestItems: Array<any>;
   popularItems: Array<any>;
   searchInput: string;
+  ActiveCategoryId: number = undefined;
+
   constructor(
     private sharedS: SharedRouteDataService,
     private cateS: CategoryService,
     private personS: PersonService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private route: ActivatedRoute
   ) { console.log(""); }
+  
   ngOnInit() {
-    
-    this.getCategories()
+    this.route.queryParams
+    .subscribe(
+      params => {
+        this.getCategories()
     .subscribe((data: any) => {
       this.categories = data;
-      this.categories.unshift({
+      this.categoriesMenu = [...data];
+      
+      this.categoriesMenu.unshift({
         name: "Trang chủ",
         isActive: true
       });
+
+      let theCate = this.categories.find(element => element.id === params.categoryid);
+      theCate && (this.ActiveCategoryId = theCate.id);
     })
+      }
+    )
+    
     
     this.checkAuth();
     
@@ -73,8 +87,18 @@ export class AppComponent {
     this.callSignOut();
   }
 
-  goTo(params) {
-    let url = '/items?categoryid=' + params.categoryId + "&q=" + this.searchInput;
-    this.router.navigate([url]);
+  goTo(item) {
+    this.ActiveCategoryId = item.id;
+    if (!item.id) window.location.href = "/";
+
+    this.router.navigate(
+      ["/items"], 
+      {
+        queryParams: {
+          categoryid: item.id
+        }
+      }
+    );
+    
   }
 }
