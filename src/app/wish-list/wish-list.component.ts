@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { PersonService } from '../person.service';
 import { SharedRouteDataService } from '../shared-route-data.service';
-import { BiddingLogService } from '../bidding-log.service';
+import { WishListService } from '../wish-list.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-bid-history',
-  templateUrl: './bid-history.component.html',
-  styleUrls: ['./bid-history.component.css']
+  selector: 'app-wish-list',
+  templateUrl: './wish-list.component.html',
+  styleUrls: ['./wish-list.component.css']
 })
-export class BidHistoryComponent implements OnInit {
+export class WishListComponent implements OnInit {
   isResolve: boolean = true;
   userInfo: any;
-  bidLogs: any[];
+  wishList: any[];
   constructor(
     private sharedS: SharedRouteDataService,
     private personS: PersonService,
-    private bidLogS: BiddingLogService,
+    private wishListS: WishListService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -30,14 +30,14 @@ export class BidHistoryComponent implements OnInit {
         this.callGetBidLogs()
         .subscribe(
           (data: any) => {
-            this.bidLogs = data;
+            this.wishList = data;
           }
         );
       }
     )
   }
   callGetBidLogs () {
-    return this.bidLogS.getByUser({
+    return this.wishListS.getByUser({
       userId: this.userInfo.id
     });
   }

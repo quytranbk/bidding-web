@@ -1,21 +1,31 @@
-<div id="mainContainer" class="mContainer borderLine mt-5 d-flex">
-        <div>
-          <ul>
-            <li>
-              <a href="">thong tin ca nhan</a>
+<nav aria-label="breadcrumb" class="mContainer">
+    <ol class="breadcrumb mb-0 bg-white">
+      <li class="breadcrumb-item active"><a href="#"><i class="material-icons">
+          home
+          </i>Trang chủ</a></li>
+      <li class="breadcrumb-item">Cá nhân</li>
+    </ol>
+  </nav>
+<div id="mainContainer" class="mContainer bgColorS1 d-flex">
+    
+        <div class="p-3">
+            <div>
+                <h6>Cá nhân</h6> 
+              </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item bg-transparent">
+              <a [routerLink]="['/profile']">Thông tin cá nhân</a>
             </li>
-            <li>
-              <a href="">danh sach da xem</a>
+            <li class="list-group-item bg-transparent">
+              <a [routerLink]="['/profile/bid-history']">Thông tin đấu giá</a>
             </li>
-            <li>
-              <a href="">danh sach ua thich</a>
+            <li class="list-group-item bg-transparent">
+              <a [routerLink]="['/profile/wish-list']">Danh sách ưa thích</a>
             </li>
-            <li>
-              <a href="">dau gia thanh cong</a>
-            </li>
+            
           </ul>
         </div>
-        <div style="flex-grow: 1;">
+        <div class="p-3" style="flex-grow: 1;">
             <router-outlet></router-outlet>
           
         </div>

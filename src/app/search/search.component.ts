@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ItemService } from '../item.service';
 import { CategoryService } from '../category.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -9,8 +10,8 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  filterItems: Array<any>;
-  categories: Array<any>;
+  filterItems: any[];
+  categories: any[];
   params: any;
   categoryName: string;
   check: any = true;
@@ -19,39 +20,53 @@ export class SearchComponent implements OnInit {
     private cateS: CategoryService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) { console.log("") }
 
   ngOnInit() {
     this.route.queryParams
-      .subscribe(params => {
-        this.params = params;
-        this.filterItems = this.getFilterItems(params);
-        this.categories = this.getAllCategories();
-        const theCate = this.categories.find(item => item.categoryId === params.categoryid);
-        this.categoryName = theCate && theCate.name;
-      });
+    .subscribe(params => {
+      this.params = params;
+      combineLatest(
+        this.getFilterItems(params),
+        this.getAllCategories()
+      )
+      .subscribe(([_getFilterItems, _getAllCategories]: [any, any]) => {
+        this.filterItems = _getFilterItems;
+        this.categories = _getAllCategories;
+        let theCate = this.categories.find(item => item.id === params.categoryid);
+        theCate && (this.categoryName = theCate.name);
+      })
+      
+    })
   }
-  getAllCategories() {
+  getAllCategories () {
     return this.cateS.getAllCategories();
   }
-  getFilterItems(params) {
-    return this.itemS.getAllItems();
+  getFilterItems (params) {
+    let p = {};
+    params["search"] !== undefined && (p["q"] = params["search"]);
+    params["categoryid"] !== undefined && (p["categoryId"] = params["categoryid"]);
+    return this.itemS.getFilterItems(p);
   }
-  handleParams() {
-
+  handleParams () {
+    
   }
 
-  changeCheck(item) {
+  changeCheck (item) {
     if (item.checked) {
       this.router.navigate(
-        ['/items'],
+        ["/items"], 
         {
           queryParams: {
-            categoryid: item.categoryId,
-            search: this.params.search,
+            categoryid: item.id, 
+            search: this.params.search, 
           }
         }
-      );
+      )
     }
+  }
+
+  goToItemDetail (item) {
+    this.router.navigate(["items/" + item.id]);
   }
 }
