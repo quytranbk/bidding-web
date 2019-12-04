@@ -9,18 +9,18 @@ import localeVi from '@angular/common/locales/vi';
 registerLocaleData(localeVi);
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
-import { SearchComponent } from './search/search.component';
-import { ProfileInfoComponent } from './profile-info/profile-info.component';
-import { WatchedListComponent } from './watched-list/watched-list.component';
-import { BidHistoryComponent } from './bid-history/bid-history.component';
-import { LoginComponent } from './login/login.component';
-import { SellComponent } from './sell/sell.component';
-import { RegisterComponent } from './register/register.component';
-import { ItemDetailComponent } from './item-detail/item-detail.component';
-import { WishListComponent } from './wish-list/wish-list.component';
-import { AdminComponent } from './admin/admin.component';
+import { HomeComponent } from './components/home/home.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { SearchComponent } from './components/search/search.component';
+import { ProfileInfoComponent } from './components/profile-info/profile-info.component';
+import { WatchedListComponent } from './components/watched-list/watched-list.component';
+import { BidHistoryComponent } from './components/bid-history/bid-history.component';
+import { LoginComponent } from './components/login/login.component';
+import { SellComponent } from './components/sell/sell.component';
+import { RegisterComponent } from './components/register/register.component';
+import { ItemDetailComponent } from './components/item-detail/item-detail.component';
+import { WishListComponent } from './components/wish-list/wish-list.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 @NgModule({
   declarations: [

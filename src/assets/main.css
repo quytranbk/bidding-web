@@ -1,6 +1,6 @@
 body {
     font-family: Helvetica;
-    font-size: 13px;
+    font-size: 14px;
     background-color: white;
 }
 
@@ -117,7 +117,7 @@ footer {
 }
 #centerHeader {
     height: 73px;
-    background-color: #ffc107;
+    background-color: #ffffff;
     /* border-bottom: 1px solid #ced4da59; */
     background: linear-gradient(-180deg,#ff9c29,#fed700);
 }
@@ -166,7 +166,7 @@ font-family: Arial;
     position: relative;
 }
 #logo {
-    width: 120px;
+    width: 108px;
 }
 #logo2 {
     
@@ -190,6 +190,10 @@ color: rgb(33,44,69);
 }
 #homeSearchIpt {
     border: 2px solid #dc871a;
+}
+#homeSearchSelect {
+    border: 2px solid #dc871a;
+    width: 90px;
 }
 #homeSearchBtn {
     background-color: #ffa523;

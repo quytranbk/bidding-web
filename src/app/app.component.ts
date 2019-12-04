@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 // import { ItemService } from './item.service';
-import { CategoryService } from './category.service';
+import { CategoryService } from './services/category.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { PersonService } from './person.service';
-import { SharedRouteDataService } from './shared-route-data.service';
+import { PersonService } from './services/person.service';
+import { SharedRouteDataService } from './services/shared-route-data.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'bidding-web';
@@ -34,21 +34,22 @@ export class AppComponent {
     .subscribe(
       params => {
         this.getCategories()
-    .subscribe((data: any) => {
-      this.categories = data;
-      this.categoriesMenu = [...data];
-      
-      this.categoriesMenu.unshift({
-        name: "Trang chủ",
-        isActive: true
-      });
+        .subscribe(
+          (data: any) => {
+            this.categories = data;
+            this.categoriesMenu = [...data];
+            
+            this.categoriesMenu.unshift({
+              name: "Trang chủ",
+              isActive: true
+            });
 
-      let theCate = this.categories.find(element => element.id === params.categoryid);
-      theCate && (this.ActiveCategoryId = theCate.id);
-    })
+            let theCate = this.categories.find(element => element.id === params.categoryid);
+            theCate && (this.ActiveCategoryId = theCate.id);
+          }
+        )
       }
     )
-    
     
     this.checkAuth();
     
@@ -63,7 +64,7 @@ export class AppComponent {
     .subscribe(
       (data: any) => {
         this.isSignIn = true;
-        this.userInfo = data[0];
+        this.userInfo = data;
         this.sharedS.data["userInfo"] = this.userInfo;
       }
     );

@@ -27,10 +27,10 @@
       <div class="infoBarItem" *ngIf="!isSignIn">
         <a data-toggle="modal" data-target="#regModal">Đăng ký</a>
       </div>
-      <div class="infoBarItem" *ngIf="!isSignIn">
+      <div class="infoBarItem" *ngIf="isSignIn">
         <a (click)="clickSignOut()">Đăng xuất</a>
       </div>
-      <div class="infoBarItem">
+      <div class="infoBarItem" *ngIf="isSignIn">
         <div class="d-inline-block imgAvatar">
           <img class="imgThumbnail rounded-circle" src="../assets/fpo_avatar.png" alt="">
         </div>
@@ -58,7 +58,7 @@
         <div class="input-group mb-3">
             
               <div class="input-group-prepend">
-                  <select class="rounded-left" aria-label="Example select with button addon">
+                  <select class="rounded-left" id="homeSearchSelect">
                       <option disabled>Loại</option>
                       <option *ngFor="let item of categories" [ngValue]="item.id">{{item.name}}</option>
                     </select>
@@ -89,35 +89,38 @@
   </header>
 
 <router-outlet></router-outlet>
-<div id="bottomHeader" class="mContainer mt-3 d-flex align-items-stretch">
+<div id="bottomHeader" class="mContainer mt-5 d-flex align-items-stretch">
     <div *ngFor="let item of categoriesMenu" [ngClass]="{'active': item.isActive}" class="headerMenuItem">
         <a [routerLink]="['/items']" [queryParams]="{ categoryid: item.id, search: searchInput}">{{item.name}}</a>
       </div>
     </div>
 <footer class="mContainer mt-1 py-5 d-flex justify-content-between align-items-start colorS4">
   <div>
+    <img src="../assets/logo_v2.png" alt="">
+  </div>
+  <div>
     <h6>HỖ TRỢ KHÁCH HÀNG</h6>
     <div>
-      <div><a href="">Hướng dẫn đặt mua hàng</a></div>
-      <div><a href="">Câu hỏi thường gặp</a></div>
-      <div><a href="">Hình thức vận chuyển</a></div>
-      <div><a href="">Thông tin liên hệ</a></div>
+      <div><label><a href="">Hướng dẫn đặt mua hàng</a></label></div>
+      <div><label><a href="">Câu hỏi thường gặp</a></label></div>
+      <div><label><a href="">Hình thức vận chuyển</a></label></div>
+      <div><label><a href="">Thông tin liên hệ</a></label></div>
     </div>
   </div>
   <div>
     <h6>VỀ VINABID</h6>
     <div>
-      <div><a href="">Giới thiệu VinaBID</a></div>
-      <div><a href="">Chính sách khuyến mãi</a></div>
-      <div><a href="">Điều khoản sử dụng</a></div>
-      <div><a href="">Khác</a></div>
+      <div><label><a href="">Giới thiệu VinaBID</a></label></div>
+      <div><label><a href="">Chính sách khuyến mãi</a></label></div>
+      <div><label><a href="">Điều khoản sử dụng</a></label></div>
+      <div><label><a href="">Khác</a></label></div>
     </div>
   </div>
   <div>
     <h6>LIÊN KẾT</h6>
     <div>
-      <div><a href="">Hợp tác kinh doanh</a></div>
-      <div><a href="">Góp vốn đầu tư</a></div>
+      <div><label><a href="">Hợp tác kinh doanh</a></label></div>
+      <div><label><a href="">Góp vốn đầu tư</a></label></div>
     </div>
   </div>
   <div>
@@ -130,22 +133,3 @@
 
 <app-login class="modal" tabindex="-1" role="dialog" id="signInModal"></app-login>
 <app-register class="modal" tabindex="-1" role="dialog" id="regModal"></app-register>
-<!-- <div class="modal" tabindex="-1" role="dialog" id="regModal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Đăng ký</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Modal body text goes here.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-  </div> -->
