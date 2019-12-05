@@ -25,7 +25,8 @@ export class ProfileInfoComponent implements OnInit {
   constructor(
     private sharedS: SharedRouteDataService,
     private personS: PersonService
-  ) { }
+  ) { console.log("");
+  }
 
   ngOnInit() {
 
@@ -44,11 +45,17 @@ export class ProfileInfoComponent implements OnInit {
           newPassword: ['', [Validators.required]],
           reEnterPassword: ['', [Validators.required]],
         });
+      },
+      error => {
+        console.log(error)
       }
     )
   }
   callApiSubmitForms () {
     return this.personS.updateInfo({...this.editProfileForms.value});
+  }
+  callChangePass () {
+    return this.personS.changePass({...this.editProfileForms.value});
   }
   callGetInfo () {
     // return this.personS.getInfo({
@@ -62,12 +69,15 @@ export class ProfileInfoComponent implements OnInit {
       .subscribe(
         (data: any) => {
           alert("Thành công.");
-          window.location.reload();
+          // window.location.reload();
         }, // success path  
         error => {
           this.isResolve = false;
+          alert("no")
         }// error path
       );
+      this.callChangePass().subscribe();
+
     }
   }
 }

@@ -11,8 +11,8 @@ export class LoginComponent implements OnInit {
   notifySignIn: string;
   isResolveSignIn: boolean = true;
   loginForms = new FormBuilder().group({
-    username: ['tester05', [Validators.required]],
-    password: ['hahaha', [Validators.required]],
+    username: ['tester66', [Validators.required]],
+    password: ['6666', [Validators.required]],
   });
   constructor(
     private personS: PersonService

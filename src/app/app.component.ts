@@ -4,6 +4,7 @@ import { CategoryService } from './services/category.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PersonService } from './services/person.service';
 import { SharedRouteDataService } from './services/shared-route-data.service';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,10 +17,13 @@ export class AppComponent {
   isSignIn: boolean;
   categories: Array<any>;
   categoriesMenu: Array<any>;
+  categoriesSelect: Array<any>;
   newestItems: Array<any>;
   popularItems: Array<any>;
   searchInput: string;
   ActiveCategoryId: number = undefined;
+  theCate: any;
+  cateSl = new FormControl();
 
   constructor(
     private sharedS: SharedRouteDataService,
@@ -37,15 +41,20 @@ export class AppComponent {
         .subscribe(
           (data: any) => {
             this.categories = data;
+            this.categoriesSelect = [...data];
+            this.categoriesSelect.unshift({
+              name:"Loại"
+            });
+            this.cateSl.setValue(this.categoriesSelect[0]);
+
             this.categoriesMenu = [...data];
-            
             this.categoriesMenu.unshift({
               name: "Trang chủ",
               isActive: true
             });
 
-            let theCate = this.categories.find(element => element.id === params.categoryid);
-            theCate && (this.ActiveCategoryId = theCate.id);
+            this.theCate = this.categories.find(element => element.id === params.categoryid);
+            this.theCate && (this.ActiveCategoryId = this.theCate.id);
           }
         )
       }
@@ -71,18 +80,23 @@ export class AppComponent {
   }
 
   clickSearch () {
+    let qP = {
+      search: this.searchInput,
+    }
+    if (this.cateSl.value.id) {
+      qP["categoryid"] = this.cateSl.value.id
+    }
     this.router.navigate(
       ["items"], 
       {
-        queryParams: {
-          search: this.searchInput, 
-        }
+        queryParams: qP
       }
     )
   }
 
   callSignOut () {
     this.personS.logout();
+    window.location.reload();
   }
   clickSignOut () {
     this.callSignOut();

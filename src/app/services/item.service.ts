@@ -23,8 +23,8 @@ export class ItemService {
       out: {
         "categoriesid": "categoryId",
         "imagelink": "imgUrl",
-        "itemDescription": "description",
-        "itemName": "name",
+        "ItemDescription": "description",
+        "ItemName": "title",
         "itemcondition": "itemCondition",
         "itemid": "id"
       }
@@ -38,17 +38,19 @@ export class ItemService {
   ) { }
 
   getAllItems () {
-    return this.api.API.get(`${Constants.REMOTE_API}/item/`)
-    .pipe(CommonFunction.transObjectKeysPipe(this.pattern.getAllItems.out));
+    return this.api.API.get(`${Constants.HOST_API}/items`);
+    // return this.api.API.get(`${Constants.REMOTE_API}/item/`)
+    // .pipe(CommonFunction.transObjectKeysPipe(this.pattern.getAllItems.out));
   }
   getItems (data) {
-    return this.api.API.get(`${Constants.REMOTE_API}/item/${data.id}`)
-    .pipe(CommonFunction.transObjectKeysPipe(this.pattern.getAllItems.out));
+    return this.api.API.get(Constants.HOST_API + "/items/" + data.id);
+    // return this.api.API.get(`${Constants.REMOTE_API}/item/${data.id}`)
+    // .pipe(CommonFunction.transObjectKeysPipe(this.pattern.getAllItems.out));
   }
   getFilterItems (params) {
     return this.api.API.get(`${Constants.HOST_API}/items`, params)
-    return this.api.API.get(`${Constants.REMOTE_API}/item/`, params)
-    .pipe(CommonFunction.transObjectKeysPipe(this.pattern.getAllItems.out));
+    // return this.api.API.get(`${Constants.REMOTE_API}/item/`, params)
+    // .pipe(CommonFunction.transObjectKeysPipe(this.pattern.getAllItems.out));
   }
   getNewestItems () {
     return this.api.API.get(Constants.HOST_API + "/items?_limit=5");

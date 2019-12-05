@@ -34,6 +34,23 @@ export class PersonService {
       },
       out: {
 
+      },
+    },
+    changePass: {
+      in: {
+        oldPassword: "oldpassword",
+        newPassword: "newpassword",
+      },
+      out: {
+
+      }
+    },
+    register: {
+      in: {
+        "username": "userid",
+      },
+      out: {
+
       }
     },
   }
@@ -51,25 +68,31 @@ export class PersonService {
     this.cookie.delete("bidding-web-auth-token");
   }
   register (data) {
+    data = CommonFunction.transObjectKeys(data, this.pattern.register.in);
     return this.api.API.post(`${Constants.REMOTE_API}/signup`, data);
   }
   checkAuth () {
-    
-    if (this.cookie.check("bidding-web-auth-token")) {
-      return this.api.APIAuth.get(`${Constants.REMOTE_API}/profile`)
-      .pipe(CommonFunction.transObjectKeysPipe(this.pattern.checkAuth.out));
-    }
-    return;
+    return this.api.API.get(`${Constants.HOST_API}/users/1`);
+    // if (this.cookie.check("bidding-web-auth-token")) {
+    //   return this.api.APIAuth.get(`${Constants.REMOTE_API}/profile`)
+    //   .pipe(CommonFunction.transObjectKeysPipe(this.pattern.checkAuth.out));
+    // }
+    // return;
   }
   saveWebAuthCookie (token) {
     this.cookie.set("bidding-web-auth-token", token);
   }
 
   getInfo () {
-    return this.api.APIAuth.get(`${Constants.REMOTE_API}/profile`)
-    .pipe(CommonFunction.transObjectKeysPipe(this.pattern.checkAuth.out));
+    return this.api.API.get(`${Constants.HOST_API}/users/1`);
+    // return this.api.APIAuth.get(`${Constants.REMOTE_API}/profile`)
+    // .pipe(CommonFunction.transObjectKeysPipe(this.pattern.checkAuth.out));
   }
   updateInfo (data) {
     return this.api.APIAuth.put(`${Constants.REMOTE_API}/profile`, data);
+  }
+  changePass (data) {
+    data = CommonFunction.transObjectKeys(data, this.pattern.changePass.in);
+    return this.api.APIAuth.put(`${Constants.REMOTE_API}/password`, data);
   }
 } 

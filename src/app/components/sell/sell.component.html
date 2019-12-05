@@ -1,14 +1,17 @@
-<div class="mContainer">
-    <h1>Đăng bán</h1>
+<div class="mContainer mt-5">
+    <h4>Đăng bán</h4>
 <form [formGroup]="sellForms" class="" novalidate (ngSubmit)="submitSellForms()">
-    <div class="form-group">
+  <div class="form-row">
+<div class="form-group col-6">
       <label for="exampleInputEmail1">Tiêu đề</label>
       <input type="text" class="form-control" formControlName="title" placeholder="Enter ...">
       <div class="invalid-feedback d-inline" *ngIf="sellForms.get('title').touched && sellForms.get('title').hasError('required')">
         Không được để trống 
       </div>
     </div>
-    <div class="form-group">
+  </div>
+  <div class="form-row">
+<div class="form-group col-6">
       <label for="exampleInputEmail1">Loại mặt hàng</label>
       <select class="custom-select" formControlName="category" required>
         <option value="" disabled>Chọn loại mặt hàng</option>
@@ -18,7 +21,9 @@
         Không được để trống 
       </div>
     </div>
-    <div class="form-group">
+    </div>
+    <div class="form-row">
+<div class="form-group col-6">
       <label for="exampleInputEmail1">Mô tả</label>
       <!-- <input type="text" class="form-control" formControlName="description" placeholder="Enter ..."> -->
       <textarea class="form-control" formControlName="description" rows="3" placeholder="Enter ..."></textarea>
@@ -26,28 +31,39 @@
         Không được để trống 
       </div>
     </div>
-    <div class="form-group">
+      </div>
+      <div class="form-row">
+<div class="form-group col-6">
         <label for="exampleInputEmail1">Thời gian kết thúc</label>
         <input type="datetime-local" class="form-control" formControlName="endTime" placeholder="Enter ...">
         <div class="invalid-feedback d-inline" *ngIf="sellForms.get('endTime').touched && sellForms.get('endTime').hasError('required')">
         Không được để trống 
       </div>
       </div>
-    <div class="form-group">
+        </div>
+        <div class="form-row">
+<div class="form-group col-6">
       <label for="exampleInputEmail1">Giá khởi điểm</label>
       <input type="text" class="form-control" formControlName="startPrice" placeholder="Enter ...">
       <div class="invalid-feedback d-inline" *ngIf="sellForms.get('startPrice').touched && sellForms.get('startPrice').hasError('required')">
         Không được để trống 
       </div>
     </div>
-    <div class="form-group">
+          </div>
+          <div class="form-row">
+<div class="form-group col-6">
       <label for="exampleInputEmail1">Khoảng cách giá tối thiểu</label>
       <input type="text" class="form-control" formControlName="minSpace" placeholder="Enter ...">
       <div class="invalid-feedback d-inline" *ngIf="sellForms.get('minSpace').touched && sellForms.get('minSpace').hasError('required')">
         Không được để trống 
       </div>
     </div>
-    <!-- <div class="form-group form-check">
+            </div>
+    
+    
+    
+    
+    <!-- <div class="form-group col-6 form-check">
       <input type="checkbox" class="form-check-input" id="exampleCheck1">
       <label class="form-check-label" for="exampleCheck1">Check me out</label>
     </div> -->

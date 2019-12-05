@@ -24,6 +24,7 @@ export class CategoryService {
     private api: APIService,
   ) { }
   getAllCategories () {
+    return this.api.API.get(`${Constants.HOST_API}/categories`);
     return this.api.API.get(`${Constants.REMOTE_API}/categories`)
     .pipe(CommonFunction.transObjectKeysPipe(this.pattern.getAllCategories.out));
   }

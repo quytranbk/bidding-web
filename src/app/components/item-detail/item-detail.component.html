@@ -1,70 +1,117 @@
-<div id="mainContainer" class="mContainer borderLine " *ngIf="isLoadedData">
-        <nav aria-label="breadcrumb ">
+<div id="mainContainer" class="itemDetail mContainer borderLine " *ngIf="isLoadedData">
+        <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0 bg-white">
               <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
               <li class="breadcrumb-item active">Mặt hàng</li>
             </ol>
           </nav>
-          <div class="d-flex mt-3">
-            <div class="leftPanel px-3">
-                <div class="imgBox">
-                    <img class="imgThumbnail" [src]="itemDetail.imgUrl[0].url" alt="imgTitle">
+          <div class="d-flex">
+            <div class="flexItem px-3" style="width: 300px">
+              <div class="imgBox carouselThumbBox">
+                <img class="imgThumbnail" [src]="currentImgUrl" alt="imgTitle">
+              </div>
+              <div class="d-flex flex-wrap mt-3">
+                <div class="flexItem-3" *ngFor="let img of itemDetail.imgUrl" (click)="currentImgUrl = img.url">
+                  <div class="imgBox carouselItemThumbBox">
+                    <a><img class="imgThumbnail" [src]="img.url" alt=""></a>
+                  </div>
                 </div>
-                <div>
-                    Slide
-                </div>
+              </div>
             </div>
-            <div class="rightPanel">
+          
+            <div class="flexRestItem d-flex">
+              <div class="flexItem-9 p-2">
                 <div>
-                  <h5><a class="text-body">{{itemDetail.title}}</a></h5>
-                </div>
-                <div>
-                    của <span class="text-primary">{{itemDetail.sellerName}}</span>
+                  <div>
+                    <h5><a class="text-body">{{itemDetail.title}}</a></h5>
+                  </div>
+                  <div>
+                    của <span class="text-primary"><a>{{itemDetail.sellerName}}</a></span>
+                  </div>
+          
+          
                 </div>
                 <div class="d-flex">
-                    <div style="flex-grow: 1;">
-                        <div class="d-flex">
-                            <div class="mr-0">
-                              <i class="material-icons colorStar ico  nStar">star</i>
-                              <i class="material-icons colorStar">star</i>
-                              <i class="material-icons colorStar">star</i>
-                              <i class="material-icons colorStar">star</i>
-                              <i class="material-icons colorStar">star</i>
-                            </div>
-                            <div class="mr-2">
-                              <span class="text-muted">({{itemDetail.review.length? itemDetail.review.length: 0}})</span>
-                            </div>
-                            <div class="mr-2">
-                              <span class="text-warning">{{itemDetail.review.length? itemDetail.review.length: 0}} bình luận</span>
-                            </div>
-                        </div>
-                        <hr>
-                        <div>
-                          <h4 class="colorS2 font-weight-bold">{{itemDetail.highestBid| currency : 'đ': 'code': '1.0-0' : 'vi'}}</h4> 
-                        </div>
-                        <div class="d-flex">
-                            <div>
-                              <label class="colorS4">Thời gian kết thúc {{itemDetail.endTime | date:"short" }}</label>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="form-inline">
-                                <div class="form-group">
-                                  <label for="" class="sr-only">Bidding Input</label>
-                                  <input type="text" class="form-control mr-2 d-inline" [(ngModel)]="BidAmount">
-                                </div>
-                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#comfirmBidModal">Đấu giá</button>
-                              </div>
-                                
-                        </div>
-                        <hr>
-                        <div>
-                            <p>{{itemDetail.description}}</p>
-                        </div>
+                  <div class="mr-0">
+                    <i class="material-icons colorStar ico  nStar">star</i>
+                    <i class="material-icons colorStar">star</i>
+                    <i class="material-icons colorStar">star</i>
+                    <i class="material-icons colorStar">star</i>
+                    <i class="material-icons colorStar">star</i>
+                  </div>
+                  <div class="mr-2">
+                    <span class="text-muted">({{itemDetail.review.length? itemDetail.review.length: 0}})</span>
+                  </div>
+                  <div class="mr-2">
+                    <span class="text-warning">{{itemDetail.review.length? itemDetail.review.length: 0}} bình luận</span>
+                  </div>
+                </div>
+                <hr>
+                <div>
+                  <h4 class="colorS2 font-weight-bold">{{itemDetail.highestBid| currency : 'đ': 'code': '1.0-0' : 'vi'}}</h4>
+                </div>
+                <div class="d-flex">
+                  <div>
+                    <label class="colorS4">Thời gian kết thúc {{itemDetail.endTime | date:"short" }}</label>
+                  </div>
+                </div>
+                <div>
+                  <div class="form-inline">
+                    <div class="form-group">
+                      <label for="" class="sr-only">Bidding Input</label>
+                      <input type="text" class="form-control mr-2 d-inline" [(ngModel)]="BidAmount">
                     </div>
-                    <div>shipping info</div>
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#comfirmBidModal">Đấu
+                      giá</button>
+                  </div>
+          
+                </div>
+                <hr>
+                <div>
+                  <p class="preLine">{{itemDetail.description}}</p>
+                </div>
+              </div>
+              <div class="flexItem-3">
+                  <div class="card customCard mb-2">
+                      <div class="card-body">
+                        <h6 class="card-title">Thông tin người đăng</h6>
+                        <label class="card-subtitle mb-2 text-primary">
+                          <a class="text-primary">
+                              <div class="d-inline-block imgAvatar">
+                                  <img class="imgThumbnail rounded-circle" src="../assets/fpo_avatar.png" alt="">
+                                </div>
+                            {{itemDetail.sellerName}}
+                          </a>
+                        </label>
+                        <p class="card-text">Chuyên đồ điện tử chất lượng khỏi bàn, mại zô mại zô</p>
+                        <a href="#" class="card-link">Trang cá nhân</a><br>
+                        <a href="#" class="card-link">Liên hệ</a>
+                      </div>
+                    </div>
+                <div class="card customCard">
+                  <div class="card-body">
+                    <h6 class="card-title">Giao hàng</h6>
+                    <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+                    <div>
+                      <div class="form-group">
+                        <label for="formGroupExampleInput">Công ty vận chuyển</label>
+                        <select class="custom-select" [formControl]="shippingItem">
+                          <option selected disabled>Lựa chọn</option>
+                          <option [ngValue]="item" *ngFor="let item of ShippingSelection">{{item.name}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <p class="card-text">Phí giao hàng: {{shippingItem.value.value| currency : 'đ': 'code': '1.0-0' : 'vi'}}</p>
+                    <hr class="m-0">
+                  </div>
+                  <div class="card-body">
+                    <h6 class="card-title">Vận chuyển</h6>
+                    <p class="card-text">Nội thành trong vòng từ <span class="text-muted">1 - 2 ngày</span></p>
+                    <p class="card-text">Ngoại thành trong vòng <span class="text-muted">3 - 5 ngày</span></p>
+                  </div>
                 </div>
                 
+              </div>
             </div>
           </div>
 

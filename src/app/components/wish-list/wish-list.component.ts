@@ -37,6 +37,7 @@ export class WishListComponent implements OnInit {
     )
   }
   callGetBidLogs () {
+    return this.wishListS.getAll();
     return this.wishListS.getByUser({
       userId: this.userInfo.id
     });

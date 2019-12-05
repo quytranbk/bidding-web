@@ -18,7 +18,8 @@ export class RegisterComponent implements OnInit {
   });
   constructor(
     private personS: PersonService
-  ) { }
+  ) {console.log("");
+   }
 
   ngOnInit() {
   }

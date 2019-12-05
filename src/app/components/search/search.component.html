@@ -7,16 +7,16 @@
               <li class="breadcrumb-item active">{{categoryName?categoryName: 'Tất cả'}}</li>
             </ol>
           </nav>
-          <div class="d-flex">
+          <div class="d-flex" *ngIf="isLoaded">
             <div class="p-3">
               <div>
                 <h6>Theo Danh mục</h6>
               </div>
-              <div>
-                  <ul class="">
-                      <li class="" *ngFor="let item of categories">
+              <div [formGroup]="arrayForm">
+                  <ul class="" formArrayName="arrayCheckBox">
+                      <li class="" *ngFor="let item of categories; let i=index">
                           <div class="form-check">
-                              <input class="form-check-input" type="checkbox" name="check" (change)="changeCheck(item)">
+                              <input class="form-check-input" type="checkbox" [formControlName]="i" (change)="changeCheck(item, i)">
                               <label class="form-check-label" for="defaultCheck1">
                                 {{item.name}}
                               </label>
@@ -35,7 +35,7 @@
                   </h6>
                 </div>
                 <div>
-                  <select>
+                  <select (change)="changeSort()" [formControl]="sortSl">
                     <option value="" disabled>Sắp xếp</option>
                     <option value="0">Giá tăng dần</option>
                     <option value="1">Giá giảm dần</option>

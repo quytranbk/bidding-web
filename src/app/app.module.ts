@@ -7,6 +7,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { registerLocaleData } from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
 registerLocaleData(localeVi);
+// import { environment } from '../environments/environment';
+// import { AngularFireModule } from '@angular/fire';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -43,7 +45,8 @@ import { AdminComponent } from './components/admin/admin.component';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    // AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [CookieService, { provide: LOCALE_ID, useValue: 'vi'}],
   bootstrap: [AppComponent]
