@@ -10,19 +10,29 @@ registerLocaleData(localeVi);
 // import { environment } from '../environments/environment';
 // import { AngularFireModule } from '@angular/fire';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatTableModule} from '@angular/material/table';
+import {MatButtonModule} from '@angular/material/button';
+
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { SearchComponent } from './components/search/search.component';
-import { ProfileInfoComponent } from './components/profile-info/profile-info.component';
-import { WatchedListComponent } from './components/watched-list/watched-list.component';
-import { BidHistoryComponent } from './components/bid-history/bid-history.component';
-import { LoginComponent } from './components/login/login.component';
-import { SellComponent } from './components/sell/sell.component';
-import { RegisterComponent } from './components/register/register.component';
-import { ItemDetailComponent } from './components/item-detail/item-detail.component';
-import { WishListComponent } from './components/wish-list/wish-list.component';
+import { HomeComponent } from './components/user/home/home.component';
+import { ProfileComponent } from './components/user/profile/profile.component';
+import { SearchComponent } from './components/user/search/search.component';
+import { ProfileInfoComponent } from './components/user/profile-info/profile-info.component';
+import { WatchedListComponent } from './components/user/watched-list/watched-list.component';
+import { BidHistoryComponent } from './components/user/bid-history/bid-history.component';
+import { LoginComponent } from './components/user/login/login.component';
+import { SellComponent } from './components/user/sell/sell.component';
+import { RegisterComponent } from './components/user/register/register.component';
+import { ItemDetailComponent } from './components/user/item-detail/item-detail.component';
+import { WishListComponent } from './components/user/wish-list/wish-list.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { UserComponent } from './components/user/user.component';
+import { UserManagerComponent } from './components/admin/user-manager/user-manager.component';
+import { CategoryManagerComponent } from './components/admin/category-manager/category-manager.component';
 
 @NgModule({
   declarations: [
@@ -39,13 +49,22 @@ import { AdminComponent } from './components/admin/admin.component';
     ItemDetailComponent,
     NgModel,
     WishListComponent,
-    AdminComponent
+    AdminComponent,
+    UserComponent,
+    UserManagerComponent,
+    CategoryManagerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MatSidenavModule,
+    MatListModule,
+    MatToolbarModule,
+    MatTableModule,
+    MatButtonModule
     // AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [CookieService, { provide: LOCALE_ID, useValue: 'vi'}],

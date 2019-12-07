@@ -1,8 +1,8 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ItemService } from '../../services/item.service';
-import { CategoryService } from '../../services/category.service';
+import { ItemService } from '../../../services/item.service';
+import { CategoryService } from '../../../services/category.service';
 
 @Component({
   selector: 'app-sell',
@@ -12,11 +12,12 @@ import { CategoryService } from '../../services/category.service';
 export class SellComponent implements OnInit {
   sellForms = new FormBuilder().group({
     title: ['aaa', [Validators.required]],
-    category: ['1',[Validators.required]],
+    categoryId: ['1',[Validators.required]],
     description: ['aaa',[Validators.required]],
     endTime: [formatDate(new Date, 'yyyy-MM-ddThh:mm', 'en'),[Validators.required]],
     startPrice: ['10',[Validators.required]],
     minSpace: ['10',[Validators.required]],
+    biddingLog: [[]]
   });
   categories: any[];
   constructor(

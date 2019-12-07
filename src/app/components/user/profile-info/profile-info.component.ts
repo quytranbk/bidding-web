@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PersonService } from '../../services/person.service';
-import { SharedRouteDataService } from '../../services/shared-route-data.service';
+import { PersonService } from '../../../services/person.service';
+import { SharedRouteDataService } from '../../../services/shared-route-data.service';
 
 @Component({
   selector: 'app-profile-info',

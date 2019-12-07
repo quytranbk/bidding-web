@@ -63,4 +63,9 @@ export class ItemService {
       // return rd? Promise.resolve(true): Promise.reject(true);
       return this.api.APIAuth.post(Constants.HOST_API + "/items", data);
   }
+  updateItem (id, data) {
+      // let rd = Math.floor(Math.random() * 2 + 0);
+      // return rd? Promise.resolve(true): Promise.reject(true);
+      return this.api.APIAuth.put(Constants.HOST_API + "/items/" + id, data);
+  }
 }

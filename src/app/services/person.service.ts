@@ -95,4 +95,8 @@ export class PersonService {
     data = CommonFunction.transObjectKeys(data, this.pattern.changePass.in);
     return this.api.APIAuth.put(`${Constants.REMOTE_API}/password`, data);
   }
+
+  getAllUsers () {
+    return this.api.API.get(`${Constants.HOST_API}/users`);
+  }
 } 

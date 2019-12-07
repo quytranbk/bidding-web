@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ItemService } from '../../services/item.service';
-import { CategoryService } from '../../services/category.service';
+import { ItemService } from '../../../services/item.service';
+import { CategoryService } from '../../../services/category.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { FormControl, FormBuilder, FormArray } from '@angular/forms';
+import { APIService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-search',
@@ -20,7 +21,11 @@ export class SearchComponent implements OnInit {
   theCate:any;
   sortSl: FormControl = new FormControl('');
   arrayForm;
+  Users;
+  Items;
+  Logs;
   constructor(
+    private api: APIService,
     private fb: FormBuilder,
     private itemS: ItemService,
     private cateS: CategoryService,
@@ -60,7 +65,44 @@ export class SearchComponent implements OnInit {
           }
         )
         
+        /** local env */
+        this.api.getAllData().subscribe(
+          data => {
+            this.Users = data[0];
+            this.Items = data[1];
+            this.Logs = data[2];
+
+            this.filterItems = this.filterItems.map(
+              element => {
+                let user = this.Users.find(
+                  e => element.userId === e.id
+                ); 
+                let log = this.Logs.reduce(
+                  (s, e) => {
+                    if (element["biddingLog"].map((e) => e.id).includes(e.id)) {
+                      s.push(e);
+                      return s;
+                    }
+                    return s;
+                  },
+                  []
+                );
+                return {
+                  ...element,
+                  ...user,
+                  "biddingLog": log,
+                  "highestBid": Math.max(...log.map(e => e.amount)),
+                };
+              }
+            )
+
+            console.log(this.filterItems);
+            
+          }
+        )
       })
+
+
       
     })
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 
 
 @Injectable({
@@ -14,7 +14,15 @@ export class APIService {
     private cookie: CookieService,
     private http: HttpClient
     ) { }
-  
+
+  getAllData () {
+    return combineLatest(
+      this.http.get(`http://localhost:3000/users`),
+      this.http.get(`http://localhost:3000/items`),
+      this.http.get(`http://localhost:3000/biddinglogs`)
+    )
+     
+  }
 }
 
 

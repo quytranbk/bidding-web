@@ -1,7 +1,7 @@
 body {
     font-family: Helvetica;
     font-size: 14px;
-    background-color: white;
+    /* background-color: white; */
 }
 
 img {
@@ -248,7 +248,12 @@ color: rgb(33,44,69);
     background-color: white;
 }
 #cartBox {
-    padding: 5px 0;
+    position: relative;
+}
+.cartQuantityBadge {
+    position: absolute;
+    top: 0;
+    right: -7px;
 }
 .iconCart_2ayd {
     width: 2.3rem;
@@ -397,7 +402,7 @@ color: #9f1d25;
 }
 
 .material-icons {
-    font-size: inherit;
+    font-size: inherit !important;
 }
 
 /* item-detail */

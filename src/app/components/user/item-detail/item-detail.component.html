@@ -26,7 +26,7 @@
                     <h5><a class="text-body">{{itemDetail.title}}</a></h5>
                   </div>
                   <div>
-                    của <span class="text-primary"><a>{{itemDetail.sellerName}}</a></span>
+                    của <span class="text-primary"><a>{{itemDetail.name}}</a></span>
                   </div>
           
           
@@ -59,12 +59,15 @@
                   <div class="form-inline">
                     <div class="form-group">
                       <label for="" class="sr-only">Bidding Input</label>
-                      <input type="text" class="form-control mr-2 d-inline" [(ngModel)]="BidAmount">
+                      <input type="text" class="form-control mr-2 d-inline" [(ngModel)]="BidAmount" pattern="[0–9]*">
                     </div>
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#comfirmBidModal">Đấu
+                    <button type="button" class="btn btn-warning" (click)="payBid()">Đấu
                       giá</button>
                   </div>
           
+                </div>
+                <div>
+                  <a class="text-primary" data-toggle="modal" data-target="#bidList">[Danh sách Bid]</a>
                 </div>
                 <hr>
                 <div>
@@ -80,10 +83,10 @@
                               <div class="d-inline-block imgAvatar">
                                   <img class="imgThumbnail rounded-circle" src="../assets/fpo_avatar.png" alt="">
                                 </div>
-                            {{itemDetail.sellerName}}
+                            {{itemDetail.name}}
                           </a>
                         </label>
-                        <p class="card-text">Chuyên đồ điện tử chất lượng khỏi bàn, mại zô mại zô</p>
+                        <p class="card-text text-muted">Chuyên đồ điện tử chất lượng khỏi bàn, mại zô mại zô</p>
                         <a href="#" class="card-link">Trang cá nhân</a><br>
                         <a href="#" class="card-link">Liên hệ</a>
                       </div>
@@ -116,65 +119,104 @@
           </div>
 
           <!-- Modal -->
-<div class="modal fade" id="comfirmBidModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Thủ tục thanh toán</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-                    <form [formGroup]="payForms" class="" novalidate>
-                            <div class="form-group">
-                              <!-- <label for="exampleInputEmail1">Tên đăng nhập</label> -->
-                              <input type="text" class="form-control" formControlName="address" placeholder="Địa chỉ">
-                              <div class="invalid-feedback d-inline" *ngIf="payForms.get('address').touched && payForms.get('address').hasError('required')">
-                                Không được để trống 
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <!-- <label for="exampleInputEmail1">Tên đăng nhập</label> -->
-                              <input type="text" class="form-control" formControlName="phone" placeholder="Số điện thoại">
-                              <div class="invalid-feedback d-inline" *ngIf="payForms.get('phone').touched && payForms.get('phone').hasError('required')">
-                                Không được để trống 
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <!-- <label for="exampleInputEmail1">Tên đăng nhập</label> -->
-                              <input type="text" class="form-control" formControlName="promoCode" placeholder="Mã giảm giá">
-                              <!-- <div class="invalid-feedback d-inline" *ngIf="payForms.get('promoCode').touched && payForms.get('promoCode').hasError('required')">
-                                Không được để trống 
-                              </div> -->
-                            </div>
-                            <div class="invalid-feedback d-inline" *ngIf="!isResolvePay">
-                                Lỗi khi tiến hành thanh toán
-                              </div>
-                              <hr>
-                              <div class="d-flex flex-row-reverse">
-                                  <div class="d-table">
-                                    <div class="d-table-row">
-                                        <div class="d-table-cell">Số tiền</div>
-                                        <div class="d-table-cell">{{BidAmount}}</div>
-                                    </div>
-                                    <div class="d-table-row">
-                                        <div class="d-table-cell">Phí ship</div>
-                                        <div class="d-table-cell">20000</div>
-                                    </div>
-                                    <div class="d-table-row">
-                                        <div class="d-table-cell">Tổng tiền</div>
-                                        <div class="d-table-cell">{{BidAmount?BidAmount + 20000: 0}}</div>
-                                    </div>
-                                  </div>
-                              </div>
-                          </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-              <button type="button" class="btn btn-primary" (click)="payBid()">Thanh toán</button>
+<div class="modal fade" id="comfirmBidModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Thủ tục thanh toán</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="payForms" class="" novalidate>
+          <div class="form-group">
+            <!-- <label for="exampleInputEmail1">Tên đăng nhập</label> -->
+            <input type="text" class="form-control" formControlName="address" placeholder="Địa chỉ">
+            <div class="invalid-feedback d-inline"
+              *ngIf="payForms.get('address').touched && payForms.get('address').hasError('required')">
+              Không được để trống
             </div>
           </div>
-        </div>
+          <div class="form-group">
+            <!-- <label for="exampleInputEmail1">Tên đăng nhập</label> -->
+            <input type="text" class="form-control" formControlName="phone" placeholder="Số điện thoại">
+            <div class="invalid-feedback d-inline"
+              *ngIf="payForms.get('phone').touched && payForms.get('phone').hasError('required')">
+              Không được để trống
+            </div>
+          </div>
+          <div class="form-group">
+            <!-- <label for="exampleInputEmail1">Tên đăng nhập</label> -->
+            <input type="text" class="form-control" formControlName="promoCode" placeholder="Mã giảm giá">
+            <!-- <div class="invalid-feedback d-inline" *ngIf="payForms.get('promoCode').touched && payForms.get('promoCode').hasError('required')">
+                                Không được để trống 
+                              </div> -->
+          </div>
+          <div class="invalid-feedback d-inline" *ngIf="!isResolvePay">
+            Lỗi khi tiến hành thanh toán
+          </div>
+          <hr>
+          <div class="d-flex flex-row-reverse">
+            <div class="d-table">
+              <div class="d-table-row">
+                <div class="d-table-cell">Số tiền</div>
+                <div class="d-table-cell">{{BidAmount}}</div>
+              </div>
+              <div class="d-table-row">
+                <div class="d-table-cell">Phí ship</div>
+                <div class="d-table-cell">20000</div>
+              </div>
+              <div class="d-table-row">
+                <div class="d-table-cell">Tổng tiền</div>
+                <div class="d-table-cell">{{BidAmount?BidAmount + 20000: 0}}</div>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary" (click)="payBid()">Thanh toán</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="bidList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Danh sách Bid</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Số tiền</th>
+              <th scope="col">Thời gian</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of itemDetail.biddingLog">
+              <th scope="row">{{item.id}}</th>
+              <td>{{item.amount}}</td>
+              <td>{{item.dateTime}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
     </div>

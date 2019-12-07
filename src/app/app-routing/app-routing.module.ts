@@ -1,58 +1,78 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from '../components/home/home.component';
-import { ProfileComponent } from '../components/profile/profile.component';
-import { SearchComponent } from '../components/search/search.component';
-import { ProfileInfoComponent } from '../components/profile-info/profile-info.component';
-import { WatchedListComponent } from '../components/watched-list/watched-list.component';
-import { BidHistoryComponent } from '../components/bid-history/bid-history.component';
-import { SellComponent } from '../components/sell/sell.component';
-import { ItemDetailComponent } from '../components/item-detail/item-detail.component';
-import { WishListComponent } from '../components/wish-list/wish-list.component';
+import { HomeComponent } from '../components/user/home/home.component';
+import { ProfileComponent } from '../components/user/profile/profile.component';
+import { SearchComponent } from '../components/user/search/search.component';
+import { ProfileInfoComponent } from '../components/user/profile-info/profile-info.component';
+import { WatchedListComponent } from '../components/user/watched-list/watched-list.component';
+import { BidHistoryComponent } from '../components/user/bid-history/bid-history.component';
+import { SellComponent } from '../components/user/sell/sell.component';
+import { ItemDetailComponent } from '../components/user/item-detail/item-detail.component';
+import { WishListComponent } from '../components/user/wish-list/wish-list.component';
 import { AdminComponent } from '../components/admin/admin.component';
+import { UserComponent } from '../components/user/user.component';
+import { UserManagerComponent } from '../components/admin/user-manager/user-manager.component';
+import { CategoryManagerComponent } from '../components/admin/category-manager/category-manager.component';
 
     const routes: Routes = [
         {
             path: '',
-            component: HomeComponent,
-        },
-        {
-            path: 'profile',
-            component: ProfileComponent,
+            component: UserComponent,
             children: [
                 {
                     path: '',
-                    component: ProfileInfoComponent,
+                    component: HomeComponent,
                 },
                 {
-                    path: 'wish-list',
-                    component: WishListComponent,
+                    path: 'profile',
+                    component: ProfileComponent,
+                    children: [
+                        {
+                            path: '',
+                            component: ProfileInfoComponent,
+                        },
+                        {
+                            path: 'wish-list',
+                            component: WishListComponent,
+                        },
+                        {
+                            path: 'watched-list',
+                            component: WatchedListComponent,
+                        },
+                        {
+                            path: 'bid-history',
+                            component: BidHistoryComponent,
+                        },
+                    ]
                 },
                 {
-                    path: 'watched-list',
-                    component: WatchedListComponent,
+                    path: 'items',
+                    component: SearchComponent,
                 },
                 {
-                    path: 'bid-history',
-                    component: BidHistoryComponent,
+                    path: 'items/:id',
+                    component: ItemDetailComponent,
+                },
+                {
+                    path: 'sell',
+                    component: SellComponent,
                 },
             ]
         },
-        {
-            path: 'items',
-            component: SearchComponent,
-        },
-        {
-            path: 'items/:id',
-            component: ItemDetailComponent,
-        },
-        {
-            path: 'sell',
-            component: SellComponent,
-        },
+        
         {
             path: 'admin',
             component: AdminComponent,
+            children: [
+                {
+                    path: '',
+                    component: UserManagerComponent,
+                },
+                {
+                    path: 'category',
+                    component: CategoryManagerComponent,
+                },
+            ]
         },
     ];
 

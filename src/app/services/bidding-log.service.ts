@@ -18,5 +18,8 @@ export class BiddingLogService {
   getByUser (data) {
     return this.http.get(`${Constants.HOST_API}/biddinglogs?userId=${data.userId}`);
   }
+  createBiddingLog (data) {
+    return this.http.post(`${Constants.HOST_API}/biddinglogs`, data);
+  }
 
 }

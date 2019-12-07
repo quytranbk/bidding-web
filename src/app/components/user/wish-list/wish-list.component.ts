@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PersonService } from '../../services/person.service';
-import { SharedRouteDataService } from '../../services/shared-route-data.service';
-import { WishListService } from '../../services/wish-list.service';
+import { PersonService } from '../../../services/person.service';
+import { SharedRouteDataService } from '../../../services/shared-route-data.service';
+import { WishListService } from '../../../services/wish-list.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({

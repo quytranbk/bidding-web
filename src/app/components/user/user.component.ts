@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 // import { ItemService } from './item.service';
-import { CategoryService } from './services/category.service';
+import { CategoryService } from '../../services/category.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { PersonService } from './services/person.service';
-import { SharedRouteDataService } from './services/shared-route-data.service';
+import { PersonService } from '../../services/person.service';
+import { SharedRouteDataService } from '../../services/shared-route-data.service';
 import { FormControl } from '@angular/forms';
-import { APIService } from './services/api.service';
+import { APIService } from '../../services/api.service';
+
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.scss']
 })
-export class AppComponent {
+export class UserComponent implements OnInit {
   title = 'bidding-web';
   search: string;
   userInfo: any = {};

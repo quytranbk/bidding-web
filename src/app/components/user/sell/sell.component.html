@@ -13,11 +13,11 @@
   <div class="form-row">
 <div class="form-group col-6">
       <label for="exampleInputEmail1">Loại mặt hàng</label>
-      <select class="custom-select" formControlName="category" required>
+      <select class="custom-select" formControlName="categoryId" required>
         <option value="" disabled>Chọn loại mặt hàng</option>
         <option *ngFor="let item of categories" [ngValue]="item.categoryId">{{item.name}}</option>
       </select>
-      <div class="invalid-feedback d-inline" *ngIf="sellForms.get('category').touched && sellForms.get('category').hasError('required')">
+      <div class="invalid-feedback d-inline" *ngIf="sellForms.get('categoryId').touched && sellForms.get('categoryId').hasError('required')">
         Không được để trống 
       </div>
     </div>
