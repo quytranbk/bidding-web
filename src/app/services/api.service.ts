@@ -49,18 +49,9 @@ class API {
     );
   }
   post (url: string, data?: Object | null, qParams?: Object | null) {
-    if (data) return this.http.post(
-      url + (qParams? this.formatQParams(qParams): ''), 
-      data,
-      {
-        headers : new HttpHeaders({
-          'Content-Type':  'application/json',
-        })
-      },
-    );
-
     return this.http.post(
       url + (qParams? this.formatQParams(qParams): ''), 
+      data? data: undefined,
       {
         headers : new HttpHeaders({
           'Content-Type':  'application/json',
@@ -70,18 +61,9 @@ class API {
 
   }
   put (url: string, data?: Object | null, qParams?: Object | null) {
-    if (data) return this.http.put(
-      url + (qParams? this.formatQParams(qParams): ''), 
-      data,
-      {
-        headers : new HttpHeaders({
-          'Content-Type':  'application/json',
-        })
-      },
-    );
-
     return this.http.put(
       url + (qParams? this.formatQParams(qParams): ''), 
+      data? data: undefined,
       {
         headers : new HttpHeaders({
           'Content-Type':  'application/json',
@@ -127,20 +109,9 @@ class APIAuth {
     );
   }
   post (url: string, data?: Object | null, qParams?: Object | null) {
-    if (data) return this.http.post(
-      url + (qParams? this.formatQParams(qParams): ''), 
-      data,
-      {
-        headers : new HttpHeaders({
-          'Content-Type':  'application/json',
-          "Authorization" : this.cookie.get("bidding-web-auth-token")
-        })
-      },
-      
-    );
-
     return this.http.post(
       url + (qParams? this.formatQParams(qParams): ''), 
+      data? data: undefined,
       {
         headers : new HttpHeaders({
           'Content-Type':  'application/json',
@@ -151,19 +122,9 @@ class APIAuth {
 
   }
   put (url: string, data?: Object | null, qParams?: Object | null) {
-    if (data) return this.http.put(
-      url + (qParams? this.formatQParams(qParams): ''), 
-      data,
-      {
-        headers : new HttpHeaders({
-          'Content-Type':  'application/json',
-          "Authorization" : this.cookie.get("bidding-web-auth-token")
-        })
-      },
-    );
-
     return this.http.put(
       url + (qParams? this.formatQParams(qParams): ''), 
+      data? data: undefined,
       {
         headers : new HttpHeaders({
           'Content-Type':  'application/json',

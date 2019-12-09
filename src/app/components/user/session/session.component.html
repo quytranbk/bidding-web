@@ -1,7 +1,7 @@
 
 <div class="d-flex justify-content-between">
         <div>
-            <h6>Danh sách ưa thích</h6> 
+            <h6>Bài đăng của bạn</h6> 
           </div>
         <div>
                 <select>
@@ -9,16 +9,16 @@
                         <option value="0">Đang diễn ra</option>
                         <option value="1">Đã kết thúc</option>
                       </select>
-                <select>
-                        <option value="" disabled>Sắp xếp</option>
-                        <option value="0">Mới nhất</option>
-                        <option value="1">Cũ nhất</option>
-                      </select>
+                      <select (change)="changeSort()" [formControl]="sortSl">
+                            <option value="" disabled>Sắp xếp</option>
+                            <option value="0">Giá tăng dần</option>
+                            <option value="1">Giá giảm dần</option>
+                          </select>
         </div>
     </div>
     
     <div title="filterTab"></div>
-    <div class="bg-white p-3 d-flex borderLine" *ngFor="let item of wishList">
+    <div class="bg-white p-3 d-flex borderLine" *ngFor="let item of sessions">
         <!-- <div class="row" > -->
             <div class="imgBox searchImgBox">
                 <a><img class="imgThumbnail" [src]="item.imgUrl && item.imgUrl[0].url" alt="imgUrl"></a>

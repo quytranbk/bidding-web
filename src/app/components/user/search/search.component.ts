@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { FormControl, FormBuilder, FormArray } from '@angular/forms';
 import { APIService } from 'src/app/services/api.service';
+import { Constants } from 'src/app/services/constants';
 
 @Component({
   selector: 'app-search',
@@ -64,42 +65,50 @@ export class SearchComponent implements OnInit {
             }
           }
         )
+
         
         /** local env */
-        this.api.getAllData().subscribe(
-          data => {
-            this.Users = data[0];
-            this.Items = data[1];
-            this.Logs = data[2];
 
-            this.filterItems = this.filterItems.map(
-              element => {
-                let user = this.Users.find(
-                  e => element.userId === e.id
-                ); 
-                let log = this.Logs.reduce(
-                  (s, e) => {
-                    if (element["biddingLog"].map((e) => e.id).includes(e.id)) {
-                      s.push(e);
+
+        if (Constants.BACKEND === "mockup") {
+          this.api.getAllData().subscribe(
+            data => {
+              this.Users = data[0];
+              this.Items = data[1];
+              this.Logs = data[2];
+  
+              this.filterItems = this.filterItems.map(
+                element => {
+                  let user = this.Users.find(
+                    e => element.userId === e.id
+                  ); 
+                  let log = this.Logs.reduce(
+                    (s, e) => {
+                      if (element["biddingLog"].map((e) => e.id).includes(e.id)) {
+                        s.push(e);
+                        return s;
+                      }
                       return s;
-                    }
-                    return s;
-                  },
-                  []
-                );
-                return {
-                  ...element,
-                  ...user,
-                  "biddingLog": log,
-                  "highestBid": Math.max(...log.map(e => e.amount)),
-                };
-              }
-            )
-
-            console.log(this.filterItems);
-            
-          }
-        )
+                    },
+                    []
+                  );
+                  let amountAr = log.map(e => e.amount?e.amount: 0);
+                  if (!amountAr.length) amountAr = [0];
+                  return {
+                    ...element,
+                    ...user,
+                    "biddingLog": log,
+                    "highestBid": Math.max(...amountAr),
+                  };
+                }
+              )
+  
+              console.log(this.filterItems);
+              
+            }
+          )
+        }
+        
       })
 
 
@@ -111,8 +120,15 @@ export class SearchComponent implements OnInit {
   }
   getFilterItems (params) {
     let p = {};
-    params["search"] !== undefined && (p["q"] = params["search"]);
-    params["categoryid"] !== undefined && (p["categoryId"] = params["categoryid"]);
+    if (Constants.BACKEND === "mockup") {
+      params["search"] !== undefined && (p["q"] = params["search"]);
+      params["categoryid"] !== undefined && (p["categoryId"] = params["categoryid"]);
+    }
+    else {
+      params["search"] !== undefined && (p["name"] = params["search"]);
+      params["categoryid"] !== undefined && (p["categories"] = params["categoryid"]);
+    }
+    
     return this.itemS.getFilterItems(p);
   }
   handleParams () {

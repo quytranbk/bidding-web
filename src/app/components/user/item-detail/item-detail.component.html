@@ -40,10 +40,10 @@
                     <i class="material-icons colorStar">star</i>
                   </div>
                   <div class="mr-2">
-                    <span class="text-muted">({{itemDetail.review.length? itemDetail.review.length: 0}})</span>
+                    <span class="text-muted">({{itemDetail.review && itemDetail.review.length? itemDetail.review.length: 0}})</span>
                   </div>
                   <div class="mr-2">
-                    <span class="text-warning">{{itemDetail.review.length? itemDetail.review.length: 0}} bình luận</span>
+                    <span class="text-warning">{{itemDetail.review && itemDetail.review.length? itemDetail.review.length: 0}} bình luận</span>
                   </div>
                 </div>
                 <hr>
@@ -52,30 +52,45 @@
                 </div>
                 <div class="d-flex">
                   <div>
-                    <label class="colorS4">Thời gian kết thúc {{itemDetail.endTime | date:"short" }}</label>
+                    <label class="colorS4" *ngIf="!cDownDate">Phiên đấu giá đã kết thúc</label>
+                    <label class="colorS4" *ngIf="cDownDate">Thời gian còn lại {{cDownDate}}</label>
                   </div>
                 </div>
-                <div>
+                <div *ngIf="cDownDate">
                   <div class="form-inline">
                     <div class="form-group">
                       <label for="" class="sr-only">Bidding Input</label>
-                      <input type="text" class="form-control mr-2 d-inline" [(ngModel)]="BidAmount" pattern="[0–9]*">
+                      <input type="text" class="form-control mr-2 d-inline" [formControl]="BidAmount">
                     </div>
-                    <button type="button" class="btn btn-warning" (click)="payBid()">Đấu
-                      giá</button>
+                    <button type="button" class="btn btn-warning mr-2" (click)="payBid()">Đấu giá</button>
+                    <button type="button" class="btn btn-light" (click)="clickAddToWishList()">
+                        <i class="material-icons">
+                            add
+                            </i>
+                      Ưa thích
+                    </button>
                   </div>
-          
+                  <div class="invalid-feedback d-block" *ngIf="BidAmount.touched && BidAmount.hasError('required')">
+                    Không được để trống 
+                  </div>
+                  <div class="invalid-feedback d-block" *ngIf="BidAmount.touched && BidAmount.hasError('pattern')">
+                    Nhập chữ số
+                  </div>
                 </div>
                 <div>
-                  <a class="text-primary" data-toggle="modal" data-target="#bidList">[Danh sách Bid]</a>
+                  <a data-toggle="modal" data-target="#bidList">
+                    <span class="text-primary">[Danh sách Bid] </span>
+                    <span class="text-muted">[{{itemDetail.biddingLog.length? itemDetail.biddingLog.length: 0}}]</span>
+                  </a>
                 </div>
                 <hr>
                 <div>
-                  <p class="preLine">{{itemDetail.description}}</p>
+                  <p class="preLine" *ngIf="itemDetail.description">{{itemDetail.description}}</p>
+                  <p class="text-muted" *ngIf="!itemDetail.description">Không có mô tả nào.</p>
                 </div>
               </div>
               <div class="flexItem-3">
-                  <div class="card customCard mb-2">
+                  <div class="bg-light border-0 card customCard mb-2">
                       <div class="card-body">
                         <h6 class="card-title">Thông tin người đăng</h6>
                         <label class="card-subtitle mb-2 text-primary">
@@ -91,7 +106,7 @@
                         <a href="#" class="card-link">Liên hệ</a>
                       </div>
                     </div>
-                <div class="card customCard">
+                <div class="card customCard border-0">
                   <div class="card-body">
                     <h6 class="card-title">Giao hàng</h6>
                     <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
@@ -170,7 +185,7 @@
               </div>
               <div class="d-table-row">
                 <div class="d-table-cell">Tổng tiền</div>
-                <div class="d-table-cell">{{BidAmount?BidAmount + 20000: 0}}</div>
+                <div class="d-table-cell">{{BidAmount.value ? BidAmount.value + 20000: 0}}</div>
               </div>
             </div>
           </div>

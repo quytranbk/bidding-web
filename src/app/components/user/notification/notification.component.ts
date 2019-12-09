@@ -7,14 +7,16 @@ import { APIService } from 'src/app/services/api.service';
 import { Constants } from 'src/app/services/constants';
 
 @Component({
-  selector: 'app-bid-history',
-  templateUrl: './bid-history.component.html',
-  styleUrls: ['./bid-history.component.scss']
+  selector: 'app-notification',
+  templateUrl: './notification.component.html',
+  styleUrls: ['./notification.component.scss']
 })
-export class BidHistoryComponent implements OnInit {
+export class NotificationComponent implements OnInit {
   isResolve: boolean = true;
   userInfo: any;
   bidLogs: any[];
+  payedbidLogs: any[];
+  noPayedbidLogs: any[];
   Users: any;
   Items: any;
   Logs: any;
@@ -86,12 +88,27 @@ export class BidHistoryComponent implements OnInit {
                         ...item,
                       };
                     }
+                  )
+                  .filter(
+                    element => {
+                      return element.biddingLog.some(
+                        e => 
+                        e.id === element.id && 
+                        e.amount === element.highestBid &&
+                        new Date() >= new Date(element.endTime)
+                      )
+                    }
                   );
       
       
       
                   console.log(this.bidLogs);
-                  
+                  this.payedbidLogs = this.bidLogs.filter(
+                    element => element.isPayed === 1
+                  )
+                  this.noPayedbidLogs = this.bidLogs.filter(
+                    element => element.isPayed !== 1
+                  )
                 }
               )
             }

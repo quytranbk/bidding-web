@@ -19,7 +19,7 @@
       </div>
       <div id="rightInfoWpr" class="d-flex">
         <div class="infoBarItem">
-          <a routerLink="sell"><span class="badge badge-light"> Đăng bán</span></a>
+          <a [routerLink]="['/sell']"><span class="badge badge-light"> Đăng bán</span></a>
         </div>
         <div class="infoBarItem text-light">
           <span>|</span>
@@ -62,7 +62,7 @@
               
                 <div class="input-group-prepend">
                     <select class="rounded-left" id="homeSearchSelect" [formControl]="cateSl">
-                        <option *ngFor="let item of categoriesSelect" [ngValue]="item" [disabled]="item.id?false:true">{{item.name}}</option>
+                        <option *ngFor="let item of categoriesSelect" [ngValue]="item" >{{item.name}}</option>
                       </select>
   
                 </div>
@@ -80,7 +80,7 @@
             </path>
           </svg>
           </a>
-          <div class="cartQuantityBadge"><span class="badge badge-pill badge-primary">6</span></div>
+          <div class="cartQuantityBadge"><span class="badge badge-pill badge-primary">{{countPayingWait}}</span></div>
         </div>
       </div>
     </div>

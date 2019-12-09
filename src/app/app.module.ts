@@ -7,8 +7,9 @@ import { CookieService } from 'ngx-cookie-service';
 import { registerLocaleData } from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
 registerLocaleData(localeVi);
-// import { environment } from '../environments/environment';
-// import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -33,6 +34,8 @@ import { AdminComponent } from './components/admin/admin.component';
 import { UserComponent } from './components/user/user.component';
 import { UserManagerComponent } from './components/admin/user-manager/user-manager.component';
 import { CategoryManagerComponent } from './components/admin/category-manager/category-manager.component';
+import { SessionComponent } from './components/user/session/session.component';
+import { NotificationComponent } from './components/user/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,9 @@ import { CategoryManagerComponent } from './components/admin/category-manager/ca
     AdminComponent,
     UserComponent,
     UserManagerComponent,
-    CategoryManagerComponent
+    CategoryManagerComponent,
+    SessionComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,
@@ -64,8 +69,9 @@ import { CategoryManagerComponent } from './components/admin/category-manager/ca
     MatListModule,
     MatToolbarModule,
     MatTableModule,
-    MatButtonModule
-    // AngularFireModule.initializeApp(environment.firebase)
+    MatButtonModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule
   ],
   providers: [CookieService, { provide: LOCALE_ID, useValue: 'vi'}],
   bootstrap: [AppComponent]

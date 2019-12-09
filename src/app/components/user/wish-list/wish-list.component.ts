@@ -26,8 +26,8 @@ export class WishListComponent implements OnInit {
     this.callGetInfo()
     .subscribe(
       (data: any) => {
-        this.userInfo = data[0];
-        this.callGetBidLogs()
+        this.userInfo = data;
+        this.callGetMyWishList()
         .subscribe(
           (data: any) => {
             this.wishList = data;
@@ -36,9 +36,8 @@ export class WishListComponent implements OnInit {
       }
     )
   }
-  callGetBidLogs () {
-    return this.wishListS.getAll();
-    return this.wishListS.getByUser({
+  callGetMyWishList () {
+    return this.wishListS.getMyWishList({
       userId: this.userInfo.id
     });
   }
@@ -50,7 +49,7 @@ export class WishListComponent implements OnInit {
   }
 
   goToItemDetail (item) {
-    this.router.navigate(["items/" + item.id]);
+    this.router.navigate(["/items/" + item.itemId]);
   }
 
 }

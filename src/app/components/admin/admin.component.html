@@ -1,14 +1,15 @@
-<mat-toolbar class="bg-light">
+<mat-toolbar color="primary">
     <h5>Admin</h5>
 </mat-toolbar>
 <mat-sidenav-container style="height: 100%; margin-top:10px">
         <mat-sidenav mode="side" opened>
                 <mat-list>
                     <mat-list-item [routerLink]="['/admin']"><a>Tài khoản</a>  </mat-list-item>
+                    <mat-list-item [routerLink]="['/admin/post']"><a>Bài đăng</a> </mat-list-item>
                     <mat-list-item [routerLink]="['/admin/category']"><a>Danh mục mặt hàng</a> </mat-list-item>
                 </mat-list>
         </mat-sidenav>
-        <mat-sidenav-content class="container">
+        <mat-sidenav-content class="p-4">
             <router-outlet></router-outlet>
         </mat-sidenav-content>
       </mat-sidenav-container>

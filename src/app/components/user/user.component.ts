@@ -26,6 +26,7 @@ export class UserComponent implements OnInit {
   ActiveCategoryId: number = undefined;
   theCate: any;
   cateSl = new FormControl();
+  countPayingWait: number;
 
   Users;
   Items;

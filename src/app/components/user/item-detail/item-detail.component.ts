@@ -5,6 +5,10 @@ import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { APIService } from 'src/app/services/api.service';
 import { BiddingLogService } from 'src/app/services/bidding-log.service';
 import { PersonService } from 'src/app/services/person.service';
+import { Constants } from 'src/app/services/constants';
+import { interval } from 'rxjs';
+import { WishListComponent } from '../wish-list/wish-list.component';
+import { WishListService } from 'src/app/services/wish-list.service';
 
 @Component({
   selector: 'app-item-detail',
@@ -16,9 +20,10 @@ export class ItemDetailComponent implements OnInit {
   params: any;
   itemDetail: any = {};
   itemDetailOrigin: any = {};
-  BidAmount: string;
   isResolvePay: boolean = true;
   currentImgUrl;
+  cDownDate: string;
+  BidAmount: FormControl  = new FormControl('', [Validators.required, Validators.pattern("[0-9]+")]);
   shippingItem: FormControl  = new FormControl({});
   ShippingSelection: Array <any> = [
     {
@@ -46,11 +51,14 @@ export class ItemDetailComponent implements OnInit {
   Items: any;
   Logs: any;
   userInfo: any;
+
+  
   constructor(
     private api: APIService,
     private personS: PersonService,
     private itemS: ItemService,
     private bigLogS: BiddingLogService,
+    private wishListS: WishListService,
     private router: Router,
     private route: ActivatedRoute
   ) { console.log("");
@@ -64,49 +72,62 @@ export class ItemDetailComponent implements OnInit {
       .subscribe(
         params => {
           this.params = params;
-          this.getItems().subscribe(
-            data => {
-              this.itemDetail = data;
-              this.itemDetailOrigin = {...data};
-              this.isLoadedData = true;
-              this.currentImgUrl = this.itemDetail.imgUrl[0].url;
 
-              /** local env */
-              this.api.getAllData().subscribe(
+              this.getItems().subscribe(
                 data => {
-                  this.Users = data[0];
-                  this.Items = data[1];
-                  this.Logs = data[2];
+                  this.itemDetail = data;
+          
 
-                  this.itemDetail = [this.itemDetail].map(
-                    element => {
-                      let user = this.Users.find( e => element.userId === e.id );
-                      let log = this.Logs.reduce(
-                        (s, e) => {
-                          if (element["biddingLog"].map((e) => e.id).includes(e.id)) {
-                            s.push(e);
-                            return s;
+                  /** local env */
+                  if (Constants.BACKEND === "mockup") {
+                
+                    this.api.getAllData().subscribe(
+                      data => {
+                        this.Users = data[0];
+                        this.Items = data[1];
+                        this.Logs = data[2];
+      
+                        this.itemDetail = [this.itemDetail].map(
+                          element => {
+                            let user = this.Users.find( e => element.userId === e.id );
+                            let log = this.Logs.reduce(
+                              (s, e) => {
+                                if (element["biddingLog"].map((e) => e.id).includes(e.id)) {
+                                  s.push(e);
+                                  return s;
+                                }
+                                return s;
+                              },
+                              []
+                            );
+                            return {
+                              ...element,
+                              ...user,
+                              "biddingLog": log,
+                              "highestBid": Math.max(...log.map(e => e.amount)),
+                            };
                           }
-                          return s;
-                        },
-                        []
-                      );
-                      return {
-                        ...element,
-                        ...user,
-                        "biddingLog": log,
-                        "highestBid": Math.max(...log.map(e => e.amount)),
-                      };
+                        )[0];
+      
+                        console.log(this.itemDetail);
+                      }
+                    )
+                  }
+
+
+                  this.itemDetailOrigin = {...data};
+                  this.isLoadedData = true;
+                  this.currentImgUrl = this.itemDetail.imgUrl[0].url;
+    
+                  this.getSVCurrentTime().subscribe(
+                    crTime => {
+                      let distance = new Date(this.itemDetail.endTime).getTime() - new Date(crTime).getTime();
+                      this.countDowmTime(distance);
                     }
-                  )[0];
-
-                  console.log(this.itemDetail);
-
+                  );
                 }
               )
-            }
-          )
-
+              
         }
       )
 
@@ -118,12 +139,31 @@ export class ItemDetailComponent implements OnInit {
     });
   }
 
+  getSVCurrentTime () {
+    return this.personS.getSVCurrentTime();
+  }
+  
+  countDowmTime(distance) {
+    // Update the count down every 1 second
+    let intervalObs = interval(1000)
+    .subscribe(x => {
+        let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        this.cDownDate = days >= 0 ? (days? days + " ngày ": '') + hours + " giờ " + minutes + " phút " + seconds + " giây": undefined;
+        
+        if (distance < 0) {
+          intervalObs.unsubscribe();
+        }
+        distance-=1000;
+  });
+
+  }
   createBiddingLog () {
     return this.bigLogS.createBiddingLog({
       itemId: this.itemDetail.id,
-      userId: this.userInfo.id,
-      amount: this.BidAmount,
-      dateTime: new Date().toISOString()
+      amount: parseInt(this.BidAmount.value),
     });
   }
   updateItem (biddingLogId) {
@@ -134,17 +174,48 @@ export class ItemDetailComponent implements OnInit {
   }
 
   payBid () {
-    if (/[0-9]*/.test(this.BidAmount)) {
-      this.createBiddingLog().subscribe(
-        (data: any) => {
-          this.updateItem(data.id).subscribe(
-            data => {
-              alert("Bạn đã tiến hành thành công một lần đấu giá");
-            }
-          )
-          
-        }
-      );
+    if (Constants.BACKEND === "mockup") { 
+      if (this.BidAmount.dirty && this.BidAmount.valid) {
+        this.createBiddingLog().subscribe(
+          (data: any) => {
+            this.updateItem(data.id).subscribe(
+              data => {
+                alert("Bạn đã tiến hành thành công một lần đấu giá");
+              }
+            )
+            
+          }
+        );
+      }
     }
+    else {
+      if (this.BidAmount.dirty && this.BidAmount.valid) {
+        this.createBiddingLog().subscribe(
+          (data: any) => {
+            this.updateItem(data.id).subscribe(
+              data => {
+                alert("Bạn đã tiến hành thành công một lần đấu giá");
+              }
+            )
+            
+          }
+        );
+      }
+    }
+    
+  }
+
+  callAddToWishList () {
+    return this.wishListS.addToWishList({
+      itemid: this.itemDetail.id
+    });
+  }
+  clickAddToWishList () {
+    this.callAddToWishList().subscribe(
+      data => {
+        alert("Thành công.")
+      }
+    );
+    
   }
 }

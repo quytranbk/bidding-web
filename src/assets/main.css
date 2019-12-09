@@ -12,6 +12,9 @@ img {
 a {
     cursor: pointer;
 }
+.fontSmall {
+    font-size: 0.9em;
+}
 .preLine {
     white-space: pre-line;
 }
@@ -52,7 +55,6 @@ a {
 }
 .flexItem-9 {
     flex: 0 0 auto;
-    width: auto;
     width: 75%;
 }
 .flexItem-10 {
@@ -68,7 +70,7 @@ a {
     width: 100%;
 }
 .flexRestItem {
-    width: 1 0 auto;
+    flex: 1 0;
 }
 
 .borderLine div {
@@ -278,6 +280,7 @@ color: rgb(33,44,69);
 }
 #mainContainer {
 
+min-height: 500px;
 }
 .listViewWrapper {
 

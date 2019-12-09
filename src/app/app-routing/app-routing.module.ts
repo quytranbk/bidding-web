@@ -13,6 +13,8 @@ import { AdminComponent } from '../components/admin/admin.component';
 import { UserComponent } from '../components/user/user.component';
 import { UserManagerComponent } from '../components/admin/user-manager/user-manager.component';
 import { CategoryManagerComponent } from '../components/admin/category-manager/category-manager.component';
+import { SessionComponent } from '../components/user/session/session.component';
+import { NotificationComponent } from '../components/user/notification/notification.component';
 
     const routes: Routes = [
         {
@@ -32,6 +34,10 @@ import { CategoryManagerComponent } from '../components/admin/category-manager/c
                             component: ProfileInfoComponent,
                         },
                         {
+                            path: 'notification',
+                            component: NotificationComponent,
+                        },
+                        {
                             path: 'wish-list',
                             component: WishListComponent,
                         },
@@ -42,6 +48,10 @@ import { CategoryManagerComponent } from '../components/admin/category-manager/c
                         {
                             path: 'bid-history',
                             component: BidHistoryComponent,
+                        },
+                        {
+                            path: 'session',
+                            component: SessionComponent,
                         },
                     ]
                 },

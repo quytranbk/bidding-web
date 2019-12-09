@@ -7,7 +7,7 @@ import { PersonService } from 'src/app/services/person.service';
   styleUrls: ['./user-manager.component.scss']
 })
 export class UserManagerComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'username'];
+  displayedColumns: string[] = ['id', 'name', 'username', 'action'];
   dataSource;
   constructor(
     private personS: PersonService

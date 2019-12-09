@@ -4,6 +4,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { Constants } from './constants';
 import { APIService } from './api.service'
 import { CommonFunction } from '../utils/common-function';
+import { map } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -59,10 +61,18 @@ export class PersonService {
     private http: HttpClient,
     private api: APIService,
   ) { }
+
+  getSVCurrentTime () {
+    return of(new Date().toISOString());
+  }
   login (data) {
     data = CommonFunction.transObjectKeys(data, this.pattern.login.in);
     return this.api.API.post(`${Constants.REMOTE_API}/login`, data)
-    .pipe(CommonFunction.transObjectKeysPipe(this.pattern.login.out));
+    .pipe(
+      map(
+        data => CommonFunction.transObjectKeys(data, this.pattern.login.out)
+      )
+    );
   }
   logout () {
     this.cookie.delete("bidding-web-auth-token");
@@ -72,21 +82,38 @@ export class PersonService {
     return this.api.API.post(`${Constants.REMOTE_API}/signup`, data);
   }
   checkAuth () {
-    return this.api.API.get(`${Constants.HOST_API}/users/1`);
-    // if (this.cookie.check("bidding-web-auth-token")) {
-    //   return this.api.APIAuth.get(`${Constants.REMOTE_API}/profile`)
-    //   .pipe(CommonFunction.transObjectKeysPipe(this.pattern.checkAuth.out));
-    // }
-    // return;
+    if (Constants.BACKEND === "mockup")
+    return this.api.API.get(`${Constants.HOST_API}/users/1`)
+    // .pipe(
+    //   map(data => [data])
+    // );
+
+    if (this.cookie.check("bidding-web-auth-token")) {
+      return this.api.APIAuth.get(`${Constants.REMOTE_API}/profile`)
+      .pipe(
+        map(
+          data => CommonFunction.transObjectKeys(data, this.pattern.checkAuth.out)
+        )
+      );
+    }
   }
   saveWebAuthCookie (token) {
     this.cookie.set("bidding-web-auth-token", token);
   }
 
   getInfo () {
-    return this.api.API.get(`${Constants.HOST_API}/users/1`);
-    // return this.api.APIAuth.get(`${Constants.REMOTE_API}/profile`)
-    // .pipe(CommonFunction.transObjectKeysPipe(this.pattern.checkAuth.out));
+    if (Constants.BACKEND === "mockup")
+    return this.api.API.get(`${Constants.HOST_API}/users/1`)
+    // .pipe(
+    //   map(data => data[0])
+    // );
+
+    return this.api.APIAuth.get(`${Constants.REMOTE_API}/profile`)
+    .pipe(
+      map(
+        data => CommonFunction.transObjectKeys(data, this.pattern.checkAuth.out)
+      )
+    );
   }
   updateInfo (data) {
     return this.api.APIAuth.put(`${Constants.REMOTE_API}/profile`, data);

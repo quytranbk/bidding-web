@@ -1,24 +1,24 @@
-import { Observable } from 'rxjs';
+
 
 export const CommonFunction = {
 
-  transObjectKeysPipe (pattern: {[key: string]: string}) {
-    let transObjectKeys = this.transObjectKeys;
-    return (source: Observable<any>) =>
-      new Observable(observer => {
-        return source.subscribe({
-          next(x) {
-            observer.next(
-              transObjectKeys(x, pattern)
-            );
-          },
-          error(err) { observer.error(err); },
-          complete() { observer.complete(); }
-        });
-      });
-  },
+  // transObjectKeysPipe (pattern: {[key: string]: string}) {
+  //   let transObjectKeys = this.transObjectKeys;
+  //   return (source: Observable<any>) =>
+  //     new Observable(observer => {
+  //       return source.subscribe({
+  //         next(x) {
+  //           observer.next(
+  //             transObjectKeys(x, pattern)
+  //           );
+  //         },
+  //         error(err) { observer.error(err); },
+  //         complete() { observer.complete(); }
+  //       });
+  //     });
+  // },
 
-  transObjectKeys (json: Object, pattern: {[key: string]: string}) {
+  transObjectKeys (json: Object, pattern: {[key: string]: string}): Object | Array<any> {
     if (Array.isArray(json)) {
       return json.map(obj => {
         for (let key in obj) {
