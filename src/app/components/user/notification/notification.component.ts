@@ -5,6 +5,8 @@ import { BiddingLogService } from '../../../services/bidding-log.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { APIService } from 'src/app/services/api.service';
 import { Constants } from 'src/app/services/constants';
+import { ItemService } from 'src/app/services/item.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-notification',
@@ -14,9 +16,11 @@ import { Constants } from 'src/app/services/constants';
 export class NotificationComponent implements OnInit {
   isResolve: boolean = true;
   userInfo: any;
-  bidLogs: any[];
-  payedbidLogs: any[];
-  noPayedbidLogs: any[];
+  awaitPayments: any[] = [];
+  finishPayments: any[] = [];
+  bidLogs: any[] = [];
+  noPayedbidLogs: any[] = [];
+  payedbidLogs: any[] = [];
   Users: any;
   Items: any;
   Logs: any;
@@ -25,6 +29,7 @@ export class NotificationComponent implements OnInit {
     private sharedS: SharedRouteDataService,
     private personS: PersonService,
     private bidLogS: BiddingLogService,
+    private itemS: ItemService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -35,10 +40,14 @@ export class NotificationComponent implements OnInit {
     .subscribe(
       (data: any) => {
         this.userInfo = data;
-        this.callGetBidLogs()
+        combineLatest(
+          this.callGetAwaitPayment(),
+          // this.callFinishPayment(),
+        )
         .subscribe(
-          (data: any) => {
-            this.bidLogs = data;
+          ([_callGetAwaitPayment]: [any]) => {
+            this.awaitPayments = _callGetAwaitPayment;
+            // this.finishPayments = _callFinishPayment;
 
 
             /** local env */
@@ -66,7 +75,7 @@ export class NotificationComponent implements OnInit {
                           ); 
                           let log = this.Logs.reduce(
                             (s, e) => {
-                              if (element["biddingLog"].map((e) => e.id).includes(e.id)) {
+                              if (element["biddingLog"] && element["biddingLog"].map((e) => e.id).includes(e.id)) {
                                 s.push(e);
                                 return s;
                               }
@@ -74,6 +83,8 @@ export class NotificationComponent implements OnInit {
                             },
                             []
                           );
+                          element["itemId"] = element.id;
+                          delete element["id"];
                           return {
                             ...element,
                             ...user,
@@ -118,10 +129,11 @@ export class NotificationComponent implements OnInit {
       }
     )
   }
-  callGetBidLogs () {
-    return this.bidLogS.getMyBidLogs({
-      userId: this.userInfo.id
-    });
+  callGetAwaitPayment () {
+    return this.itemS.getAwaitPayment();
+  }
+  callFinishPayment () {
+    return this.itemS.getFinishPayment();
   }
   callGetInfo () {
     // return this.personS.getInfo({
@@ -131,7 +143,10 @@ export class NotificationComponent implements OnInit {
   }
 
   goToItemDetail (item) {
-    this.router.navigate(["items/" + item.id]);
+    this.router.navigate(["/items/" + item.id]);
+  }
+  goToPayPage (item) {
+    this.router.navigate(["/payment/" + item.id]);
   }
 
 }

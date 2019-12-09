@@ -11,7 +11,7 @@ export class BiddingLogService {
   pattern = {
     createBiddingLog: {
       in: {
-        "itemId": "sessionid"
+        "sessionId": "sessionid"
       },
       out: {}
     },
@@ -21,10 +21,10 @@ export class BiddingLogService {
         "bidamount": "amount",
         "biddate": "dateTime",
         "images": "imgUrl",
-        "itemid": "id",
+        "itemid": "itemId",
         "itemname": "title",
         "sessionenddate": "endTime",
-        "sessionid": "itemId",
+        "sessionid": "sessionId",
         "sessionstartdate": "startTime",
       }
     },
@@ -37,17 +37,23 @@ export class BiddingLogService {
     return this.api.API.get(`${Constants.HOST_API}/biddinglogs`);
   }
 
+  getLogs (data) {
+    if (Constants.BACKEND === "mockup")
+    return this.api.API.get(`${Constants.HOST_API}/biddinglogs/${data.id}`);
+
+    return this.api.APIAuth.get(`${Constants.REMOTE_API}/logs`);
+  }
   getByUser (data) {
     if (Constants.BACKEND === "mockup")
     return this.api.API.get(`${Constants.HOST_API}/biddinglogs?userId=${data.userId}`);
 
-    return this.api.APIAuth.get(`${Constants.REMOTE_API}/logs`, data);
+    return this.api.APIAuth.get(`${Constants.REMOTE_API}/logs`);
   }
   getMyBidLogs (data?) {
     if (Constants.BACKEND === "mockup")
     return this.api.API.get(`${Constants.HOST_API}/biddinglogs?userId=${data.userId}`);
 
-    return this.api.APIAuth.get(`${Constants.REMOTE_API}/history/bid`, data)
+    return this.api.APIAuth.get(`${Constants.REMOTE_API}/history/bid`)
     .pipe(
       map(
         data => CommonFunction.transObjectKeys(data, this.pattern.getMyBidLogs.out)

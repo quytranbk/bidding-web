@@ -6,7 +6,7 @@ import { APIService } from 'src/app/services/api.service';
 import { BiddingLogService } from 'src/app/services/bidding-log.service';
 import { PersonService } from 'src/app/services/person.service';
 import { Constants } from 'src/app/services/constants';
-import { interval } from 'rxjs';
+import { interval, combineLatest, forkJoin } from 'rxjs';
 import { WishListComponent } from '../wish-list/wish-list.component';
 import { WishListService } from 'src/app/services/wish-list.service';
 
@@ -65,12 +65,12 @@ export class ItemDetailComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.personS.checkAuth().subscribe(
-      data => this.userInfo = data
-    )
-    this.route.params
-      .subscribe(
-        params => {
+    combineLatest(
+      this.personS.checkAuth(),
+      this.route.params
+    ).subscribe(
+        ([info, params]) => {
+          this.userInfo = info;
           this.params = params;
 
               this.getItems().subscribe(
@@ -117,7 +117,7 @@ export class ItemDetailComponent implements OnInit {
 
                   this.itemDetailOrigin = {...data};
                   this.isLoadedData = true;
-                  this.currentImgUrl = this.itemDetail.imgUrl[0].url;
+                  this.currentImgUrl = this.itemDetail.imgUrl[0];
     
                   this.getSVCurrentTime().subscribe(
                     crTime => {
@@ -125,12 +125,31 @@ export class ItemDetailComponent implements OnInit {
                       this.countDowmTime(distance);
                     }
                   );
+
+                  if ( 
+                    new Date() >= new Date(this.itemDetail.endTime) && 
+                    this.itemDetail.sessionStatus === "RUNNING"
+                    ) {
+                      this.callUpdateEndSession().subscribe();
+                  }
                 }
               )
               
         }
       )
 
+  }
+
+  callUpdateEndSession () {
+    return this.itemS.updateEndSession({
+      sessionId: this.itemDetail.sessionId
+    });
+  }
+  callGetInfo () {
+    // return this.personS.getInfo({
+    //   username: this.sharedS.data["userInfo"].username
+    // });
+    return this.personS.checkAuth();
   }
 
   getItems () {
@@ -162,7 +181,7 @@ export class ItemDetailComponent implements OnInit {
   }
   createBiddingLog () {
     return this.bigLogS.createBiddingLog({
-      itemId: this.itemDetail.id,
+      sessionId: this.itemDetail.sessionId,
       amount: parseInt(this.BidAmount.value),
     });
   }
@@ -178,11 +197,12 @@ export class ItemDetailComponent implements OnInit {
       if (this.BidAmount.dirty && this.BidAmount.valid) {
         this.createBiddingLog().subscribe(
           (data: any) => {
-            this.updateItem(data.id).subscribe(
-              data => {
-                alert("Bạn đã tiến hành thành công một lần đấu giá");
-              }
-            )
+            // this.updateItem(data.id).subscribe(
+            //   data => {
+            //     alert("Bạn đã tiến hành thành công một lần đấu giá");
+            //   }
+            // )
+            alert("Bạn đã tiến hành thành công một lần đấu giá");
             
           }
         );
@@ -192,12 +212,15 @@ export class ItemDetailComponent implements OnInit {
       if (this.BidAmount.dirty && this.BidAmount.valid) {
         this.createBiddingLog().subscribe(
           (data: any) => {
-            this.updateItem(data.id).subscribe(
-              data => {
-                alert("Bạn đã tiến hành thành công một lần đấu giá");
-              }
-            )
-            
+            // this.updateItem(data.id).subscribe(
+            //   data => {
+            //     alert("Bạn đã tiến hành thành công một lần đấu giá");
+            //   }
+            // )
+            alert("Bạn đã tiến hành thành công một lần đấu giá");
+          },
+          error => {
+            alert("Giá của bạn phải cao hơn giá bid hiện tại!")
           }
         );
       }
@@ -207,7 +230,7 @@ export class ItemDetailComponent implements OnInit {
 
   callAddToWishList () {
     return this.wishListS.addToWishList({
-      itemid: this.itemDetail.id
+      itemid: this.itemDetail.itemId
     });
   }
   clickAddToWishList () {

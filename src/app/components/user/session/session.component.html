@@ -21,7 +21,7 @@
     <div class="bg-white p-3 d-flex borderLine" *ngFor="let item of sessions">
         <!-- <div class="row" > -->
             <div class="imgBox searchImgBox">
-                <a><img class="imgThumbnail" [src]="item.imgUrl && item.imgUrl[0].url" alt="imgUrl"></a>
+                <a><img class="imgThumbnail" [src]="item.imgUrl && item.imgUrl[0]" alt="imgUrl"></a>
             </div>
             <div style="flex-grow: 1;" class="px-2">
                 <div class="d-flex justify-content-between">

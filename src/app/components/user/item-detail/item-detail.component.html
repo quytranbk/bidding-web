@@ -11,9 +11,9 @@
                 <img class="imgThumbnail" [src]="currentImgUrl" alt="imgTitle">
               </div>
               <div class="d-flex flex-wrap mt-3">
-                <div class="flexItem-3" *ngFor="let img of itemDetail.imgUrl" (click)="currentImgUrl = img.url">
+                <div class="flexItem-3" *ngFor="let img of itemDetail.imgUrl" (click)="currentImgUrl = img">
                   <div class="imgBox carouselItemThumbBox">
-                    <a><img class="imgThumbnail" [src]="img.url" alt=""></a>
+                    <a><img class="imgThumbnail" [src]="img" alt=""></a>
                   </div>
                 </div>
               </div>
@@ -26,7 +26,7 @@
                     <h5><a class="text-body">{{itemDetail.title}}</a></h5>
                   </div>
                   <div>
-                    của <span class="text-primary"><a>{{itemDetail.name}}</a></span>
+                    của <span class="text-primary"><a>{{itemDetail.sellerName}}</a></span>
                   </div>
           
           
@@ -56,7 +56,7 @@
                     <label class="colorS4" *ngIf="cDownDate">Thời gian còn lại {{cDownDate}}</label>
                   </div>
                 </div>
-                <div *ngIf="cDownDate">
+                <div *ngIf="cDownDate && userInfo.username !== itemDetail.sellerId">
                   <div class="form-inline">
                     <div class="form-group">
                       <label for="" class="sr-only">Bidding Input</label>

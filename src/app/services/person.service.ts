@@ -88,14 +88,14 @@ export class PersonService {
     //   map(data => [data])
     // );
 
-    if (this.cookie.check("bidding-web-auth-token")) {
+    // if (this.cookie.check("bidding-web-auth-token")) {
       return this.api.APIAuth.get(`${Constants.REMOTE_API}/profile`)
       .pipe(
         map(
           data => CommonFunction.transObjectKeys(data, this.pattern.checkAuth.out)
         )
       );
-    }
+    // }
   }
   saveWebAuthCookie (token) {
     this.cookie.set("bidding-web-auth-token", token);

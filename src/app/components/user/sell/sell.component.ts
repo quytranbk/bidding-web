@@ -17,21 +17,33 @@ export class SellComponent implements OnInit {
   sellForms = new FormBuilder().group({
     title: ['aaa', [Validators.required]],
     categorySl: [undefined,[Validators.required]],
+    condSl: [undefined,[Validators.required]],
     description: ['aaa',[Validators.required]],
-    startTime: [formatDate(new Date, 'yyyy-MM-ddThh:mm', 'en'),[Validators.required]],
-    endTime: [formatDate(new Date, 'yyyy-MM-ddThh:mm', 'en'),[Validators.required]],
-    startPrice: ['10',[Validators.required]],
-    minSpace: ['10',[Validators.required]],
-    biddingLog: [[]]
+    startTime: [formatDate(new Date(), 'yyyy-MM-ddThh:mm:ss', 'en'),[Validators.required]],
+    endTime: [formatDate(new Date(), 'yyyy-MM-ddThh:mm:ss', 'en'),[Validators.required]],
+    startPrice: ['100000',[Validators.required]],
+    minSpace: ['100000',[Validators.required]],
+    // biddingLog: [[]]
   });
   categories: any[];
+  cond: any[] = [
+    {
+      name: "Mới",
+      value: "NEW"
+    },
+    {
+      name: "Đã sử dụng",
+      value: "USED"
+    },
+  ];
   downloadURL: any;
   
   constructor(
     private afStorage: AngularFireStorage,
     private cateS: CategoryService,
     private itemS: ItemService
-  ) { }
+  ) { console.log("");
+  }
 
   ngOnInit() {
     this.getAllCategories()
@@ -44,11 +56,19 @@ export class SellComponent implements OnInit {
     return this.cateS.getAllCategories();
   }
   callApiSellForms () {
-    return this.itemS.createANewItem({
+    let objItem = {
       ...this.sellForms.value,
-      categoryId: this.sellForms.get("categorySl").value,
-      imgUrl: this.downloadURL
-    });
+      categoryId: this.sellForms.get("categorySl").value.id,
+      itemCondition: this.sellForms.get("condSl").value.value,
+      imgUrl: this.downloadURL,
+      minSpace: parseInt(this.sellForms.get("minSpace").value),
+      startPrice: parseInt(this.sellForms.get("startPrice").value),
+      startTime: new Date(this.sellForms.get("startTime").value).toISOString(),
+      endTime: new Date(this.sellForms.get("endTime").value).toISOString(),
+    }
+    delete objItem["categorySl"];
+    delete objItem["condSl"];
+    return this.itemS.createANewItem(objItem);
   }
   uploadImage(imgFile) {
     return new Observable(

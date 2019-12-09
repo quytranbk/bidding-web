@@ -117,7 +117,7 @@ export class SessionComponent implements OnInit {
   }
 
   goToItemDetail (item) {
-    this.router.navigate(["/items/" + item.itemId]);
+    this.router.navigate(["/items/" + item.sessionId]);
   }
 
 }

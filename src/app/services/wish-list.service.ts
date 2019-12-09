@@ -31,6 +31,12 @@ export class WishListService {
         "startdate": "startTime",
       }
     },
+    addToWishList: {
+      in: {
+      },
+      out: {
+      }
+    },
   }
   constructor(
     private http: HttpClient,
@@ -63,6 +69,7 @@ export class WishListService {
     if (Constants.BACKEND === "mockup")
       return this.api.API.post(Constants.HOST_API + "/wishlist", data);
 
+      // data = CommonFunction.transObjectKeys(data, this.pattern.addToWishList.in);
       return this.api.APIAuth.post(Constants.REMOTE_API + "/wishlist/" + data.itemid);
   }
 

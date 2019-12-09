@@ -36,6 +36,7 @@ import { UserManagerComponent } from './components/admin/user-manager/user-manag
 import { CategoryManagerComponent } from './components/admin/category-manager/category-manager.component';
 import { SessionComponent } from './components/user/session/session.component';
 import { NotificationComponent } from './components/user/notification/notification.component';
+import { PaymentComponent } from './components/user/payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { NotificationComponent } from './components/user/notification/notificati
     UserManagerComponent,
     CategoryManagerComponent,
     SessionComponent,
-    NotificationComponent
+    NotificationComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,

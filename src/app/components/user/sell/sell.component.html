@@ -16,9 +16,9 @@
       <div class="form-group col-6">
         <label for="exampleInputEmail1">Tải ảnh</label>
         <input type="file" class="form-control" #imgFile placeholder="Enter ..." multiple>
-        <div class="invalid-feedback d-inline">
+        <!-- <div class="invalid-feedback d-inline">
           Không được để trống
-        </div>
+        </div> -->
       </div>
       
     </div>
@@ -28,6 +28,19 @@
         <select class="custom-select" formControlName="categorySl">
           <option value="" disabled>Chọn loại mặt hàng</option>
           <option *ngFor="let item of categories" [ngValue]="item">{{item.name}}</option>
+        </select>
+        <div class="invalid-feedback d-inline"
+          *ngIf="sellForms.get('categorySl').touched && sellForms.get('categorySl').hasError('required')">
+          Không được để trống
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-6">
+        <label for="exampleInputEmail1">Tình trạng</label>
+        <select class="custom-select" formControlName="condSl">
+          <option value="" disabled>Chọn...</option>
+          <option *ngFor="let item of cond" [ngValue]="item">{{item.name}}</option>
         </select>
         <div class="invalid-feedback d-inline"
           *ngIf="sellForms.get('categorySl').touched && sellForms.get('categorySl').hasError('required')">

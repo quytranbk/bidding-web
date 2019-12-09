@@ -1,44 +1,41 @@
 import { Component, OnInit } from '@angular/core';
-import { PersonService } from '../../../services/person.service';
-import { SharedRouteDataService } from '../../../services/shared-route-data.service';
-import { BiddingLogService } from '../../../services/bidding-log.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { APIService } from 'src/app/services/api.service';
+import { ItemService } from 'src/app/services/item.service';
+import { PersonService } from 'src/app/services/person.service';
+import { BiddingLogService } from 'src/app/services/bidding-log.service';
 import { Constants } from 'src/app/services/constants';
+import { APIService } from 'src/app/services/api.service';
 
 @Component({
-  selector: 'app-bid-history',
-  templateUrl: './bid-history.component.html',
-  styleUrls: ['./bid-history.component.scss']
+  selector: 'app-payment',
+  templateUrl: './payment.component.html',
+  styleUrls: ['./payment.component.scss']
 })
-export class BidHistoryComponent implements OnInit {
-  isResolve: boolean = true;
-  userInfo: any;
-  bidLogs: any[];
+export class PaymentComponent implements OnInit {
+  params;
+  detail: any = {};
   Users: any;
   Items: any;
   Logs: any;
   constructor(
     private api: APIService,
-    private sharedS: SharedRouteDataService,
-    private personS: PersonService,
-    private bidLogS: BiddingLogService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private personS: PersonService,
+    private itemS: ItemService,
+    private bigLogS: BiddingLogService,
   ) { console.log("");
   }
 
   ngOnInit() {
-
-    this.callGetInfo()
-    .subscribe(
-      (data: any) => {
-        this.userInfo = data;
-        this.callGetBidLogs()
-        .subscribe(
-          (data: any) => {
-            this.bidLogs = data;
-
+    this.route.params
+      .subscribe(
+        params => {
+          this.params = params;
+          this.getLogs().subscribe(
+            data => {
+              this.detail = data;
+              
 
             /** local env */
 
@@ -50,7 +47,7 @@ export class BidHistoryComponent implements OnInit {
                   this.Items = data[1];
                   this.Logs = data[2];
       
-                  this.bidLogs = this.bidLogs.map(
+                  this.detail = [this.detail].map(
                     element => {
                       let user = this.Users.find(
                         e => element.userId === e.id
@@ -73,6 +70,8 @@ export class BidHistoryComponent implements OnInit {
                             },
                             []
                           );
+                          element["itemId"] = element.id;
+                          delete element["id"];
                           return {
                             ...element,
                             ...user,
@@ -87,35 +86,38 @@ export class BidHistoryComponent implements OnInit {
                         ...item,
                       };
                     }
-                  );
+                  )[0];
       
       
       
-                  console.log(this.bidLogs);
+                  console.log(this.detail);
                   
                 }
               )
             }
-        
-          }
-        );
-      }
-    )
-  }
-  callGetBidLogs () {
-    return this.bidLogS.getMyBidLogs({
-      userId: this.userInfo.id
-    });
-  }
-  callGetInfo () {
-    // return this.personS.getInfo({
-    //   username: this.sharedS.data["userInfo"].username
-    // });
-    return this.personS.checkAuth();
+
+            }
+          )
+        }
+      )
   }
 
-  goToItemDetail (item) {
-    this.router.navigate(["items/" + item.sessionId]);
+  getLogs () {
+    return this.bigLogS.getLogs({
+      id: this.params.id
+    });
+  }
+
+  clickPay () {
+    this.detail["id"] = this.detail["itemId"];
+    this.itemS.updateItem(this.detail.itemId, {
+      ...this.detail,
+      isPayed: 1
+    }).subscribe(
+      data => {
+        alert("Thanh toán thành công.")
+      }
+    )
   }
 
 }

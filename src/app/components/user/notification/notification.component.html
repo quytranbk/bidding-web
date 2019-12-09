@@ -18,7 +18,8 @@
 </div>
 
 <div title="filterTab"></div>
-<div class="bg-white p-3 d-flex" *ngFor="let item of noPayedbidLogs">
+<div class="bg-white p-3 d-flex" *ngIf="!awaitPayments.length"><span class="text-muted">Không có dữ liệu nào.</span></div>
+<div class="bg-white p-3 d-flex" *ngFor="let item of awaitPayments">
     <!-- <div class="row" > -->
     <div class="imgBox searchImgBox">
         <a><img class="imgThumbnail" [src]="item.imgUrl ? item.imgUrl[0] : ''" alt="imgUrl"></a>
@@ -26,7 +27,7 @@
     <div style="flex-grow: 1;" class="px-2">
         <div class="d-flex justify-content-between">
             <div>
-                <h6><a class="text-body font-weight-bold" (click)="goToItemDetail(item)">{{item.title}}</a></h6>
+                <h6><a class="text-body font-weight-bold" (click)="goToPayPage(item)">{{item.title}}</a></h6>
             </div>
             <div>
                 <label class="colorS4 fontSmall">Kết thúc {{item.endTime| date: 'short'}}</label>
@@ -64,7 +65,7 @@
         </div>
     </div>
     <div title="filterTab"></div>
-    <div class="bg-white p-3 d-flex"><span class="text-muted">Không có dữ liệu nào.</span></div>
+    <div class="bg-white p-3 d-flex" *ngIf="!payedbidLogs.length"><span class="text-muted">Không có dữ liệu nào.</span></div>
     <div class="bg-white p-3 d-flex" *ngFor="let item of payedbidLogs">
         <!-- <div class="row" > -->
         <div class="imgBox searchImgBox">

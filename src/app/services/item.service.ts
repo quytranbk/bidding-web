@@ -26,10 +26,14 @@ export class ItemService {
         "imagelink": "imgUrl",
         "ItemDescription": "description",
         "itemname": "title",
-        "sellername": "name",
+        "sellerid": "sellerId",
+        "sellername": "sellerName",
         "itemcondition": "itemCondition",
-        "itemid": "id",
-        "enddate": "endTime"
+        "itemid": "itemId",
+        "sessionid": "sessionId",
+        "enddate": "endTime",
+        "currentbid": "startPrice",
+        "sessionstatus": "sessionStatus",
       }
     },
     createANewItem: {
@@ -39,9 +43,36 @@ export class ItemService {
         "description": "itemdescription",
         "startTime": "startdate",
         "endTime": "enddate",
-        "startPrice": "currentbid",
+        "startPrice": "startprice",
         "minSpace": "minimumincreasebid",
         "imgUrl": "imagelink",
+        "itemCondition": "itemcondition"
+      },
+      out: {
+        "categoriesid": "categoryId",
+        "imagelink": "imgUrl",
+        "ItemDescription": "description",
+        "itemname": "title",
+        "sellername": "name",
+        "itemcondition": "itemCondition",
+        "itemid": "id",
+        "enddate": "endTime"
+      }
+    },
+    getMySessions: {
+      in: {
+      },
+      out: {
+        "itemid": "itemId",
+        "itemname": "title",
+        "sessionenddate": "endTime",
+        "sessionid": "sessionId",
+        "sessionstartdate": "startTime",
+        "images": "imgUrl"
+      }
+    },
+    getAwaitPayment: {
+      in: {
       },
       out: {
         "categoriesid": "categoryId",
@@ -87,7 +118,7 @@ export class ItemService {
               ...transData,
               highestBid: transData.biddingLog.reduce(
                 (s, v) => v.amount > s? v.amount: s,
-                transData.biddingLog[0].amount
+                transData.startPrice
               )
             }
           }
@@ -96,7 +127,7 @@ export class ItemService {
               ...e,
               highestBid: e.biddingLog.reduce(
                 (s, v) => v.amount > s? v.amount: s,
-                e.biddingLog[0].amount
+                e.startPrice
               )
             }
           })
@@ -118,7 +149,7 @@ export class ItemService {
               ...e,
               highestBid: e.biddingLog.reduce(
                 (s, v) => v.amount > s? v.amount: s,
-                e.biddingLog[0].amount
+                e.startPrice
               )
             }
           })
@@ -139,7 +170,23 @@ export class ItemService {
     return this.api.APIAuth.get(`${Constants.REMOTE_API}/history/sell`)
     .pipe(
       map(
-        data => CommonFunction.transObjectKeys(data, this.pattern.getAllItems.out)
+        data => CommonFunction.transObjectKeys(data, this.pattern.getMySessions.out)
+      )
+    );
+  }
+  getAwaitPayment () {
+    return this.api.APIAuth.get(`${Constants.REMOTE_API}/awaitpayment`)
+    .pipe(
+      map(
+        data => CommonFunction.transObjectKeys(data, this.pattern.getAwaitPayment.out)
+      )
+    );
+  }
+  getFinishPayment () {
+    return this.api.APIAuth.get(`${Constants.REMOTE_API}/awaitpayment`)
+    .pipe(
+      map(
+        data => CommonFunction.transObjectKeys(data, this.pattern.getMySessions.out)
       )
     );
   }
@@ -151,8 +198,9 @@ export class ItemService {
       return this.api.APIAuth.post(Constants.REMOTE_API + "/session", data);
   }
   updateItem (id, data) {
-      // let rd = Math.floor(Math.random() * 2 + 0);
-      // return rd? Promise.resolve(true): Promise.reject(true);
       return this.api.APIAuth.put(Constants.HOST_API + "/items/" + id, data);
+  }
+  updateEndSession (data) {
+      return this.api.APIAuth.put(Constants.REMOTE_API + "/lock/" + data.sessionId);
   }
 }

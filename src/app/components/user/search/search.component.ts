@@ -175,6 +175,6 @@ export class SearchComponent implements OnInit {
   }
 
   goToItemDetail (item) {
-    this.router.navigate(["items/" + item.id]);
+    this.router.navigate(["items/" + item.sessionId]);
   }
 }
