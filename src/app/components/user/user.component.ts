@@ -6,6 +6,7 @@ import { PersonService } from '../../services/person.service';
 import { SharedRouteDataService } from '../../services/shared-route-data.service';
 import { FormControl } from '@angular/forms';
 import { APIService } from '../../services/api.service';
+import { ItemService } from 'src/app/services/item.service';
 
 @Component({
   selector: 'app-user',
@@ -37,6 +38,7 @@ export class UserComponent implements OnInit {
     private sharedS: SharedRouteDataService,
     private cateS: CategoryService,
     private personS: PersonService,
+    private itemS: ItemService,
     private router: Router,
     private route: ActivatedRoute
   ) { console.log(""); }
@@ -68,33 +70,26 @@ export class UserComponent implements OnInit {
       }
     )
     
-    this.checkAuth();
-
-    /** local env */
-
-    this.api.getAllData().subscribe(
-      data => {
-        this.Users = data[0];
-        this.Items = data[1];
-        this.Logs = data[2];
+    this.checkAuth()
+    .subscribe(
+      (data: any) => {
+        this.isSignIn = true;
+        this.userInfo = data;
+        if (this.userInfo.level === 9) this.router.navigate(["/admin"]);
+        
+        this.sharedS.data["userInfo"] = this.userInfo;
+        this.callGetAwaitPayment().subscribe(
+          data => this.countPayingWait = Array.isArray(data)? data.length: 0
+        )
       }
-    )
-    
+    );
   }
   getCategories() {
     return this.cateS.getAllCategories();
   }
   
   checkAuth () {
-    let check = this.personS.checkAuth();
-    check && check
-    .subscribe(
-      (data: any) => {
-        this.isSignIn = true;
-        this.userInfo = data;
-        this.sharedS.data["userInfo"] = this.userInfo;
-      }
-    );
+    return this.personS.checkAuth();
   }
 
   clickSearch () {
@@ -118,6 +113,10 @@ export class UserComponent implements OnInit {
   }
   clickSignOut () {
     this.callSignOut();
+  }
+
+  callGetAwaitPayment () {
+    return this.itemS.getAwaitPayment();
   }
 
   goTo(item) {

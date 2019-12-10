@@ -14,14 +14,14 @@
               <!-- <img src="../assets/vinmarthome.jpg" alt="banner"> -->
               <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
+                  <div class="carousel-item">
+                    <img src="../assets/1920x918-1-tang-6_0dd5f2b18b2a4fb197a6c3f851cb4665.jpg" class="d-block w-100" alt="...">
+                  </div>
                   <div class="carousel-item active">
                     <img src="../assets/vinmarthome.jpg" class="d-block w-100" alt="...">
                   </div>
                   <div class="carousel-item">
-                    <img src="../assets/dau_an_FjQdTK6.jpg" class="d-block w-100" alt="...">
-                  </div>
-                  <div class="carousel-item">
-                    <img src="../assets/sua_kem_87zxhkM.jpg" class="d-block w-100" alt="...">
+                    <img src="../assets/RED-SALE_TBCT_BANNER.png" class="d-block w-100" alt="...">
                   </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -130,12 +130,12 @@
               <a href="#" class="colorS2"> Xem tất cả &rarr;</a>
             </div>
             <div class="listBox d-flex">
-              <div class="listBoxItem" *ngFor="let item of newestItems">
+              <div class="listBoxItem" *ngFor="let item of newestItems| slice:0:5;">
                 <div class="imgBox homeImgBox">
-                  <img class="imgThumbnail" [src]="item.imgUrl[0].url" alt="postImg">
+                  <img class="imgThumbnail" [src]="item.imgUrl[0]" alt="postImg">
                 </div>
                 <div class="mt-2">
-                  <h6><a [routerLink]="['items/1']" class="text-body">{{item.title}}</a></h6>
+                  <h6><a [routerLink]="['/items/' + item.sessionId]" class="text-body">{{item.title}}</a></h6>
                 </div>
                 <div class="">
                   <h6 class="colorS2">{{item.highestBid| currency : 'đ': 'code': '1.0-0' : 'vi'}} <span class="badge badge-warning">CAO NHẤT</span></h6>
@@ -163,12 +163,12 @@
               <a href="#" class="colorS2"> Xem tất cả &rarr;</a>
             </div>
             <div class="listBox d-flex">
-                <div class="listBoxItem" *ngFor="let item of newestItems">
+                <div class="listBoxItem" *ngFor="let item of newestItems| slice:0:5">
                   <div class="imgBox homeImgBox">
-                    <img class="imgThumbnail" [src]="item.imgUrl[0].url" alt="postImg">
+                    <img class="imgThumbnail" [src]="item.imgUrl[0]" alt="postImg">
                   </div>
                   <div class="mt-2">
-                    <h6><a href="#" class="text-body">{{item.title}}</a></h6>
+                    <h6><a [routerLink]="['/items/' + item.sessionId]" class="text-body">{{item.title}}</a></h6>
                   </div>
                   <div class="">
                     <h6 class="colorS2">{{item.startPrice| currency : 'đ': 'code': '1.0-0' : 'vi'}} <span class="badge badge-warning">CAO NHẤT</span></h6>

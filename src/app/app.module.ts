@@ -37,6 +37,7 @@ import { CategoryManagerComponent } from './components/admin/category-manager/ca
 import { SessionComponent } from './components/user/session/session.component';
 import { NotificationComponent } from './components/user/notification/notification.component';
 import { PaymentComponent } from './components/user/payment/payment.component';
+import { UserInfoComponent } from './components/user/user-info/user-info.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { PaymentComponent } from './components/user/payment/payment.component';
     CategoryManagerComponent,
     SessionComponent,
     NotificationComponent,
-    PaymentComponent
+    PaymentComponent,
+    UserInfoComponent
   ],
   imports: [
     BrowserModule,

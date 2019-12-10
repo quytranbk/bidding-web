@@ -24,7 +24,7 @@ export class ItemService {
       out: {
         "categoriesid": "categoryId",
         "imagelink": "imgUrl",
-        "ItemDescription": "description",
+        "itemdescription": "description",
         "itemname": "title",
         "sellerid": "sellerId",
         "sellername": "sellerName",
@@ -34,6 +34,7 @@ export class ItemService {
         "enddate": "endTime",
         "currentbid": "startPrice",
         "sessionstatus": "sessionStatus",
+        "minimumincreasebid": "minSpace",
       }
     },
     createANewItem: {
@@ -68,7 +69,9 @@ export class ItemService {
         "sessionenddate": "endTime",
         "sessionid": "sessionId",
         "sessionstartdate": "startTime",
-        "images": "imgUrl"
+        "images": "imgUrl",
+        "currentbid": "highestBid",
+        "BidCount": "bidCount"
       }
     },
     getAwaitPayment: {
@@ -77,12 +80,14 @@ export class ItemService {
       out: {
         "categoriesid": "categoryId",
         "imagelink": "imgUrl",
-        "ItemDescription": "description",
+        "itemdescription": "description",
         "itemname": "title",
         "sellername": "name",
         "itemcondition": "itemCondition",
-        "itemid": "id",
-        "enddate": "endTime"
+        "itemid": "itemId",
+        "sessionid": "sessionId",
+        "enddate": "endTime",
+        "currentbid": "startPrice",
       }
     },
   }
@@ -91,16 +96,28 @@ export class ItemService {
     private cookie: CookieService,
     private http: HttpClient,
     private api: APIService,
-  ) { }
+  ) { console.log("");
+  }
 
   getAllItems () {
     if (Constants.BACKEND === "mockup")
     return this.api.API.get(`${Constants.HOST_API}/items`);
 
-    return this.api.API.get(`${Constants.REMOTE_API}/session/`)
+    return this.api.API.get(`${Constants.REMOTE_API}/session`)
     .pipe(
       map(
-        data => CommonFunction.transObjectKeys(data, this.pattern.getAllItems.out)
+        data => {
+          let transData = <any>(CommonFunction.transObjectKeys(data, this.pattern.getAllItems.out));
+          return transData.map((e) => {
+            return {
+              ...e,
+              highestBid: e.biddingLog.reduce(
+                (s, v) => v.amount > s? v.amount: s,
+                e.startPrice
+              )
+            }
+          })
+        }
       )
     );
   }
@@ -183,10 +200,10 @@ export class ItemService {
     );
   }
   getFinishPayment () {
-    return this.api.APIAuth.get(`${Constants.REMOTE_API}/awaitpayment`)
+    return this.api.APIAuth.get(`${Constants.REMOTE_API}/finished`)
     .pipe(
       map(
-        data => CommonFunction.transObjectKeys(data, this.pattern.getMySessions.out)
+        data => CommonFunction.transObjectKeys(data, this.pattern.getAwaitPayment.out)
       )
     );
   }
@@ -199,6 +216,9 @@ export class ItemService {
   }
   updateItem (id, data) {
       return this.api.APIAuth.put(Constants.HOST_API + "/items/" + id, data);
+  }
+  handlePay (data) {
+      return this.api.APIAuth.put(Constants.REMOTE_API + "/payment/" + data.sessionId);
   }
   updateEndSession (data) {
       return this.api.APIAuth.put(Constants.REMOTE_API + "/lock/" + data.sessionId);

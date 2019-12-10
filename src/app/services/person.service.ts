@@ -75,7 +75,9 @@ export class PersonService {
     );
   }
   logout () {
-    this.cookie.delete("bidding-web-auth-token");
+    // this.cookie.delete("bidding-web-auth-token");
+    localStorage.removeItem('bidding-web-auth-token');
+
   }
   register (data) {
     data = CommonFunction.transObjectKeys(data, this.pattern.register.in);
@@ -98,7 +100,8 @@ export class PersonService {
     // }
   }
   saveWebAuthCookie (token) {
-    this.cookie.set("bidding-web-auth-token", token);
+    localStorage.setItem('bidding-web-auth-token', token);
+    // this.cookie.set("bidding-web-auth-token", token);
   }
 
   getInfo () {
@@ -109,6 +112,15 @@ export class PersonService {
     // );
 
     return this.api.APIAuth.get(`${Constants.REMOTE_API}/profile`)
+    .pipe(
+      map(
+        data => CommonFunction.transObjectKeys(data, this.pattern.checkAuth.out)
+      )
+    );
+  }
+  getUserById (data) {
+
+    return this.api.APIAuth.get(`${Constants.REMOTE_API}/user/${data.userId}`)
     .pipe(
       map(
         data => CommonFunction.transObjectKeys(data, this.pattern.checkAuth.out)

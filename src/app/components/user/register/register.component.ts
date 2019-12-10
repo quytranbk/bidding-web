@@ -11,10 +11,10 @@ export class RegisterComponent implements OnInit {
   notifyReg: string;
   isResolveReg: boolean = true;
   regForms = new FormBuilder().group({
-    email: ['aaa', [Validators.required]],
-    username: ['aaa', [Validators.required]],
-    password: ['aaa', [Validators.required]],
-    reEnterPassword: ['aaa', [Validators.required]],
+    email: ['', [Validators.required]],
+    username: ['', [Validators.required]],
+    password: ['', [Validators.required]],
+    reEnterPassword: ['', [Validators.required]],
   });
   constructor(
     private personS: PersonService

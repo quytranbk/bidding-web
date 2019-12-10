@@ -15,11 +15,13 @@ import { FormControl } from '@angular/forms';
 export class SessionComponent implements OnInit {
   isResolve: boolean = true;
   userInfo: any;
-  sessions: any[];
+  sessionsOrigin: any[] = [];
+  sessions: any[] = [];
   Users;
   Items;
   Logs;
   sortSl: FormControl = new FormControl('');
+  sttSl: FormControl = new FormControl('');
 
   constructor(
     private api: APIService,
@@ -40,7 +42,7 @@ export class SessionComponent implements OnInit {
         this.callGetMySessions()
         .subscribe(
           (data: any) => {
-            this.sessions = data;
+            this.sessions = this.sessionsOrigin = data;
 
             
         
@@ -92,18 +94,36 @@ export class SessionComponent implements OnInit {
     if (this.sortSl.value === "0") {
       this.sessions.sort(
         (a, b) => {
-          return a.highestBid - b.highestBid;
+          return new Date(a.endTime).getTime() - new Date(b.endTime).getTime();
         }
       )
     }
     else {
       this.sessions.sort(
         (a, b) => {
-          return b.highestBid - a.highestBid;
+          return new Date(b.endTime).getTime() - new Date(a.endTime).getTime();
         }
       )
     }
   }
+
+  changeStatus () {
+    if (this.sttSl.value === "0") {
+      this.sessions = this.sessionsOrigin.filter(
+        element => {
+          return new Date() < new Date(element.endTime)
+        }
+      )
+    }
+    else {
+      this.sessions = this.sessionsOrigin.filter(
+        element => {
+          return new Date() >= new Date(element.endTime)
+        }
+      )
+    }
+  }
+
   callGetMySessions () {
     return this.itemS.getMySessions({
       userId: this.userInfo.id

@@ -65,79 +65,82 @@ export class ItemDetailComponent implements OnInit {
   }
   
   ngOnInit() {
-    combineLatest(
-      this.personS.checkAuth(),
-      this.route.params
-    ).subscribe(
-        ([info, params]) => {
-          this.userInfo = info;
-          this.params = params;
+    this.personS.checkAuth().subscribe(
+      data => {
+        this.userInfo = data;
+      }
+    );
+    this.route.params.subscribe(
+      (params) => {
+        this.params = params;
+            this.refreshItemDetail();
+      }
+    )
 
-              this.getItems().subscribe(
-                data => {
-                  this.itemDetail = data;
-          
+  }
 
-                  /** local env */
-                  if (Constants.BACKEND === "mockup") {
-                
-                    this.api.getAllData().subscribe(
-                      data => {
-                        this.Users = data[0];
-                        this.Items = data[1];
-                        this.Logs = data[2];
+  refreshItemDetail () {
+    this.getItems().subscribe(
+      data => {
+        this.itemDetail = data;
+
+
+        /** local env */
+        if (Constants.BACKEND === "mockup") {
       
-                        this.itemDetail = [this.itemDetail].map(
-                          element => {
-                            let user = this.Users.find( e => element.userId === e.id );
-                            let log = this.Logs.reduce(
-                              (s, e) => {
-                                if (element["biddingLog"].map((e) => e.id).includes(e.id)) {
-                                  s.push(e);
-                                  return s;
-                                }
-                                return s;
-                              },
-                              []
-                            );
-                            return {
-                              ...element,
-                              ...user,
-                              "biddingLog": log,
-                              "highestBid": Math.max(...log.map(e => e.amount)),
-                            };
-                          }
-                        )[0];
-      
-                        console.log(this.itemDetail);
+          this.api.getAllData().subscribe(
+            data => {
+              this.Users = data[0];
+              this.Items = data[1];
+              this.Logs = data[2];
+
+              this.itemDetail = [this.itemDetail].map(
+                element => {
+                  let user = this.Users.find( e => element.userId === e.id );
+                  let log = this.Logs.reduce(
+                    (s, e) => {
+                      if (element["biddingLog"].map((e) => e.id).includes(e.id)) {
+                        s.push(e);
+                        return s;
                       }
-                    )
-                  }
-
-
-                  this.itemDetailOrigin = {...data};
-                  this.isLoadedData = true;
-                  this.currentImgUrl = this.itemDetail.imgUrl[0];
-    
-                  this.getSVCurrentTime().subscribe(
-                    crTime => {
-                      let distance = new Date(this.itemDetail.endTime).getTime() - new Date(crTime).getTime();
-                      this.countDowmTime(distance);
-                    }
+                      return s;
+                    },
+                    []
                   );
-
-                  if ( 
-                    new Date() >= new Date(this.itemDetail.endTime) && 
-                    this.itemDetail.sessionStatus === "RUNNING"
-                    ) {
-                      this.callUpdateEndSession().subscribe();
-                  }
+                  return {
+                    ...element,
+                    ...user,
+                    "biddingLog": log,
+                    "highestBid": Math.max(...log.map(e => e.amount)),
+                  };
                 }
-              )
-              
-        }
-      )
+              )[0];
 
+              console.log(this.itemDetail);
+            }
+          )
+        }
+
+
+        this.itemDetailOrigin = {...data};
+        this.isLoadedData = true;
+        this.currentImgUrl = this.itemDetail.imgUrl[0];
+
+        this.getSVCurrentTime().subscribe(
+          crTime => {
+            let distance = new Date(this.itemDetail.endTime).getTime() - new Date(crTime).getTime();
+            this.countDowmTime(distance);
+          }
+        );
+
+        if ( 
+          new Date() >= new Date(this.itemDetail.endTime) && 
+          this.itemDetail.sessionStatus === "RUNNING"
+          ) {
+            this.callUpdateEndSession().subscribe();
+        }
+      }
+    )
   }
 
   callUpdateEndSession () {
@@ -218,6 +221,7 @@ export class ItemDetailComponent implements OnInit {
             //   }
             // )
             alert("Bạn đã tiến hành thành công một lần đấu giá");
+            this.refreshItemDetail();
           },
           error => {
             alert("Giá của bạn phải cao hơn giá bid hiện tại!")

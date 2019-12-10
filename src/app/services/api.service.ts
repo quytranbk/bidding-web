@@ -74,7 +74,7 @@ class API {
   }
   delete (url: string, qParams?: Object | null) {
     return this.http.delete(
-      url + (qParams? this.formatQParams(qParams): ''), 
+      url + (qParams? this.formatQParams(qParams): ''),
       {
         headers : new HttpHeaders({
           'Content-Type':  'application/json',
@@ -103,7 +103,7 @@ class APIAuth {
       {
         headers : new HttpHeaders({
           'Content-Type':  'application/json',
-          "Authorization" : this.cookie.get("bidding-web-auth-token")
+          "Authorization" : localStorage.getItem("bidding-web-auth-token")
         })
       }
     );
@@ -115,7 +115,7 @@ class APIAuth {
       {
         headers : new HttpHeaders({
           'Content-Type':  'application/json',
-          "Authorization" : this.cookie.get("bidding-web-auth-token")
+          "Authorization" : localStorage.getItem("bidding-web-auth-token")
         })
       },
     );
@@ -128,7 +128,7 @@ class APIAuth {
       {
         headers : new HttpHeaders({
           'Content-Type':  'application/json',
-          "Authorization" : this.cookie.get("bidding-web-auth-token")
+          "Authorization" : localStorage.getItem("bidding-web-auth-token")
         })
       },
     );
@@ -140,7 +140,7 @@ class APIAuth {
       {
         headers : new HttpHeaders({
           'Content-Type':  'application/json',
-          "Authorization" : this.cookie.get("bidding-web-auth-token")
+          "Authorization" : localStorage.getItem("bidding-web-auth-token")
         })
       },
     );

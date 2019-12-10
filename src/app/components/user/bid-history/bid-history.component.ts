@@ -5,6 +5,7 @@ import { BiddingLogService } from '../../../services/bidding-log.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { APIService } from 'src/app/services/api.service';
 import { Constants } from 'src/app/services/constants';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-bid-history',
@@ -14,10 +15,13 @@ import { Constants } from 'src/app/services/constants';
 export class BidHistoryComponent implements OnInit {
   isResolve: boolean = true;
   userInfo: any;
-  bidLogs: any[];
+  bidLogsOrigin: any[] = [];
+  bidLogs: any[] = [];
   Users: any;
   Items: any;
   Logs: any;
+  sttSl: FormControl = new FormControl('');
+  sortSl: FormControl = new FormControl('');
   constructor(
     private api: APIService,
     private sharedS: SharedRouteDataService,
@@ -37,7 +41,7 @@ export class BidHistoryComponent implements OnInit {
         this.callGetBidLogs()
         .subscribe(
           (data: any) => {
-            this.bidLogs = data;
+            this.bidLogs = this.bidLogsOrigin = data;
 
 
             /** local env */
@@ -112,6 +116,47 @@ export class BidHistoryComponent implements OnInit {
     //   username: this.sharedS.data["userInfo"].username
     // });
     return this.personS.checkAuth();
+  }
+
+  showStatus (item) {
+    switch(new Date() >= new Date(item.endTime)) {
+      case true: return 'Đã kết thúc'
+      case false: return 'Đang diễn ra'
+    }
+  }
+
+  changeStatus () {
+    if (this.sttSl.value === "0") {
+      this.bidLogs = this.bidLogsOrigin.filter(
+        element => {
+          return new Date() < new Date(element.endTime)
+        }
+      )
+    }
+    else {
+      this.bidLogs = this.bidLogsOrigin.filter(
+        element => {
+          return new Date() >= new Date(element.endTime)
+        }
+      )
+    }
+  }
+
+  changeSort () {
+    if (this.sortSl.value === "0") {
+      this.bidLogs.sort(
+        (a, b) => {
+          return new Date(a.endTime).getTime() - new Date(b.endTime).getTime();
+        }
+      )
+    }
+    else {
+      this.bidLogs.sort(
+        (a, b) => {
+          return new Date(b.endTime).getTime() - new Date(a.endTime).getTime();
+        }
+      )
+    }
   }
 
   goToItemDetail (item) {

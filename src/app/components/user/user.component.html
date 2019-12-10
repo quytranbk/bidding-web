@@ -1,6 +1,6 @@
 <header>
     <div id="topHeader" class="mContainer d-flex align-items-stretch justify-content-between">
-      <div id="leftInfoWpr" class="d-flex">
+      <div id="leftInfoWpr" class="d-flex" *ngIf="userInfo.level !== 9">
         <div class="infoBarItem"> Khu vực</div>
         <div class="infoBarItem">
           <select class="rounded">
@@ -15,6 +15,11 @@
                 local_phone
                 </i>
           Hỗ trợ khách hàng: 023.028.0028
+        </div>
+      </div>
+      <div id="leftInfoWpr" class="d-flex" *ngIf="userInfo.level === 9">
+        <div class="infoBarItem">
+          <a [routerLink]="['/admin']">Trang Admin</a>
         </div>
       </div>
       <div id="rightInfoWpr" class="d-flex">
@@ -35,7 +40,7 @@
         </div>
         <div class="infoBarItem" *ngIf="isSignIn">
           <div class="d-inline-block imgAvatar">
-            <img class="imgThumbnail rounded-circle" [src]="userInfo.avatar" alt="">
+            <img class="imgThumbnail rounded-circle" src="../assets/fpo_avatar.png" alt="">
           </div>
           
           <a [routerLink]="['/profile']" class="colorS1">
@@ -73,14 +78,14 @@
           </div>
         </div>
         <div id="cartBox" class="flex-grow-1">
-          <a title="Ưa thích của bạn">
+          <a title="Chờ thanh toán" [routerLink]="['/profile/notification']">
             <svg width="1em" height="1em" viewBox="0 0 24 24" class="iconCart_2ayd">
             <path fill-rule="evenodd"
               d="M8 18c-1.104 0-1.99.895-1.99 2 0 1.104.886 2 1.99 2a2 2 0 000-4m10 0c-1.104 0-1.99.895-1.99 2 0 1.104.886 2 1.99 2a2 2 0 000-4M4 2H1.999v1.999H4l3.598 7.588-1.353 2.451A2 2 0 008 17h12v-2H8.423a.249.249 0 01-.249-.25l.03-.121L9.102 13h7.449c.752 0 1.408-.415 1.75-1.029l3.574-6.489A1 1 0 0021 3.999H6.213l-.406-.854A1.997 1.997 0 004 2">
             </path>
           </svg>
           </a>
-          <div class="cartQuantityBadge"><span class="badge badge-pill badge-primary">{{countPayingWait}}</span></div>
+          <div class="cartQuantityBadge"><span class="badge badge-pill badge-primary">{{countPayingWait? countPayingWait: ''}}</span></div>
         </div>
       </div>
     </div>
@@ -130,8 +135,13 @@
     </div>
     <div>
       <h6>THANH TOÁN</h6>
-      <div>
-        
+      <div class="d-flex">
+        <div class="imgBox mr-2" style="width: 50px">
+          <img src="../../../assets/images.png" alt="" class="img-thumbnail">
+        </div>
+        <div class="imgBox" style="width: 50px">
+          <img src="../../../assets/vinid-logo.png" alt="" class="img-thumbnail">
+        </div>
       </div>
     </div>
   </footer>

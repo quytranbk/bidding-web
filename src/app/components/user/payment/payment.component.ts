@@ -32,7 +32,7 @@ export class PaymentComponent implements OnInit {
       .subscribe(
         params => {
           this.params = params;
-          this.getLogs().subscribe(
+          this.getItems().subscribe(
             data => {
               this.detail = data;
               
@@ -102,20 +102,22 @@ export class PaymentComponent implements OnInit {
       )
   }
 
-  getLogs () {
-    return this.bigLogS.getLogs({
+  getItems () {
+    return this.itemS.getItems({
       id: this.params.id
     });
   }
 
   clickPay () {
-    this.detail["id"] = this.detail["itemId"];
-    this.itemS.updateItem(this.detail.itemId, {
-      ...this.detail,
-      isPayed: 1
+    this.itemS.handlePay({
+      sessionId: this.detail.sessionId
     }).subscribe(
       data => {
         alert("Thanh toán thành công.")
+        this.router.navigate(["/profile/notification"]);
+      },
+      error => {
+        alert("Thất bại.")
       }
     )
   }

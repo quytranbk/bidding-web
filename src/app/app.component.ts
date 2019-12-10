@@ -67,16 +67,6 @@ export class AppComponent {
     )
     
     this.checkAuth();
-
-    /** local env */
-
-    this.api.getAllData().subscribe(
-      data => {
-        this.Users = data[0];
-        this.Items = data[1];
-        this.Logs = data[2];
-      }
-    )
     
   }
   getCategories() {

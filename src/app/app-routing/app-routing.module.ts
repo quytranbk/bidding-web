@@ -16,6 +16,7 @@ import { CategoryManagerComponent } from '../components/admin/category-manager/c
 import { SessionComponent } from '../components/user/session/session.component';
 import { NotificationComponent } from '../components/user/notification/notification.component';
 import { PaymentComponent } from '../components/user/payment/payment.component';
+import { UserInfoComponent } from '../components/user/user-info/user-info.component';
 
     const routes: Routes = [
         {
@@ -71,6 +72,10 @@ import { PaymentComponent } from '../components/user/payment/payment.component';
                 {
                     path: 'payment/:id',
                     component: PaymentComponent,
+                },
+                {
+                    path: 'users/:username',
+                    component: UserInfoComponent,
                 },
             ]
         },

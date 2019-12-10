@@ -45,7 +45,7 @@
                 <div class="card" *ngFor="let item of filterItems">
                   <div class="card-body d-flex">
                       <div class="imgBox searchImgBox">
-                          <img class="imgThumbnail" [src]="item.imgUrl && item.imgUrl[0].url" alt="img">
+                          <img class="imgThumbnail" [src]="item.imgUrl && item.imgUrl[0]" alt="img">
                         </div>
                         <div style="flex-grow: 1;">
                           <div>

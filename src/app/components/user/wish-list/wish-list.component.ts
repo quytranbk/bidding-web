@@ -3,6 +3,7 @@ import { PersonService } from '../../../services/person.service';
 import { SharedRouteDataService } from '../../../services/shared-route-data.service';
 import { WishListService } from '../../../services/wish-list.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-wish-list',
@@ -12,7 +13,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class WishListComponent implements OnInit {
   isResolve: boolean = true;
   userInfo: any;
-  wishList: any[];
+  wishListOrigin: any[] = [];
+  wishList: any[] = [];
+  sttSl: FormControl = new FormControl('');
+  sortSl: FormControl = new FormControl('');
+  
   constructor(
     private sharedS: SharedRouteDataService,
     private personS: PersonService,
@@ -27,14 +32,17 @@ export class WishListComponent implements OnInit {
     .subscribe(
       (data: any) => {
         this.userInfo = data;
-        this.callGetMyWishList()
-        .subscribe(
-          (data: any) => {
-            this.wishList = data;
-          }
-        );
+        this.refreshMyWishList();
       }
     )
+  }
+  refreshMyWishList () {
+    this.callGetMyWishList()
+      .subscribe(
+        (data: any) => {
+          this.wishList = this.wishListOrigin = data;
+        }
+      );
   }
   callGetMyWishList () {
     return this.wishListS.getMyWishList({
@@ -48,8 +56,52 @@ export class WishListComponent implements OnInit {
     return this.personS.checkAuth();
   }
 
+  changeStatus () {
+    if (this.sttSl.value === "0") {
+      this.wishList = this.wishListOrigin.filter(
+        element => {
+          return new Date() < new Date(element.endTime)
+        }
+      )
+    }
+    else {
+      this.wishList = this.wishListOrigin.filter(
+        element => {
+          return new Date() >= new Date(element.endTime)
+        }
+      )
+    }
+  }
+
+  changeSort () {
+    if (this.sortSl.value === "0") {
+      this.wishList.sort(
+        (a, b) => {
+          return new Date(a.endTime).getTime() - new Date(b.endTime).getTime();
+        }
+      )
+    }
+    else {
+      this.wishList.sort(
+        (a, b) => {
+          return new Date(b.endTime).getTime() - new Date(a.endTime).getTime();
+        }
+      )
+    }
+  }
+
   goToItemDetail (item) {
     this.router.navigate(["/items/" + item.itemId]);
+  }
+
+  clickRemoveWishList (item) {
+    this.wishListS.removeItemWishList({
+      itemId: item.itemId
+    }).subscribe(
+      data => {
+        this.refreshMyWishList();
+      }
+    )
   }
 
 }

@@ -33,7 +33,7 @@
                             <h5><a class="text-body">{{detail.title}}</a></h5>
                           </div>
                           <div>
-                            của <span class="text-primary"><a>{{detail.name}}</a></span>
+                            của <span class="text-primary"><a>{{detail.sellerName}}</a></span>
                           </div>
                   
                   
@@ -90,7 +90,7 @@
                     <tbody>
                       <tr>
                         <th>Số tiền</th>
-                        <td>{{detail.amount | currency : 'đ': 'code': '1.0-0' : 'vi'}}</td>
+                        <td>{{detail.highestBid | currency : 'đ': 'code': '1.0-0' : 'vi'}}</td>
                       </tr>
                       <tr>
                         <th>Phí ship</th>
@@ -98,7 +98,7 @@
                       </tr>
                       <tr>
                         <th>Tổng tiền</th>
-                        <td>{{detail.amount + 20000 | currency : 'đ': 'code': '1.0-0' : 'vi'}}</td>
+                        <td>{{detail.highestBid + 20000 | currency : 'đ': 'code': '1.0-0' : 'vi'}}</td>
                       </tr>
                       <tr>
                         <th></th>
@@ -107,4 +107,38 @@
                     </tbody>
                   </table>
     </div>
+</div>
+<div class="modal fade" id="bidList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Danh sách Bid</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Số tiền</th>
+              <th scope="col">Thời gian</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of detail.biddingLog">
+              <th scope="row">{{item.id}}</th>
+              <td>{{item.amount}}</td>
+              <td>{{item.createAt | date: 'short'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -72,5 +72,8 @@ export class WishListService {
       // data = CommonFunction.transObjectKeys(data, this.pattern.addToWishList.in);
       return this.api.APIAuth.post(Constants.REMOTE_API + "/wishlist/" + data.itemid);
   }
+  removeItemWishList (data) {
+      return this.api.APIAuth.delete(Constants.REMOTE_API + "/wishlist/" + data.itemId);
+  }
 
 }

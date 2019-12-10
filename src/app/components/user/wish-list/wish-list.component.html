@@ -4,7 +4,7 @@
             <h6>Danh sách ưa thích</h6> 
           </div>
         <div>
-                <select>
+                <select (change)="changeStatus()" [formControl]="sttSl">
                         <option value="" disabled>Trạng thái</option>
                         <option value="0">Đang diễn ra</option>
                         <option value="1">Đã kết thúc</option>
@@ -18,10 +18,11 @@
     </div>
     
     <div title="filterTab"></div>
+    <div class="bg-white p-3 d-flex" *ngIf="!wishList.length"><span class="text-muted">Không có dữ liệu nào.</span></div>
     <div class="bg-white p-3 d-flex borderLine" *ngFor="let item of wishList">
         <!-- <div class="row" > -->
             <div class="imgBox searchImgBox">
-                <a><img class="imgThumbnail" [src]="item.imgUrl && item.imgUrl[0].url" alt="imgUrl"></a>
+                <a><img class="imgThumbnail" [src]="item.imgUrl && item.imgUrl[0]" alt="imgUrl"></a>
             </div>
             <div style="flex-grow: 1;" class="px-2">
                 <div class="d-flex justify-content-between">
@@ -33,7 +34,7 @@
                     </div>
                 </div>
                 <div>
-                    <span class="text-primary font-italic">{{item.sellerName}}</span>
+                    <span class="text-primary font-italic">của {{item.sellerName}}</span>
                 </div>
                 <div>
                     <span class="text-muted fontSmall">{{item.biddingLog ? item.biddingLog.length: 0}} Bid</span>
@@ -42,7 +43,9 @@
                     <div>
                         <h6 class="colorS2">{{item.highestBid| currency : 'đ': 'code': '1.0-0' : 'vi'}} <span class=" small text-muted"> (Cao nhất)</span></h6>
                     </div>
-                    
+                    <div>
+                        <a (click)="clickRemoveWishList(item)">Xóa</a>
+                    </div>
                 </div>
                 
                 <!-- <hr class="my-2">

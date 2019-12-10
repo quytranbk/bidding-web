@@ -7,6 +7,7 @@ import { APIService } from 'src/app/services/api.service';
 import { Constants } from 'src/app/services/constants';
 import { ItemService } from 'src/app/services/item.service';
 import { combineLatest } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-notification',
@@ -21,9 +22,12 @@ export class NotificationComponent implements OnInit {
   bidLogs: any[] = [];
   noPayedbidLogs: any[] = [];
   payedbidLogs: any[] = [];
+  sortSl1: FormControl = new FormControl("");
+  sortSl2: FormControl = new FormControl("");
   Users: any;
   Items: any;
   Logs: any;
+
   constructor(
     private api: APIService,
     private sharedS: SharedRouteDataService,
@@ -42,12 +46,12 @@ export class NotificationComponent implements OnInit {
         this.userInfo = data;
         combineLatest(
           this.callGetAwaitPayment(),
-          // this.callFinishPayment(),
+          this.callFinishPayment(),
         )
         .subscribe(
-          ([_callGetAwaitPayment]: [any]) => {
+          ([_callGetAwaitPayment, _callFinishPayment]: [any, any]) => {
             this.awaitPayments = _callGetAwaitPayment;
-            // this.finishPayments = _callFinishPayment;
+            this.finishPayments = _callFinishPayment;
 
 
             /** local env */
@@ -142,11 +146,44 @@ export class NotificationComponent implements OnInit {
     return this.personS.checkAuth();
   }
 
+  changeSort1 () {
+    if (this.sortSl1.value === "0") {
+      this.awaitPayments.sort(
+        (a, b) => {
+          return new Date(a.endTime).getTime() - new Date(b.endTime).getTime();
+        }
+      )
+    }
+    else {
+      this.awaitPayments.sort(
+        (a, b) => {
+          return new Date(b.endTime).getTime() - new Date(a.endTime).getTime();
+        }
+      )
+    }
+  }
+  changeSort2 () {
+    if (this.sortSl2.value === "0") {
+      this.finishPayments.sort(
+        (a, b) => {
+          return new Date(a.endTime).getTime() - new Date(b.endTime).getTime();
+        }
+      )
+    }
+    else {
+      this.finishPayments.sort(
+        (a, b) => {
+          return new Date(b.endTime).getTime() - new Date(a.endTime).getTime();
+        }
+      )
+    }
+  }
+
   goToItemDetail (item) {
-    this.router.navigate(["/items/" + item.id]);
+    this.router.navigate(["/items/" + item.sessionId]);
   }
   goToPayPage (item) {
-    this.router.navigate(["/payment/" + item.id]);
+    this.router.navigate(["/payment/" + item.sessionId]);
   }
 
 }

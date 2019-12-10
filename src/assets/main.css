@@ -12,6 +12,10 @@ img {
 a {
     cursor: pointer;
 }
+.vl {
+    border-left: 6px solid green;
+    /* height: 500px; */
+  }
 .fontSmall {
     font-size: 0.9em;
 }
@@ -72,7 +76,12 @@ a {
 .flexRestItem {
     flex: 1 0;
 }
-
+.thumbText {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
 .borderLine div {
     /* border: 1px solid black; */
 }
@@ -264,7 +273,7 @@ color: rgb(33,44,69);
     float: right;
 }
 #homeBanner {
-    height: 328px;
+    height: 495px;
     background-color: whitesmoke;
 }
 #categoriesSideBar {
@@ -376,6 +385,10 @@ color: #9f1d25;
     /* overflow: hidden; */
     /* border-radius: 6px; */
 }
+.userInfoAvt {
+    width: 3.5rem;
+    height: 3.2rem;
+}
 .card-channels-content {
     height: 61px;
     margin-top: 20px;
@@ -406,18 +419,6 @@ color: #9f1d25;
 
 .material-icons {
     font-size: inherit !important;
-}
-
-/* item-detail */
-
-.itemDetail .leftPanel {
-    
-width: 400px;
-    
-flex: 1 auto;
-}
-.itemDetail .rightPanel {
-
 }
 
 /**/

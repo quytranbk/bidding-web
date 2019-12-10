@@ -7,6 +7,8 @@ import { ItemService } from '../../../services/item.service';
 import { CategoryService } from '../../../services/category.service';
 import { finalize } from 'rxjs/operators';
 import { Observable, forkJoin, combineLatest } from 'rxjs';
+import { PersonService } from 'src/app/services/person.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sell',
@@ -14,11 +16,12 @@ import { Observable, forkJoin, combineLatest } from 'rxjs';
   styleUrls: ['./sell.component.scss']
 })
 export class SellComponent implements OnInit {
+  isSignedIn: boolean = false;
   sellForms = new FormBuilder().group({
-    title: ['aaa', [Validators.required]],
+    title: ['', [Validators.required]],
     categorySl: [undefined,[Validators.required]],
     condSl: [undefined,[Validators.required]],
-    description: ['aaa',[Validators.required]],
+    description: ['',[Validators.required]],
     startTime: [formatDate(new Date(), 'yyyy-MM-ddThh:mm:ss', 'en'),[Validators.required]],
     endTime: [formatDate(new Date(), 'yyyy-MM-ddThh:mm:ss', 'en'),[Validators.required]],
     startPrice: ['100000',[Validators.required]],
@@ -39,13 +42,25 @@ export class SellComponent implements OnInit {
   downloadURL: any;
   
   constructor(
+    private router: Router,
     private afStorage: AngularFireStorage,
     private cateS: CategoryService,
-    private itemS: ItemService
+    private itemS: ItemService,
+    private personS: PersonService,
   ) { console.log("");
   }
 
   ngOnInit() {
+    this.personS.checkAuth().subscribe(
+      data => {
+        this.isSignedIn = true;
+        
+      },
+      error => {
+        this.router.navigate(["/"]);
+      }
+    );
+
     this.getAllCategories()
     .subscribe((data: any) => {
       this.categories = data;
@@ -103,6 +118,7 @@ export class SellComponent implements OnInit {
             .subscribe(
               data => {
                 alert("Đăng bán thành công");
+                this.router.navigate(["/profile/session"]);
               }, // success path
               error => {
                 alert(JSON.stringify(error));

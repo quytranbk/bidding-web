@@ -48,7 +48,10 @@
                 </div>
                 <hr>
                 <div>
-                  <h4 class="colorS2 font-weight-bold">{{itemDetail.highestBid| currency : 'đ': 'code': '1.0-0' : 'vi'}}</h4>
+                  <h4 class="colorS2 font-weight-bold">
+                    {{itemDetail.highestBid| currency : 'đ': 'code': '1.0-0' : 'vi'}}
+                   
+                  </h4>
                 </div>
                 <div class="d-flex">
                   <div>
@@ -56,7 +59,11 @@
                     <label class="colorS4" *ngIf="cDownDate">Thời gian còn lại {{cDownDate}}</label>
                   </div>
                 </div>
-                <div *ngIf="cDownDate && userInfo.username !== itemDetail.sellerId">
+                <div>
+                    <span class="text-muted small"> ({{(itemDetail.minSpace + itemDetail.highestBid) | currency : 'đ': 'code': '1.0-0' : 'vi'}} - Giá tối thiểu tiếp theo)</span>
+
+                </div>
+                <div *ngIf="cDownDate && userInfo && userInfo.username !== itemDetail.sellerId">
                   <div class="form-inline">
                     <div class="form-group">
                       <label for="" class="sr-only">Bidding Input</label>
@@ -98,12 +105,12 @@
                               <div class="d-inline-block imgAvatar">
                                   <img class="imgThumbnail rounded-circle" src="../assets/fpo_avatar.png" alt="">
                                 </div>
-                            {{itemDetail.name}}
+                            {{itemDetail.sellerName}}
                           </a>
                         </label>
                         <p class="card-text text-muted">Chuyên đồ điện tử chất lượng khỏi bàn, mại zô mại zô</p>
-                        <a href="#" class="card-link">Trang cá nhân</a><br>
-                        <a href="#" class="card-link">Liên hệ</a>
+                        <a class="card-link"  [routerLink]="['/users/' + itemDetail.sellerId]">Trang cá nhân</a><br>
+                        <a class="card-link" [routerLink]="['/users/' + itemDetail.sellerId]">Liên hệ</a>
                       </div>
                     </div>
                 <div class="card customCard border-0">
@@ -223,7 +230,7 @@
             <tr *ngFor="let item of itemDetail.biddingLog">
               <th scope="row">{{item.id}}</th>
               <td>{{item.amount}}</td>
-              <td>{{item.dateTime}}</td>
+              <td>{{item.createAt | date : 'short'}}</td>
             </tr>
           </tbody>
         </table>

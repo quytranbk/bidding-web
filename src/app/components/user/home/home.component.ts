@@ -17,8 +17,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     combineLatest(
-      this.getNewestItems(),
-      this.getPopularItems(),
+      this.getAllItems(),
+      this.getAllItems(),
     ).subscribe(([_getNewestItems, _getPopularItems]) => {
       this.newestItems = _getNewestItems;
       this.popularItems = _getPopularItems;
