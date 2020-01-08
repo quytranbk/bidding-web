@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
 import { Constants } from './constants';
 import { APIService } from './api.service';
 import { CommonFunction } from '../utils/common-function';
@@ -21,7 +20,6 @@ export class CategoryService {
     },
   }
   constructor(
-    private cookie: CookieService,
     private api: APIService,
   ) { }
   getAllCategories () {

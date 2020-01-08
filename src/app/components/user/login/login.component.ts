@@ -11,8 +11,8 @@ export class LoginComponent implements OnInit {
   notifySignIn: string;
   isResolveSignIn: boolean = true;
   loginForms = new FormBuilder().group({
-    username: ['tester66', [Validators.required]],
-    password: ['6666', [Validators.required]],
+    user_id: ['', [Validators.required]],
+    password: ['', [Validators.required]],
   });
   constructor(
     private personS: PersonService
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
       this.callApiLoginForms()
       .subscribe(
         (data: any) => {
-          this.personS.saveWebAuthCookie(data["sToken"]);
+          this.personS.saveWebAuthCookie(data["token"]);
           window.location.reload();
         }, // success path  
         error => {

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 import { Constants } from './constants';
 import { APIService } from './api.service'
 import { CommonFunction } from '../utils/common-function';
@@ -49,7 +48,7 @@ export class PersonService {
     },
     register: {
       in: {
-        "username": "userid",
+        "username": "user_id",
       },
       out: {
 
@@ -57,7 +56,6 @@ export class PersonService {
     },
   }
   constructor(
-    private cookie: CookieService,
     private http: HttpClient,
     private api: APIService,
   ) { }
@@ -81,7 +79,7 @@ export class PersonService {
   }
   register (data) {
     data = CommonFunction.transObjectKeys(data, this.pattern.register.in);
-    return this.api.API.post(`${Constants.REMOTE_API}/user/register`, data);
+    return this.api.API.post(`${Constants.REMOTE_API}/users/register`, data);
   }
   checkAuth () {
     if (Constants.BACKEND === "mockup")

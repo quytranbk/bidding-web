@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 import { Observable, combineLatest } from 'rxjs';
 
 
@@ -8,10 +7,9 @@ import { Observable, combineLatest } from 'rxjs';
   providedIn: 'root'
 })
 export class APIService {
-  API: API = new API (this.cookie, this.http);
-  APIAuth: APIAuth = new APIAuth (this.cookie, this.http);
+  API: API = new API (this.http);
+  APIAuth: APIAuth = new APIAuth (this.http);
   constructor(
-    private cookie: CookieService,
     private http: HttpClient
     ) { }
 
@@ -28,7 +26,6 @@ export class APIService {
 
 class API {
   constructor(
-    private cookie: CookieService,
     private http: HttpClient
    ) { }
 
@@ -87,7 +84,6 @@ class API {
 }
 class APIAuth {
   constructor(
-    private cookie: CookieService,
     private http: HttpClient
    ) { }
 
@@ -103,7 +99,7 @@ class APIAuth {
       {
         headers : new HttpHeaders({
           'Content-Type':  'application/json',
-          "Authorization" : localStorage.getItem("bidding-web-auth-token")
+          "Authorization" : localStorage.getItem("bidding-web-auth-token") || ''
         })
       }
     );
@@ -115,7 +111,7 @@ class APIAuth {
       {
         headers : new HttpHeaders({
           'Content-Type':  'application/json',
-          "Authorization" : localStorage.getItem("bidding-web-auth-token")
+          "Authorization" : localStorage.getItem("bidding-web-auth-token") || ''
         })
       },
     );
@@ -128,7 +124,7 @@ class APIAuth {
       {
         headers : new HttpHeaders({
           'Content-Type':  'application/json',
-          "Authorization" : localStorage.getItem("bidding-web-auth-token")
+          "Authorization" : localStorage.getItem("bidding-web-auth-token") || ''
         })
       },
     );
@@ -140,7 +136,7 @@ class APIAuth {
       {
         headers : new HttpHeaders({
           'Content-Type':  'application/json',
-          "Authorization" : localStorage.getItem("bidding-web-auth-token")
+          "Authorization" : localStorage.getItem("bidding-web-auth-token") || ''
         })
       },
     );

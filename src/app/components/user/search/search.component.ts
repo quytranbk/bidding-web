@@ -48,7 +48,7 @@ export class SearchComponent implements OnInit {
 
         this.isLoaded = true;
 
-        this.theCate = this.categories.find(item => item.id === params.categoryid);
+        this.theCate = this.categories.find(item => item._id === params.categoryid);
         this.theCate && (this.categoryName = this.theCate.name);
 
         this.arrayForm = this.fb.group({
@@ -121,12 +121,14 @@ export class SearchComponent implements OnInit {
   getFilterItems (params) {
     let p = {};
     if (Constants.BACKEND === "mockup") {
-      params["search"] !== undefined && (p["q"] = params["search"]);
-      params["categoryid"] !== undefined && (p["categoryId"] = params["categoryid"]);
+      params["search"] && (p["name"] = params["search"]);
+      params["categoryid"] && (p["categoriesid"] = params["categoryid"]);
     }
     else {
-      params["search"] !== undefined && (p["name"] = params["search"]);
-      params["categoryid"] !== undefined && (p["categories"] = params["categoryid"]);
+      p = {
+        ...params["search"] ? {itemname: params["search"]} : {},
+        ...params["categoryid"] ? {categoriesid: params["categoryid"]} : {},
+     };
     }
     
     return this.itemS.getFilterItems(p);
@@ -175,6 +177,6 @@ export class SearchComponent implements OnInit {
   }
 
   goToItemDetail (item) {
-    this.router.navigate(["items/" + item.sessionId]);
+    this.router.navigate(["items/" + item._id]);
   }
 }

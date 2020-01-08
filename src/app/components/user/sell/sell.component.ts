@@ -73,7 +73,7 @@ export class SellComponent implements OnInit {
   callApiSellForms () {
     let objItem = {
       ...this.sellForms.value,
-      categoryId: this.sellForms.get("categorySl").value.id,
+      categoryId: this.sellForms.get("categorySl").value._id,
       itemCondition: this.sellForms.get("condSl").value.value,
       imgUrl: this.downloadURL,
       minSpace: parseInt(this.sellForms.get("minSpace").value),

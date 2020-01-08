@@ -21,6 +21,7 @@ export class ItemDetailComponent implements OnInit {
   itemDetail: any = {};
   itemDetailOrigin: any = {};
   isResolvePay: boolean = true;
+  showContainer: boolean;
   currentImgUrl;
   cDownDate: string;
   BidAmount: FormControl  = new FormControl('', [Validators.required, Validators.pattern("[0-9]+")]);
@@ -82,63 +83,69 @@ export class ItemDetailComponent implements OnInit {
   refreshItemDetail () {
     this.getItems().subscribe(
       data => {
-        this.itemDetail = data;
-
-
-        /** local env */
-        if (Constants.BACKEND === "mockup") {
-      
-          this.api.getAllData().subscribe(
-            data => {
-              this.Users = data[0];
-              this.Items = data[1];
-              this.Logs = data[2];
-
-              this.itemDetail = [this.itemDetail].map(
-                element => {
-                  let user = this.Users.find( e => element.userId === e.id );
-                  let log = this.Logs.reduce(
-                    (s, e) => {
-                      if (element["biddingLog"].map((e) => e.id).includes(e.id)) {
-                        s.push(e);
-                        return s;
-                      }
-                      return s;
-                    },
-                    []
-                  );
-                  return {
-                    ...element,
-                    ...user,
-                    "biddingLog": log,
-                    "highestBid": Math.max(...log.map(e => e.amount)),
-                  };
-                }
-              )[0];
-
-              console.log(this.itemDetail);
-            }
-          )
-        }
-
-
-        this.itemDetailOrigin = {...data};
         this.isLoadedData = true;
-        this.currentImgUrl = this.itemDetail.imgUrl[0];
+        if (data) {
+          this.showContainer = true;
+          this.itemDetail = data;
 
-        this.getSVCurrentTime().subscribe(
-          crTime => {
-            let distance = new Date(this.itemDetail.endTime).getTime() - new Date(crTime).getTime();
-            this.countDowmTime(distance);
+
+
+          /** local env */
+          if (Constants.BACKEND === "mockup") {
+
+            this.api.getAllData().subscribe(
+              data => {
+                this.Users = data[0];
+                this.Items = data[1];
+                this.Logs = data[2];
+
+                this.itemDetail = [this.itemDetail].map(
+                  element => {
+                    let user = this.Users.find(e => element.userId === e.id);
+                    let log = this.Logs.reduce(
+                      (s, e) => {
+                        if (element["biddingLog"].map((e) => e.id).includes(e.id)) {
+                          s.push(e);
+                          return s;
+                        }
+                        return s;
+                      },
+                      []
+                    );
+                    return {
+                      ...element,
+                      ...user,
+                      "biddingLog": log,
+                      "highestBid": Math.max(...log.map(e => e.amount)),
+                    };
+                  }
+                )[0];
+
+                console.log(this.itemDetail);
+              }
+            )
           }
-        );
 
-        if ( 
-          new Date() >= new Date(this.itemDetail.endTime) && 
-          this.itemDetail.sessionStatus === "RUNNING"
+
+          this.itemDetailOrigin = { ...data };
+          this.currentImgUrl = this.itemDetail.imgUrl[0];
+
+          this.getSVCurrentTime().subscribe(
+            crTime => {
+              let distance = new Date(this.itemDetail.endTime).getTime() - new Date(crTime).getTime();
+              this.countDowmTime(distance);
+            }
+          );
+
+          if (
+            new Date() >= new Date(this.itemDetail.endTime) &&
+            this.itemDetail.sessionStatus === "RUNNING"
           ) {
             this.callUpdateEndSession().subscribe();
+          }
+
         }
+        
       }
     )
   }

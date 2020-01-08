@@ -94,11 +94,9 @@ export class UserComponent implements OnInit {
 
   clickSearch () {
     let qP = {
-      search: this.searchInput,
-    }
-    if (this.cateSl.value.id) {
-      qP["categoryid"] = this.cateSl.value.id
-    }
+       ...this.searchInput ? {search: this.searchInput} : {},
+       ...this.cateSl.value._id ? {categoryid: this.cateSl.value._id} : {},
+    };
     this.router.navigate(
       ["items"], 
       {

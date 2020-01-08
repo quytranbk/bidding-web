@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 import { Constants } from './constants';
 import { APIService } from './api.service';
 import { CommonFunction } from '../utils/common-function';
@@ -52,7 +51,7 @@ export class ItemService {
       out: {
         "categoriesid": "categoryId",
         "imagelink": "imgUrl",
-        "ItemDescription": "description",
+        "itemdescription": "description",
         "itemname": "title",
         "sellername": "name",
         "itemcondition": "itemCondition",
@@ -93,7 +92,6 @@ export class ItemService {
   }
 
   constructor(
-    private cookie: CookieService,
     private http: HttpClient,
     private api: APIService,
   ) { console.log("");
@@ -111,7 +109,7 @@ export class ItemService {
           return transData.map((e) => {
             return {
               ...e,
-              highestBid: e.biddinglog.reduce(
+              highestBid: (e.biddinglog || []).reduce(
                 (s, v) => v.bidamount > s? v.bidamount: s,
                 e.startPrice  
               )
@@ -125,7 +123,7 @@ export class ItemService {
     if (Constants.BACKEND === "mockup")
     return this.api.API.get(Constants.HOST_API + "/items/" + data.id);
     
-    return this.api.API.get(`${Constants.REMOTE_API}/session/${data.id}`)
+    return this.api.API.get(`${Constants.REMOTE_API}/biddingsessions/${data.id}`)
     .pipe(
       map(
         ({data}) => {
@@ -133,21 +131,12 @@ export class ItemService {
           if (typeof transData === "object") {
             return {
               ...transData,
-              highestBid: transData.biddingLog.reduce(
+              highestBid: (transData.biddinglog || []).reduce(
                 (s, v) => v.bidamount > s? v.bidamount: s,
                 transData.startPrice
               )
             }
           }
-          return transData.map((e) => {
-            return {
-              ...e,
-              highestBid: e.biddinglog.reduce(
-                (s, v) => v.bidamount > s? v.bidamount: s,
-                e.startPrice
-              )
-            }
-          })
         }
       )
     );
@@ -156,7 +145,7 @@ export class ItemService {
     if (Constants.BACKEND === "mockup")
     return this.api.API.get(`${Constants.HOST_API}/items`, params)
 
-    return this.api.API.get(`${Constants.REMOTE_API}/session`, params)
+    return this.api.API.get(`${Constants.REMOTE_API}/biddingsessions`, params)
     .pipe(
       map(
         ({data}) => {
@@ -164,7 +153,7 @@ export class ItemService {
           return transData.map((e) => {
             return {
               ...e,
-              highestBid: e.biddinglog.reduce(
+              highestBid: (e.biddinglog || []).reduce(
                 (s, v) => v.bidamount > s? v.bidamount: s,
                 e.startPrice
               )
@@ -212,7 +201,7 @@ export class ItemService {
       return this.api.API.post(Constants.HOST_API + "/items", data);
 
       data = CommonFunction.transObjectKeys(data, this.pattern.createANewItem.in);
-      return this.api.APIAuth.post(Constants.REMOTE_API + "/session", data);
+      return this.api.APIAuth.post(Constants.REMOTE_API + "/biddingsessions", data);
   }
   updateItem (id, data) {
       return this.api.APIAuth.put(Constants.HOST_API + "/items/" + id, data);

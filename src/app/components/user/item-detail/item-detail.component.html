@@ -5,7 +5,18 @@
               <li class="breadcrumb-item active">Mặt hàng</li>
             </ol>
           </nav>
-          <div class="d-flex">
+          <div class="d-flex flex-column p-3 colorS4" *ngIf="!showContainer">
+            <div class="flexItem align-self-center display-1">
+              <i class="material-icons">
+              sentiment_very_dissatisfied
+              </i>
+            </div>
+            <div class="flexItem align-self-center">
+              Mặt hàng hiện tại không tìm thấy.
+            </div>
+            
+          </div>
+          <div class="d-flex" *ngIf="showContainer">
             <div class="flexItem px-3" style="width: 300px">
               <div class="imgBox carouselThumbBox">
                 <img class="imgThumbnail" [src]="currentImgUrl" alt="imgTitle">
@@ -26,7 +37,7 @@
                     <h5><a class="text-body">{{itemDetail.title}}</a></h5>
                   </div>
                   <div>
-                    của <span class="text-primary"><a>{{itemDetail.sellerName}}</a></span>
+                    của <span class="text-primary"><a>{{itemDetail?.user?.name}}</a></span>
                   </div>
           
           
@@ -86,8 +97,8 @@
                 </div>
                 <div>
                   <a data-toggle="modal" data-target="#bidList">
-                    <span class="text-primary">[Danh sách Bid] </span>
-                    <span class="text-muted">[{{itemDetail.biddingLog.length? itemDetail.biddingLog.length: 0}}]</span>
+                    <span class="text-primary">[Danh sách đấu giá] </span>
+                    <span class="text-muted">[{{itemDetail?.biddinglog?.length ? itemDetail?.biddinglog?.length : 0}}]</span>
                   </a>
                 </div>
                 <hr>
@@ -105,12 +116,12 @@
                               <div class="d-inline-block imgAvatar">
                                   <img class="imgThumbnail rounded-circle" src="../assets/fpo_avatar.png" alt="">
                                 </div>
-                            {{itemDetail.sellerName}}
+                            {{itemDetail?.user?.name}}
                           </a>
                         </label>
                         <p class="card-text text-muted">Chuyên đồ điện tử chất lượng khỏi bàn, mại zô mại zô</p>
-                        <a class="card-link"  [routerLink]="['/users/' + itemDetail.sellerId]">Trang cá nhân</a><br>
-                        <a class="card-link" [routerLink]="['/users/' + itemDetail.sellerId]">Liên hệ</a>
+                        <a class="card-link"  [routerLink]="['/users/' + itemDetail?.user?._id]">Trang cá nhân</a><br>
+                        <a class="card-link" [routerLink]="['/users/' + itemDetail?.user?._id]">Liên hệ</a>
                       </div>
                     </div>
                 <div class="card customCard border-0">
@@ -212,7 +223,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Danh sách Bid</h5>
+        <h5 class="modal-title">Danh sách đấu giá</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -227,10 +238,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of itemDetail.biddingLog">
-              <th scope="row">{{item.id}}</th>
-              <td>{{item.amount}}</td>
-              <td>{{item.createAt | date : 'short'}}</td>
+            <tr *ngFor="let item of itemDetail.biddinglog;index as id">
+              <th scope="row">{{id + 1}}</th>
+              <td>{{item.bidamount}}</td>
+              <td>{{item.biddate | date : 'short'}}</td>
             </tr>
           </tbody>
         </table>

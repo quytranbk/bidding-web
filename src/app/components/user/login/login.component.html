@@ -11,8 +11,8 @@
           <form [formGroup]="loginForms" class="" novalidate>
               <div class="form-group">
                 <label for="exampleInputEmail1">Tên đăng nhập</label>
-                <input type="text" class="form-control" formControlName="username" placeholder="Enter ...">
-                <div class="invalid-feedback d-inline" *ngIf="loginForms.get('username').touched && loginForms.get('username').hasError('required')">
+                <input type="text" class="form-control" formControlName="user_id" placeholder="Enter ...">
+                <div class="invalid-feedback d-inline" *ngIf="loginForms.get('user_id').touched && loginForms.get('user_id').hasError('required')">
                   Không được để trống 
                 </div>
               </div>
