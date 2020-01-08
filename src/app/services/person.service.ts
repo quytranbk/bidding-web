@@ -67,10 +67,10 @@ export class PersonService {
   }
   login (data) {
     data = CommonFunction.transObjectKeys(data, this.pattern.login.in);
-    return this.api.API.post(`${Constants.REMOTE_API}/login`, data)
+    return this.api.API.post(`${Constants.REMOTE_API}/users/login`, data)
     .pipe(
       map(
-        data => CommonFunction.transObjectKeys(data, this.pattern.login.out)
+        ({data}) => CommonFunction.transObjectKeys(data, this.pattern.login.out)
       )
     );
   }
@@ -81,7 +81,7 @@ export class PersonService {
   }
   register (data) {
     data = CommonFunction.transObjectKeys(data, this.pattern.register.in);
-    return this.api.API.post(`${Constants.REMOTE_API}/signup`, data);
+    return this.api.API.post(`${Constants.REMOTE_API}/user/register`, data);
   }
   checkAuth () {
     if (Constants.BACKEND === "mockup")
@@ -91,10 +91,10 @@ export class PersonService {
     // );
 
     // if (this.cookie.check("bidding-web-auth-token")) {
-      return this.api.APIAuth.get(`${Constants.REMOTE_API}/profile`)
+      return this.api.APIAuth.get(`${Constants.REMOTE_API}/users/profile`)
       .pipe(
         map(
-          data => CommonFunction.transObjectKeys(data, this.pattern.checkAuth.out)
+          ({data}) => CommonFunction.transObjectKeys(data, this.pattern.checkAuth.out)
         )
       );
     // }
@@ -111,10 +111,10 @@ export class PersonService {
     //   map(data => data[0])
     // );
 
-    return this.api.APIAuth.get(`${Constants.REMOTE_API}/profile`)
+    return this.api.APIAuth.get(`${Constants.REMOTE_API}/users/profile`)
     .pipe(
       map(
-        data => CommonFunction.transObjectKeys(data, this.pattern.checkAuth.out)
+        ({data}) => CommonFunction.transObjectKeys(data, this.pattern.checkAuth.out)
       )
     );
   }
@@ -123,7 +123,7 @@ export class PersonService {
     return this.api.APIAuth.get(`${Constants.REMOTE_API}/user/${data.userId}`)
     .pipe(
       map(
-        data => CommonFunction.transObjectKeys(data, this.pattern.checkAuth.out)
+        ({data}) => CommonFunction.transObjectKeys(data, this.pattern.checkAuth.out)
       )
     );
   }

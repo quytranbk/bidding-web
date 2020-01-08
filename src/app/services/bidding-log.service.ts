@@ -53,10 +53,10 @@ export class BiddingLogService {
     if (Constants.BACKEND === "mockup")
     return this.api.API.get(`${Constants.HOST_API}/biddinglogs?userId=${data.userId}`);
 
-    return this.api.APIAuth.get(`${Constants.REMOTE_API}/history/bid`)
+    return this.api.APIAuth.get(`${Constants.REMOTE_API}/biddingsessions/bidlog/currentuser`)
     .pipe(
       map(
-        data => CommonFunction.transObjectKeys(data, this.pattern.getMyBidLogs.out)
+        ({data}) => CommonFunction.transObjectKeys(data, this.pattern.getMyBidLogs.out)
       )
     );;
   }
@@ -65,7 +65,7 @@ export class BiddingLogService {
     return this.api.API.post(`${Constants.HOST_API}/biddinglogs`, data);
 
     data = CommonFunction.transObjectKeys(data, this.pattern.createBiddingLog.in);
-    return this.api.APIAuth.post(`${Constants.REMOTE_API}/logs`, data);
+    return this.api.APIAuth.post(`${Constants.REMOTE_API}/biddingsessions/${data.sessionid}/bidlog`, data);
     
   }
 

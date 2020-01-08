@@ -39,7 +39,7 @@ class API {
     );
   }
   get (url, qParams? : Object) {
-    return this.http.get(
+    return this.http.get<any>(
       url + (qParams? this.formatQParams(qParams): ''), 
       {
         headers : new HttpHeaders({
@@ -49,7 +49,7 @@ class API {
     );
   }
   post (url: string, data?: Object | null, qParams?: Object | null) {
-    return this.http.post(
+    return this.http.post<any>(
       url + (qParams? this.formatQParams(qParams): ''), 
       data? data: undefined,
       {
@@ -61,7 +61,7 @@ class API {
 
   }
   put (url: string, data?: Object | null, qParams?: Object | null) {
-    return this.http.put(
+    return this.http.put<any>(
       url + (qParams? this.formatQParams(qParams): ''), 
       data? data: undefined,
       {
@@ -98,7 +98,7 @@ class APIAuth {
     );
   }
   get (url, qParams? : Object) {
-    return this.http.get(
+    return this.http.get<any>(
       url + (qParams? this.formatQParams(qParams): ''), 
       {
         headers : new HttpHeaders({
@@ -109,7 +109,7 @@ class APIAuth {
     );
   }
   post (url: string, data?: Object | null, qParams?: Object | null) {
-    return this.http.post(
+    return this.http.post<any>(
       url + (qParams? this.formatQParams(qParams): ''), 
       data? data: undefined,
       {
@@ -122,7 +122,7 @@ class APIAuth {
 
   }
   put (url: string, data?: Object | null, qParams?: Object | null) {
-    return this.http.put(
+    return this.http.put<any>(
       url + (qParams? this.formatQParams(qParams): ''), 
       data? data: undefined,
       {

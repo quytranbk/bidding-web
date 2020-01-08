@@ -51,10 +51,10 @@ export class WishListService {
     if (Constants.BACKEND === "mockup")
     return this.api.API.get(`${Constants.HOST_API}/wishlist?userId=${data.userId}`);
 
-    return this.api.APIAuth.get(`${Constants.REMOTE_API}/wishlist`)
+    return this.api.APIAuth.get(`${Constants.REMOTE_API}/wishlists/currentuser`)
     .pipe(
       map(
-        data => CommonFunction.transObjectKeys(data, this.pattern.getMyWishList.out)
+        ({data}) => CommonFunction.transObjectKeys(data, this.pattern.getMyWishList.out)
       )
     );
   }

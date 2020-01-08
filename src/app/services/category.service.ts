@@ -31,7 +31,7 @@ export class CategoryService {
     return this.api.API.get(`${Constants.REMOTE_API}/categories`)
     .pipe(
       map(
-        data => CommonFunction.transObjectKeys(data, this.pattern.getAllCategories.out)
+        ({data}) => CommonFunction.transObjectKeys(data, this.pattern.getAllCategories.out)
       )
     );
   }

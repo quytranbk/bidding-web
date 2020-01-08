@@ -103,17 +103,17 @@ export class ItemService {
     if (Constants.BACKEND === "mockup")
     return this.api.API.get(`${Constants.HOST_API}/items`);
 
-    return this.api.API.get(`${Constants.REMOTE_API}/session`)
+    return this.api.API.get(`${Constants.REMOTE_API}/biddingsessions`)
     .pipe(
       map(
-        data => {
+        ({data}) => {
           let transData = <any>(CommonFunction.transObjectKeys(data, this.pattern.getAllItems.out));
           return transData.map((e) => {
             return {
               ...e,
-              highestBid: e.biddingLog.reduce(
-                (s, v) => v.amount > s? v.amount: s,
-                e.startPrice
+              highestBid: e.biddinglog.reduce(
+                (s, v) => v.bidamount > s? v.bidamount: s,
+                e.startPrice  
               )
             }
           })
@@ -128,13 +128,13 @@ export class ItemService {
     return this.api.API.get(`${Constants.REMOTE_API}/session/${data.id}`)
     .pipe(
       map(
-        data => {
+        ({data}) => {
           let transData = <any>(CommonFunction.transObjectKeys(data, this.pattern.getAllItems.out));
           if (typeof transData === "object") {
             return {
               ...transData,
               highestBid: transData.biddingLog.reduce(
-                (s, v) => v.amount > s? v.amount: s,
+                (s, v) => v.bidamount > s? v.bidamount: s,
                 transData.startPrice
               )
             }
@@ -142,8 +142,8 @@ export class ItemService {
           return transData.map((e) => {
             return {
               ...e,
-              highestBid: e.biddingLog.reduce(
-                (s, v) => v.amount > s? v.amount: s,
+              highestBid: e.biddinglog.reduce(
+                (s, v) => v.bidamount > s? v.bidamount: s,
                 e.startPrice
               )
             }
@@ -159,13 +159,13 @@ export class ItemService {
     return this.api.API.get(`${Constants.REMOTE_API}/session`, params)
     .pipe(
       map(
-        data => {
+        ({data}) => {
           let transData = <any>(CommonFunction.transObjectKeys(data, this.pattern.getAllItems.out));
           return transData.map((e) => {
             return {
               ...e,
-              highestBid: e.biddingLog.reduce(
-                (s, v) => v.amount > s? v.amount: s,
+              highestBid: e.biddinglog.reduce(
+                (s, v) => v.bidamount > s? v.bidamount: s,
                 e.startPrice
               )
             }
@@ -187,7 +187,7 @@ export class ItemService {
     return this.api.APIAuth.get(`${Constants.REMOTE_API}/history/sell`)
     .pipe(
       map(
-        data => CommonFunction.transObjectKeys(data, this.pattern.getMySessions.out)
+        ({data}) => CommonFunction.transObjectKeys(data, this.pattern.getMySessions.out)
       )
     );
   }
@@ -195,7 +195,7 @@ export class ItemService {
     return this.api.APIAuth.get(`${Constants.REMOTE_API}/awaitpayment`)
     .pipe(
       map(
-        data => CommonFunction.transObjectKeys(data, this.pattern.getAwaitPayment.out)
+        ({data}) => CommonFunction.transObjectKeys(data, this.pattern.getAwaitPayment.out)
       )
     );
   }
@@ -203,7 +203,7 @@ export class ItemService {
     return this.api.APIAuth.get(`${Constants.REMOTE_API}/finished`)
     .pipe(
       map(
-        data => CommonFunction.transObjectKeys(data, this.pattern.getAwaitPayment.out)
+        ({data}) => CommonFunction.transObjectKeys(data, this.pattern.getAwaitPayment.out)
       )
     );
   }
