@@ -118,14 +118,14 @@ export class UserComponent implements OnInit {
   }
 
   goTo(item) {
-    this.ActiveCategoryId = item.id;
-    if (!item.id) window.location.href = "/";
+    this.ActiveCategoryId = item._id;
+    if (!item._id) window.location.href = "/";
 
     this.router.navigate(
       ["/items"], 
       {
         queryParams: {
-          categoryid: item.id
+          categoryid: item._id
         }
       }
     );

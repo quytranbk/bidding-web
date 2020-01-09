@@ -135,7 +135,7 @@
                   <img class="imgThumbnail" [src]="item.imgUrl[0]" alt="postImg">
                 </div>
                 <div class="mt-2">
-                  <h6><a [routerLink]="['/items/' + item.sessionId]" class="text-body">{{item.title}}</a></h6>
+                  <h6><a [routerLink]="['/items/' + item._id]" class="text-body">{{item.title}}</a></h6>
                 </div>
                 <div class="">
                   <h6 class="colorS2">{{item.highestBid| currency : 'đ': 'code': '1.0-0' : 'vi'}} <span class="badge badge-warning">CAO NHẤT</span></h6>
@@ -168,7 +168,7 @@
                     <img class="imgThumbnail" [src]="item.imgUrl[0]" alt="postImg">
                   </div>
                   <div class="mt-2">
-                    <h6><a [routerLink]="['/items/' + item.sessionId]" class="text-body">{{item.title}}</a></h6>
+                    <h6><a [routerLink]="['/items/' + item._id]" class="text-body">{{item.title}}</a></h6>
                   </div>
                   <div class="">
                     <h6 class="colorS2">{{item.startPrice| currency : 'đ': 'code': '1.0-0' : 'vi'}} <span class="badge badge-warning">CAO NHẤT</span></h6>

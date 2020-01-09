@@ -15,7 +15,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./notification.component.scss']
 })
 export class NotificationComponent implements OnInit {
-  isResolve: boolean = true;
+  isLoading: boolean = true;
   userInfo: any;
   awaitPayments: any[] = [];
   finishPayments: any[] = [];
@@ -50,6 +50,7 @@ export class NotificationComponent implements OnInit {
         )
         .subscribe(
           ([_callGetAwaitPayment, _callFinishPayment]: [any, any]) => {
+            this.isLoading = false;
             this.awaitPayments = _callGetAwaitPayment;
             this.finishPayments = _callFinishPayment;
 
@@ -180,10 +181,10 @@ export class NotificationComponent implements OnInit {
   }
 
   goToItemDetail (item) {
-    this.router.navigate(["/items/" + item.sessionId]);
+    this.router.navigate(["/items/" + item._id]);
   }
   goToPayPage (item) {
-    this.router.navigate(["/payment/" + item.sessionId]);
+    this.router.navigate(["/payment/" + item._id]);
   }
 
 }

@@ -11,7 +11,7 @@ export class BiddingLogService {
   pattern = {
     createBiddingLog: {
       in: {
-        "sessionId": "sessionid"
+        "amount": "bidamount"
       },
       out: {}
     },
@@ -26,6 +26,7 @@ export class BiddingLogService {
         "sessionenddate": "endTime",
         "sessionid": "sessionId",
         "sessionstartdate": "startTime",
+        "biddingsession": "biddingSession",
       }
     },
   }
@@ -60,12 +61,12 @@ export class BiddingLogService {
       )
     );;
   }
-  createBiddingLog (data) {
+  createBiddingLog (sessionId, data) {
     if (Constants.BACKEND === "mockup")
     return this.api.API.post(`${Constants.HOST_API}/biddinglogs`, data);
 
     data = CommonFunction.transObjectKeys(data, this.pattern.createBiddingLog.in);
-    return this.api.APIAuth.post(`${Constants.REMOTE_API}/biddingsessions/${data.sessionid}/bidlog`, data);
+    return this.api.APIAuth.post(`${Constants.REMOTE_API}/biddingsessions/${sessionId}/bidlog`, data);
     
   }
 

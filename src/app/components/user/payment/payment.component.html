@@ -33,7 +33,7 @@
                             <h5><a class="text-body">{{detail.title}}</a></h5>
                           </div>
                           <div>
-                            của <span class="text-primary"><a>{{detail.sellerName}}</a></span>
+                            của <span class="text-primary"><a>{{detail.user?.name}}</a></span>
                           </div>
                   
                   
@@ -65,7 +65,7 @@
                         <div>
                           <a data-toggle="modal" data-target="#bidList">
                             <span class="text-primary">[Danh sách Bid] </span>
-                            <span class="text-muted">[{{detail.biddingLog && detail.biddingLog.length? detail.biddingLog.length: 0}}]</span>
+                            <span class="text-muted">[{{detail.biddinglog && detail.biddinglog.length? detail.biddinglog.length: 0}}]</span>
                           </a>
                         </div>
                         <!-- <hr>

@@ -109,9 +109,7 @@ export class PaymentComponent implements OnInit {
   }
 
   clickPay () {
-    this.itemS.handlePay({
-      sessionId: this.detail.sessionId
-    }).subscribe(
+    this.itemS.handlePay(this.detail._id).subscribe(
       data => {
         alert("Thanh toán thành công.")
         this.router.navigate(["/profile/notification"]);

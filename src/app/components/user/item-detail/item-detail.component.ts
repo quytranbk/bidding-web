@@ -171,6 +171,10 @@ export class ItemDetailComponent implements OnInit {
   getSVCurrentTime () {
     return this.personS.getSVCurrentTime();
   }
+
+  showBidInput () {
+    return this.cDownDate && this.userInfo && this.userInfo._id !== this.itemDetail.user._id;
+  }
   
   countDowmTime(distance) {
     // Update the count down every 1 second
@@ -190,8 +194,7 @@ export class ItemDetailComponent implements OnInit {
 
   }
   createBiddingLog () {
-    return this.bigLogS.createBiddingLog({
-      sessionId: this.itemDetail.sessionId,
+    return this.bigLogS.createBiddingLog(this.itemDetail._id, {
       amount: parseInt(this.BidAmount.value),
     });
   }
@@ -241,7 +244,7 @@ export class ItemDetailComponent implements OnInit {
 
   callAddToWishList () {
     return this.wishListS.addToWishList({
-      itemid: this.itemDetail.itemId
+      sessionid: this.itemDetail._id
     });
   }
   clickAddToWishList () {

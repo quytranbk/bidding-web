@@ -13,7 +13,7 @@ import { Constants } from 'src/app/services/constants';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-  isLoaded: boolean = false;
+  isLoading: boolean = true;
   filterItems: any[];
   categories: any[];
   params: any;
@@ -46,7 +46,7 @@ export class SearchComponent implements OnInit {
         this.filterItems = _getFilterItems;
         this.categories = _getAllCategories;
 
-        this.isLoaded = true;
+        this.isLoading = false;
 
         this.theCate = this.categories.find(item => item._id === params.categoryid);
         this.theCate && (this.categoryName = this.theCate.name);

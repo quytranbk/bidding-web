@@ -13,7 +13,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./bid-history.component.scss']
 })
 export class BidHistoryComponent implements OnInit {
-  isResolve: boolean = true;
+  isLoading: boolean = true;
   userInfo: any;
   bidLogsOrigin: any[] = [];
   bidLogs: any[] = [];
@@ -41,6 +41,7 @@ export class BidHistoryComponent implements OnInit {
         this.callGetBidLogs()
         .subscribe(
           (data: any) => {
+            this.isLoading = false;
             this.bidLogs = this.bidLogsOrigin = data;
 
 
@@ -107,9 +108,7 @@ export class BidHistoryComponent implements OnInit {
     )
   }
   callGetBidLogs () {
-    return this.bidLogS.getMyBidLogs({
-      userId: this.userInfo.id
-    });
+    return this.bidLogS.getMyBidLogs();
   }
   callGetInfo () {
     // return this.personS.getInfo({

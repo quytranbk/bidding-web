@@ -13,7 +13,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./session.component.scss']
 })
 export class SessionComponent implements OnInit {
-  isResolve: boolean = true;
+  isLoading: boolean = true;
   userInfo: any;
   sessionsOrigin: any[] = [];
   sessions: any[] = [];
@@ -42,6 +42,7 @@ export class SessionComponent implements OnInit {
         this.callGetMySessions()
         .subscribe(
           (data: any) => {
+            this.isLoading = false;
             this.sessions = this.sessionsOrigin = data;
 
             

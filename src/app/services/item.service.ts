@@ -31,7 +31,7 @@ export class ItemService {
         "itemid": "itemId",
         "sessionid": "sessionId",
         "enddate": "endTime",
-        "currentbid": "startPrice",
+        "currentbid": "highestBid",
         "sessionstatus": "sessionStatus",
         "minimumincreasebid": "minSpace",
       }
@@ -65,12 +65,12 @@ export class ItemService {
       out: {
         "itemid": "itemId",
         "itemname": "title",
-        "sessionenddate": "endTime",
+        "enddate": "endTime",
         "sessionid": "sessionId",
-        "sessionstartdate": "startTime",
+        "startdate": "startTime",
         "images": "imgUrl",
         "currentbid": "highestBid",
-        "BidCount": "bidCount"
+        "bidcount": "bidCount"
       }
     },
     getAwaitPayment: {
@@ -81,12 +81,12 @@ export class ItemService {
         "imagelink": "imgUrl",
         "itemdescription": "description",
         "itemname": "title",
-        "sellername": "name",
+        "startprice": "startPrice",
         "itemcondition": "itemCondition",
         "itemid": "itemId",
         "sessionid": "sessionId",
         "enddate": "endTime",
-        "currentbid": "startPrice",
+        "currentbid": "highestBid",
       }
     },
   }
@@ -106,15 +106,7 @@ export class ItemService {
       map(
         ({data}) => {
           let transData = <any>(CommonFunction.transObjectKeys(data, this.pattern.getAllItems.out));
-          return transData.map((e) => {
-            return {
-              ...e,
-              highestBid: (e.biddinglog || []).reduce(
-                (s, v) => v.bidamount > s? v.bidamount: s,
-                e.startPrice  
-              )
-            }
-          })
+          return transData;
         }
       )
     );
@@ -128,15 +120,7 @@ export class ItemService {
       map(
         ({data}) => {
           let transData = <any>(CommonFunction.transObjectKeys(data, this.pattern.getAllItems.out));
-          if (typeof transData === "object") {
-            return {
-              ...transData,
-              highestBid: (transData.biddinglog || []).reduce(
-                (s, v) => v.bidamount > s? v.bidamount: s,
-                transData.startPrice
-              )
-            }
-          }
+          return transData;
         }
       )
     );
@@ -173,7 +157,7 @@ export class ItemService {
     if (Constants.BACKEND === "mockup")
     return this.api.API.get(Constants.HOST_API + "/items?sellerId=" + data.userId);
     
-    return this.api.APIAuth.get(`${Constants.REMOTE_API}/history/sell`)
+    return this.api.APIAuth.get(`${Constants.REMOTE_API}/biddingsessions/all/currentuser`)
     .pipe(
       map(
         ({data}) => CommonFunction.transObjectKeys(data, this.pattern.getMySessions.out)
@@ -181,7 +165,7 @@ export class ItemService {
     );
   }
   getAwaitPayment () {
-    return this.api.APIAuth.get(`${Constants.REMOTE_API}/awaitpayment`)
+    return this.api.APIAuth.get(`${Constants.REMOTE_API}/biddingsessions/all/awaitpayment`)
     .pipe(
       map(
         ({data}) => CommonFunction.transObjectKeys(data, this.pattern.getAwaitPayment.out)
@@ -189,7 +173,7 @@ export class ItemService {
     );
   }
   getFinishPayment () {
-    return this.api.APIAuth.get(`${Constants.REMOTE_API}/finished`)
+    return this.api.APIAuth.get(`${Constants.REMOTE_API}/biddingsessions/all/finished`)
     .pipe(
       map(
         ({data}) => CommonFunction.transObjectKeys(data, this.pattern.getAwaitPayment.out)
@@ -206,8 +190,8 @@ export class ItemService {
   updateItem (id, data) {
       return this.api.APIAuth.put(Constants.HOST_API + "/items/" + id, data);
   }
-  handlePay (data) {
-      return this.api.APIAuth.put(Constants.REMOTE_API + "/payment/" + data.sessionId);
+  handlePay (sessionid) {
+      return this.api.APIAuth.post(`${Constants.REMOTE_API}/biddingsessions/${sessionid}/payment`);
   }
   updateEndSession (data) {
       return this.api.APIAuth.put(Constants.REMOTE_API + "/lock/" + data.sessionId);

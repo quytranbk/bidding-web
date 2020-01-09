@@ -11,7 +11,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./wish-list.component.scss']
 })
 export class WishListComponent implements OnInit {
-  isResolve: boolean = true;
+  isLoading: boolean = true;
   userInfo: any;
   wishListOrigin: any[] = [];
   wishList: any[] = [];
@@ -40,6 +40,7 @@ export class WishListComponent implements OnInit {
     this.callGetMyWishList()
       .subscribe(
         (data: any) => {
+          this.isLoading = false;
           this.wishList = this.wishListOrigin = data;
         }
       );

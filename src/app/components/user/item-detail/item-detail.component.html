@@ -74,7 +74,7 @@
                     <span class="text-muted small"> ({{(itemDetail.minSpace + itemDetail.highestBid) | currency : 'đ': 'code': '1.0-0' : 'vi'}} - Giá tối thiểu tiếp theo)</span>
 
                 </div>
-                <div *ngIf="cDownDate && userInfo && userInfo.username !== itemDetail.sellerId">
+                <div *ngIf="showBidInput()">
                   <div class="form-inline">
                     <div class="form-group">
                       <label for="" class="sr-only">Bidding Input</label>
