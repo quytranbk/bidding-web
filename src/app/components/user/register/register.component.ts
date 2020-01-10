@@ -35,9 +35,10 @@ export class RegisterComponent implements OnInit {
           // window.location.reload();
           alert("Đăng ký thành công");
         }, // success path  
-        error => {
+        ({error}) => {
+          alert(error.message)
           this.isResolveReg = false;
-        }// error path
+        }
       );
     }
   }

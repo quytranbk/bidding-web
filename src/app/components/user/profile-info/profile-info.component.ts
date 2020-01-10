@@ -71,10 +71,10 @@ export class ProfileInfoComponent implements OnInit {
           alert("Thành công.");
           // window.location.reload();
         }, // success path  
-        error => {
+        ({error}) => {
+          alert(error.message)
           this.isResolve = false;
-          alert("no")
-        }// error path
+        }
       );
       this.callChangePass().subscribe();
 

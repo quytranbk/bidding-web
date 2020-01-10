@@ -14,7 +14,7 @@ export class PersonService {
   pattern = {
     login: {
       in: {
-        "username": "userid",
+        "username": "user_id",
       },
       out: {
         "sessiontoken": "sToken",
@@ -31,7 +31,7 @@ export class PersonService {
     },
     updateInfo: {
       in: {
-        username: "userid",
+        username: "user_id",
       },
       out: {
 
@@ -126,7 +126,8 @@ export class PersonService {
     );
   }
   updateInfo (data) {
-    return this.api.APIAuth.put(`${Constants.REMOTE_API}/profile`, data);
+    data = CommonFunction.transObjectKeys(data, this.pattern.updateInfo.in);
+    return this.api.APIAuth.put(`${Constants.REMOTE_API}/users/update_profile`, data);
   }
   changePass (data) {
     data = CommonFunction.transObjectKeys(data, this.pattern.changePass.in);

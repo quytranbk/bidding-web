@@ -120,9 +120,9 @@ export class SellComponent implements OnInit {
                 alert("Đăng bán thành công");
                 this.router.navigate(["/profile/session"]);
               }, // success path
-              error => {
-                alert(JSON.stringify(error));
-              }// error path
+              ({error}) => {
+                alert(error.message)
+              }
             );
         }
       )

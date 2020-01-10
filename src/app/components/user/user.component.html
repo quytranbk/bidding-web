@@ -68,10 +68,6 @@
       </div>
       <div id="searchWapper" class="flex-grow-1 d-flex justify-content-between">
         <div id="searchBox" class="" style="width: 800px;">
-          <!-- <div id="searhContainer">
-              <input type="text" style="border:unset">
-              <button type="button" style="">Tìm kiếm</button>
-          </div> -->
           <div class="input-group mb-3">
               
                 <div class="input-group-prepend">
@@ -86,18 +82,19 @@
             </div>
           </div>
         </div>
-        <div id="cartBox">
-          <div class="d-flex">
-            <div class="flexItem mr-3" style="min-width: 100px; padding: 20px 10px">
-              <div>
-                <img class="imgAvatar mr-2" src="../../../assets/wallet-icon.png" alt="">
-                <span class="fontSmall">{{(userInfo.wallet || 0 | currency : 'đ': 'code': '1.0-0' : 'vi')}}</span>
+        <div id="cartBox" class="d-flex">
+          <div class="flexItem mr-3">
+            <div>
+                <img class="imgAvatar mr-1" src="../../../assets/wallet-icon.png" alt="">
+                <span class="fontSmall colorS2">{{(userInfo.wallet || 0 | currency : 'đ': 'code': '1.0-0' : 'vi')}}</span>
               </div>
-              <div>
-                <img class="imgAvatar mr-2" src="../../../assets/v-icon.png" alt="">
-                <span class="fontSmall">{{userInfo.vpoint}} điểm</span>
+              <div class="">
+                <img class="imgAvatar mr-1" src="../../../assets/v-icon.png" alt="">
+                <span class="fontSmall colorS1">{{userInfo.vpoint || 0}} điểm</span>
               </div>
-            </div>
+          </div>
+              
+            
             <div class="flexItem">
               <a title="Chờ thanh toán" [routerLink]="['/profile/notification']">
                 <svg width="1em" height="1em" viewBox="0 0 24 24" class="iconCart_2ayd">
@@ -107,9 +104,8 @@
                 </svg>
               </a>
               <div class="cartQuantityBadge"><span
-                  class="badge badge-pill badge-primary">{{countPayingWait? countPayingWait: ''}}</span></div>
+                  class="badge badge-pill badge-primary">{{countPayingWait || 0}}</span></div>
             </div>
-          </div>
          
         </div>
       </div>

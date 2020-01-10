@@ -114,8 +114,8 @@ export class PaymentComponent implements OnInit {
         alert("Thanh toán thành công.")
         this.router.navigate(["/profile/notification"]);
       },
-      error => {
-        alert("Thất bại.")
+      ({error}) => {
+        alert(error.message)
       }
     )
   }

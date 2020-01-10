@@ -233,8 +233,8 @@ export class ItemDetailComponent implements OnInit {
             alert("Bạn đã tiến hành thành công một lần đấu giá");
             this.refreshItemDetail();
           },
-          error => {
-            alert("Giá của bạn phải cao hơn giá bid hiện tại!")
+          ({error}) => {
+            alert(error.message)
           }
         );
       }
