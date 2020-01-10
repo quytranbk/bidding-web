@@ -30,8 +30,8 @@
               <div class="d-flex">
                 <div style="flex-grow: 1;">
                   <h6>
-                    <span *ngIf="params.search"><span  class="text-warning"> Tìm kiếm theo từ khóa: </span>"{{params.search}}"</span>
-                    <span *ngIf="!params.search"><span  class="text-warning"> Tìm kiếm theo danh mục: </span>"{{categoryName}}"</span>
+                    <span *ngIf="params?.search"><span  class="text-warning"> Tìm kiếm theo từ khóa: </span>"{{params.search}}"</span>
+                    <span *ngIf="!params?.search"><span  class="text-warning"> Tìm kiếm theo danh mục: </span>"{{categoryName}}"</span>
                     
                   </h6>
                 </div>
@@ -53,7 +53,7 @@
                       <div class="imgBox searchImgBox">
                           <img class="imgThumbnail" [src]="item.imgUrl && item.imgUrl[0]" alt="img">
                         </div>
-                        <div style="flex-grow: 1;">
+                        <div class="pl-2" style="flex-grow: 1;">
                           <div>
                             <h6><a class="text-body" (click)="goToItemDetail(item)">{{item.title}}</a></h6>
                             

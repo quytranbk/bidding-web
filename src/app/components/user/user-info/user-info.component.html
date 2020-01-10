@@ -38,27 +38,27 @@
                             <div class="flexItem-3">
                                 <label class="text-muted">Tên hiển thị</label>
                             </div>
-                            <div class="flexItem-7">{{userInfo.name}}</div>
+                            <div class="flexItem-7" [ngClass]="{'text-muted': !userInfo.name}">{{userInfo.name || '<Đang cập nhật>'}}</div>
                         </div>
                         <div class="d-flex">
                             <div class="flexItem-3">
                                 <label class="text-muted">Số điện thoại</label>
                             </div>
-                            <div class="flexItem-7">{{userInfo.phone}}</div>
+                            <div class="flexItem-7" [ngClass]="{'text-muted': !userInfo.phone}">{{userInfo.phone || '<Đang cập nhật>'}}</div>
                         </div>
                         <div class="d-flex">
                             <div class="flexItem-3">
                                     <label class="text-muted">Email</label>
                                 
                             </div>
-                            <div class="flexItem-7">{{userInfo.email}}</div>
+                            <div class="flexItem-7" [ngClass]="{'text-muted': !userInfo.email}">{{userInfo.email || '<Đang cập nhật>'}}</div>
                         </div>
                         <div class="d-flex">
                             <div class="flexItem-3">
                                     <label class="text-muted">Địa chỉ</label>
                                 
                             </div>
-                            <div class="flexItem-7">{{userInfo.address}}</div>
+                            <div class="flexItem-7" [ngClass]="{'text-muted': !userInfo.address}">{{userInfo.address || '<Đang cập nhật>'}}</div>
                         </div>
                     </div>
                 </div>

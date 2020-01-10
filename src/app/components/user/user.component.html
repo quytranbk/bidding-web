@@ -47,6 +47,15 @@
             {{userInfo?.name}}
           </a>
         </div>
+        <div class="infoBarItem" *ngIf="!isSignIn">
+          <div class="d-inline-block imgAvatar">
+            <img class="imgThumbnail rounded-circle" src="../assets/fpo_avatar.png" alt="">
+          </div>
+          
+          <span>
+            Khách
+          </span>
+        </div>
       </div>
     </div>
     <div id="centerHeader" class="mContainer d-flex align-items-stretch">
@@ -57,7 +66,7 @@
         </a>
           
       </div>
-      <div id="searchWapper" class="flex-grow-1 d-flex">
+      <div id="searchWapper" class="flex-grow-1 d-flex justify-content-between">
         <div id="searchBox" class="" style="width: 800px;">
           <!-- <div id="searhContainer">
               <input type="text" style="border:unset">
@@ -77,15 +86,31 @@
             </div>
           </div>
         </div>
-        <div id="cartBox" class="flex-grow-1">
-          <a title="Chờ thanh toán" [routerLink]="['/profile/notification']">
-            <svg width="1em" height="1em" viewBox="0 0 24 24" class="iconCart_2ayd">
-            <path fill-rule="evenodd"
-              d="M8 18c-1.104 0-1.99.895-1.99 2 0 1.104.886 2 1.99 2a2 2 0 000-4m10 0c-1.104 0-1.99.895-1.99 2 0 1.104.886 2 1.99 2a2 2 0 000-4M4 2H1.999v1.999H4l3.598 7.588-1.353 2.451A2 2 0 008 17h12v-2H8.423a.249.249 0 01-.249-.25l.03-.121L9.102 13h7.449c.752 0 1.408-.415 1.75-1.029l3.574-6.489A1 1 0 0021 3.999H6.213l-.406-.854A1.997 1.997 0 004 2">
-            </path>
-          </svg>
-          </a>
-          <div class="cartQuantityBadge"><span class="badge badge-pill badge-primary">{{countPayingWait? countPayingWait: ''}}</span></div>
+        <div id="cartBox">
+          <div class="d-flex">
+            <div class="flexItem mr-3" style="min-width: 100px; padding: 20px 10px">
+              <div>
+                <img class="imgAvatar mr-2" src="../../../assets/wallet-icon.png" alt="">
+                <span class="fontSmall">{{(userInfo.wallet || 0 | currency : 'đ': 'code': '1.0-0' : 'vi')}}</span>
+              </div>
+              <div>
+                <img class="imgAvatar mr-2" src="../../../assets/v-icon.png" alt="">
+                <span class="fontSmall">{{userInfo.vpoint}} điểm</span>
+              </div>
+            </div>
+            <div class="flexItem">
+              <a title="Chờ thanh toán" [routerLink]="['/profile/notification']">
+                <svg width="1em" height="1em" viewBox="0 0 24 24" class="iconCart_2ayd">
+                  <path fill-rule="evenodd"
+                    d="M8 18c-1.104 0-1.99.895-1.99 2 0 1.104.886 2 1.99 2a2 2 0 000-4m10 0c-1.104 0-1.99.895-1.99 2 0 1.104.886 2 1.99 2a2 2 0 000-4M4 2H1.999v1.999H4l3.598 7.588-1.353 2.451A2 2 0 008 17h12v-2H8.423a.249.249 0 01-.249-.25l.03-.121L9.102 13h7.449c.752 0 1.408-.415 1.75-1.029l3.574-6.489A1 1 0 0021 3.999H6.213l-.406-.854A1.997 1.997 0 004 2">
+                  </path>
+                </svg>
+              </a>
+              <div class="cartQuantityBadge"><span
+                  class="badge badge-pill badge-primary">{{countPayingWait? countPayingWait: ''}}</span></div>
+            </div>
+          </div>
+         
         </div>
       </div>
     </div>

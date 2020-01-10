@@ -26,7 +26,7 @@ export class PersonService {
       },
       out: {
         "accesslevel": "level",
-        "userid": "username"
+        "user_id": "username"
       }
     },
     updateInfo: {
@@ -118,7 +118,7 @@ export class PersonService {
   }
   getUserById (data) {
 
-    return this.api.APIAuth.get(`${Constants.REMOTE_API}/user/${data.userId}`)
+    return this.api.APIAuth.get(`${Constants.REMOTE_API}/users/${data.userId}`)
     .pipe(
       map(
         ({data}) => CommonFunction.transObjectKeys(data, this.pattern.checkAuth.out)

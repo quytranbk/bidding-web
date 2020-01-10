@@ -385,10 +385,11 @@ color: #9f1d25;
     margin-left: 5px;
 }
 .imgAvatar {
-    width: 1.5rem;
-    height: 1.2rem;
+    width: 1rem;
+    height: 1rem;
     /* overflow: hidden; */
     /* border-radius: 6px; */
+    margin-bottom: 0.1rem;
 }
 .userInfoAvt {
     width: 3.5rem;

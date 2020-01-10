@@ -21,7 +21,9 @@ export class SearchComponent implements OnInit {
   check: any = true;
   theCate:any;
   sortSl: FormControl = new FormControl('');
-  arrayForm;
+  arrayForm = this.fb.group({
+    arrayCheckBox: this.fb.array([])
+  });
   Users;
   Items;
   Logs;
@@ -35,85 +37,82 @@ export class SearchComponent implements OnInit {
   ) { console.log("") }
 
   ngOnInit() {
-    this.route.queryParams
-    .subscribe(params => {
-      this.params = params;
-      combineLatest(
-        this.getFilterItems(params),
-        this.getAllCategories()
-      )
-      .subscribe(([_getFilterItems, _getAllCategories]: [any, any]) => {
-        this.filterItems = _getFilterItems;
-        this.categories = _getAllCategories;
-
-        this.isLoading = false;
-
-        this.theCate = this.categories.find(item => item._id === params.categoryid);
-        this.theCate && (this.categoryName = this.theCate.name);
-
-        this.arrayForm = this.fb.group({
-          arrayCheckBox: this.fb.array([])
-        });
-        let arrayCheckBox = this.arrayForm.get('arrayCheckBox') as FormArray;
-        this.categories.forEach(
-          (e) => {
-            if (this.theCate && e.id === this.theCate.id) {
-              arrayCheckBox.push(this.fb.control(true));
-            }
-            else {
-              arrayCheckBox.push(this.fb.control(''));
-            }
-          }
-        )
-
-        
-        /** local env */
+    this.getAllCategories().subscribe(data => {
+      this.categories = data;
+      let arrayCheckBox = this.arrayForm.get('arrayCheckBox') as FormArray;
+      this.categories.forEach((e) => arrayCheckBox.push(this.fb.control('')))
+      this.route.queryParams
+        .subscribe(params => {
+          this.params = params;
+          this.getFilterItems(params)
+            .subscribe(_getFilterItems => {
+              this.filterItems = _getFilterItems;
 
 
-        if (Constants.BACKEND === "mockup") {
-          this.api.getAllData().subscribe(
-            data => {
-              this.Users = data[0];
-              this.Items = data[1];
-              this.Logs = data[2];
-  
-              this.filterItems = this.filterItems.map(
-                element => {
-                  let user = this.Users.find(
-                    e => element.userId === e.id
-                  ); 
-                  let log = this.Logs.reduce(
-                    (s, e) => {
-                      if (element["biddingLog"].map((e) => e.id).includes(e.id)) {
-                        s.push(e);
-                        return s;
-                      }
-                      return s;
-                    },
-                    []
-                  );
-                  let amountAr = log.map(e => e.amount?e.amount: 0);
-                  if (!amountAr.length) amountAr = [0];
-                  return {
-                    ...element,
-                    ...user,
-                    "biddingLog": log,
-                    "highestBid": Math.max(...amountAr),
-                  };
+              this.isLoading = false;
+
+              this.theCate = this.categories.find(item => item._id === params.categoryid);
+              this.theCate && (this.categoryName = this.theCate.name);
+
+              this.categories.forEach((e, i) => {
+                if (this.theCate && e._id === this.theCate._id) {
+                  arrayCheckBox.controls[i].setValue(true);
                 }
-              )
-  
-              console.log(this.filterItems);
-              
-            }
-          )
-        }
-        
-      })
+                else {
+                  arrayCheckBox.controls[i].setValue(false);
+                }
+              })
+
+              /** local env */
 
 
-      
+              if (Constants.BACKEND === "mockup") {
+                this.api.getAllData().subscribe(
+                  data => {
+                    this.Users = data[0];
+                    this.Items = data[1];
+                    this.Logs = data[2];
+
+                    this.filterItems = this.filterItems.map(
+                      element => {
+                        let user = this.Users.find(
+                          e => element.userId === e.id
+                        );
+                        let log = this.Logs.reduce(
+                          (s, e) => {
+                            if (element["biddingLog"].map((e) => e.id).includes(e.id)) {
+                              s.push(e);
+                              return s;
+                            }
+                            return s;
+                          },
+                          []
+                        );
+                        let amountAr = log.map(e => e.amount ? e.amount : 0);
+                        if (!amountAr.length) amountAr = [0];
+                        return {
+                          ...element,
+                          ...user,
+                          "biddingLog": log,
+                          "highestBid": Math.max(...amountAr),
+                        };
+                      }
+                    )
+
+                    console.log(this.filterItems);
+
+                  }
+                )
+              }
+
+            })
+
+
+
+        })
+
     })
+    
   }
   getAllCategories () {
     return this.cateS.getAllCategories();
@@ -168,8 +167,8 @@ export class SearchComponent implements OnInit {
         ["/items"], 
         {
           queryParams: {
-            categoryid: item.id, 
-            search: this.params.search, 
+            categoryid: item._id,
+            ...this.params.search && {search: this.params.search},
           }
         }
       )

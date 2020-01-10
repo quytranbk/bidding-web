@@ -134,15 +134,7 @@ export class ItemService {
       map(
         ({data}) => {
           let transData = <any>(CommonFunction.transObjectKeys(data, this.pattern.getAllItems.out));
-          return transData.map((e) => {
-            return {
-              ...e,
-              highestBid: (e.biddinglog || []).reduce(
-                (s, v) => v.bidamount > s? v.bidamount: s,
-                e.startPrice
-              )
-            }
-          })
+          return transData;
         }
       )
     );

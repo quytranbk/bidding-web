@@ -37,7 +37,7 @@
                     <h5><a class="text-body">{{itemDetail.title}}</a></h5>
                   </div>
                   <div>
-                    của <span class="text-primary"><a>{{itemDetail?.user?.name}}</a></span>
+                    của <span class="text-primary"><a [routerLink]="['/users/' + itemDetail?.user?._id]">{{itemDetail?.user?.name}}</a></span>
                   </div>
           
           
