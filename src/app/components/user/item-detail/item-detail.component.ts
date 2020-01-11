@@ -7,7 +7,7 @@ import { BiddingLogService } from 'src/app/services/bidding-log.service';
 import { PersonService } from 'src/app/services/person.service';
 import { Constants } from 'src/app/services/constants';
 import { interval, combineLatest, forkJoin } from 'rxjs';
-import { WishListComponent } from '../wish-list/wish-list.component';
+import { WishListComponent } from '../profile/wish-list/wish-list.component';
 import { WishListService } from 'src/app/services/wish-list.service';
 
 @Component({

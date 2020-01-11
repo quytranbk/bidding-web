@@ -1,42 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { PersonService } from '../../../services/person.service';
-import { SharedRouteDataService } from '../../../services/shared-route-data.service';
-import { BiddingLogService } from '../../../services/bidding-log.service';
+import { PersonService } from '../../../../services/person.service';
+import { SharedRouteDataService } from '../../../../services/shared-route-data.service';
+import { BiddingLogService } from '../../../../services/bidding-log.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { APIService } from 'src/app/services/api.service';
 import { Constants } from 'src/app/services/constants';
-import { ItemService } from 'src/app/services/item.service';
-import { combineLatest } from 'rxjs';
 import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-notification',
-  templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss']
+  selector: 'app-bid-history',
+  templateUrl: './bid-history.component.html',
+  styleUrls: ['./bid-history.component.scss']
 })
-export class NotificationComponent implements OnInit {
+export class BidHistoryComponent implements OnInit {
   isLoading: boolean = true;
   userInfo: any;
-  awaitPayments: any[] = [];
-  finishPayments: any[] = [];
+  bidLogsOrigin: any[] = [];
   bidLogs: any[] = [];
-  noPayedbidLogs: any[] = [];
-  payedbidLogs: any[] = [];
-  sortSl1: FormControl = new FormControl("");
-  sortSl2: FormControl = new FormControl("");
   Users: any;
   Items: any;
   Logs: any;
-
+  sttSl: FormControl = new FormControl('');
+  sortSl: FormControl = new FormControl('');
   constructor(
     private api: APIService,
     private sharedS: SharedRouteDataService,
     private personS: PersonService,
     private bidLogS: BiddingLogService,
-    private itemS: ItemService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) { console.log("");
+  }
 
   ngOnInit() {
 
@@ -44,15 +38,11 @@ export class NotificationComponent implements OnInit {
     .subscribe(
       (data: any) => {
         this.userInfo = data;
-        combineLatest(
-          this.callGetAwaitPayment(),
-          this.callFinishPayment(),
-        )
+        this.callGetBidLogs()
         .subscribe(
-          ([_callGetAwaitPayment, _callFinishPayment]: [any, any]) => {
+          (data: any) => {
             this.isLoading = false;
-            this.awaitPayments = _callGetAwaitPayment;
-            this.finishPayments = _callFinishPayment;
+            this.bidLogs = this.bidLogsOrigin = data;
 
 
             /** local env */
@@ -80,7 +70,7 @@ export class NotificationComponent implements OnInit {
                           ); 
                           let log = this.Logs.reduce(
                             (s, e) => {
-                              if (element["biddingLog"] && element["biddingLog"].map((e) => e.id).includes(e.id)) {
+                              if (element["biddingLog"].map((e) => e.id).includes(e.id)) {
                                 s.push(e);
                                 return s;
                               }
@@ -88,8 +78,6 @@ export class NotificationComponent implements OnInit {
                             },
                             []
                           );
-                          element["itemId"] = element.id;
-                          delete element["id"];
                           return {
                             ...element,
                             ...user,
@@ -104,27 +92,12 @@ export class NotificationComponent implements OnInit {
                         ...item,
                       };
                     }
-                  )
-                  .filter(
-                    element => {
-                      return element.biddingLog.some(
-                        e => 
-                        e.id === element.id && 
-                        e.amount === element.highestBid &&
-                        new Date() >= new Date(element.endTime)
-                      )
-                    }
                   );
       
       
       
                   console.log(this.bidLogs);
-                  this.payedbidLogs = this.bidLogs.filter(
-                    element => element.isPayed === 1
-                  )
-                  this.noPayedbidLogs = this.bidLogs.filter(
-                    element => element.isPayed !== 1
-                  )
+                  
                 }
               )
             }
@@ -134,11 +107,8 @@ export class NotificationComponent implements OnInit {
       }
     )
   }
-  callGetAwaitPayment () {
-    return this.itemS.getAwaitPayment();
-  }
-  callFinishPayment () {
-    return this.itemS.getFinishPayment();
+  callGetBidLogs () {
+    return this.bidLogS.getMyBidLogs();
   }
   callGetInfo () {
     // return this.personS.getInfo({
@@ -147,32 +117,40 @@ export class NotificationComponent implements OnInit {
     return this.personS.checkAuth();
   }
 
-  changeSort1 () {
-    if (this.sortSl1.value === "0") {
-      this.awaitPayments.sort(
-        (a, b) => {
-          return new Date(a.endTime).getTime() - new Date(b.endTime).getTime();
+  showStatus (item) {
+    switch(new Date() >= new Date(item.endTime)) {
+      case true: return 'Đã kết thúc'
+      case false: return 'Đang diễn ra'
+    }
+  }
+
+  changeStatus () {
+    if (this.sttSl.value === "0") {
+      this.bidLogs = this.bidLogsOrigin.filter(
+        element => {
+          return new Date() < new Date(element.endTime)
         }
       )
     }
     else {
-      this.awaitPayments.sort(
-        (a, b) => {
-          return new Date(b.endTime).getTime() - new Date(a.endTime).getTime();
+      this.bidLogs = this.bidLogsOrigin.filter(
+        element => {
+          return new Date() >= new Date(element.endTime)
         }
       )
     }
   }
-  changeSort2 () {
-    if (this.sortSl2.value === "0") {
-      this.finishPayments.sort(
+
+  changeSort () {
+    if (this.sortSl.value === "0") {
+      this.bidLogs.sort(
         (a, b) => {
           return new Date(a.endTime).getTime() - new Date(b.endTime).getTime();
         }
       )
     }
     else {
-      this.finishPayments.sort(
+      this.bidLogs.sort(
         (a, b) => {
           return new Date(b.endTime).getTime() - new Date(a.endTime).getTime();
         }
@@ -181,10 +159,7 @@ export class NotificationComponent implements OnInit {
   }
 
   goToItemDetail (item) {
-    this.router.navigate(["/items/" + item._id]);
-  }
-  goToPayPage (item) {
-    this.router.navigate(["/payment/" + item._id]);
+    this.router.navigate(["items/" + item.sessionId]);
   }
 
 }
